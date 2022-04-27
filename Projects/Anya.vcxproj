@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Sources\main.cpp" />
+    <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp" />
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui.cpp" />
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\Thirdparty\stb\includes\stb\stb_vorbis.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\anim.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\BaseImporter.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Bitmap.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\BlobIOSystem.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ByteSwapper.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\camera.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\cexport.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\cfileio.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\cimport.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\color4.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\config.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\CreateAnimMesh.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\DefaultIOStream.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Defines.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\defs.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Exceptional.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Exporter.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\fast_atof.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\GenericProperty.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Hash.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Importer.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\importerdesc.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\IOStream.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\IOStreamBuffer.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\IOSystem.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\irrXMLWrapper.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\light.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\LineSplitter.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\LogAux.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Logger.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\LogStream.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\material.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\MathFunctions.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\matrix3x3.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\matrix4x4.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\mesh.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\metadata.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\NullLogger.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ParsingUtils.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\pbrmaterial.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\postprocess.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Profiler.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\qnan.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\quaternion.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\RemoveComments.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\scene.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SceneCombiner.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SGSpatialSort.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SmoothingGroups.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SpatialSort.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StandardShapes.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StreamReader.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StreamWriter.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StringComparison.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StringUtils.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Subdivision.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\texture.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\TinyFormatter.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\types.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\vector2.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\vector3.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\version.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Vertex.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\XMLTools.h" />
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.h" />
+    <ClInclude Include="..\Thirdparty\d3dx12\includes\d3dx12.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imconfig.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_dx12.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_internal.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.config.h" />
+    <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_connected_components.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_c_lexer.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_divide.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_ds.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_dxt.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_easy_font.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_herringbone_wang_tile.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_hexwave.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_image.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_image_resize.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_image_write.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_include.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_leakcheck.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_rect_pack.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_sprintf.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_textedit.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_tilemap_editor.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_truetype.h" />
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_voxel_render.h" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\critical.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\for_each.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\pipeline.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\reduce.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\sort.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\transform.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\declarations.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\environment.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\error.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\executor-module-opt.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\executor.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\flow_builder.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\graph.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\notifier.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\observer.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\semaphore.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\task.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\taskflow.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\topology.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\tsq.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\worker.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\find.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\for_each.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\matmul.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\merge.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\reduce.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\scan.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\sort.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\transform.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\transpose.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cudaflow.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_capturer.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_device.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_error.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_execution_policy.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_graph.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_memory.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_meta.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_optimizer.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_pool.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_stream.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_task.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\connection.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\dsl.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\meta_macro.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\task_analyzer.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\task_dsl.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\task_trait.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\tuple_utils.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\type_list.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\syclflow.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_algorithm\sycl_for_each.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_algorithm\sycl_reduce.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_algorithm\sycl_transform.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_execution_policy.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_flow.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_graph.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_meta.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_task.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\taskflow.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\iterator.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\math.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\object_pool.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\os.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\serializer.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\singleton.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\small_vector.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\stream.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\traits.hpp" />
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\uuid.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\material.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\matrix3x3.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\matrix4x4.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\quaternion.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\SmoothingGroups.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\vector2.inl" />
+    <None Include="..\Thirdparty\assimp\includes\assimp\vector3.inl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{0ffd7331-762e-41c1-813a-bce5c051d2e1}</ProjectGuid>
+    <RootNamespace>Anya</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\Binaries\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\..\Binaries\Intermediate\$(Configuration)_$(Platform)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\Binaries\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\..\Binaries\Intermediate\$(Configuration)_$(Platform)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Thirdparty\assimp\libs;$(SolutionDir)..\Thirdparty\optick\libs</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d12.lib;dxcompiler.lib;dxgi.lib;assimp_d.lib;OptickCore_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)Resources" "$(TargetDir)Resources" /e /d /r /i /y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy resources and bin to build directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Thirdparty\assimp\libs;$(SolutionDir)..\Thirdparty\optick\libs</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d12.lib;dxcompiler.lib;dxgi.lib;assimp.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)Resources" "$(TargetDir)Resources" /e /d /r /i /y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy resources and bin to build directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,617 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{216afa97-0fe8-405d-ba47-7ec0ce64fa1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty">
+      <UniqueIdentifier>{7a75c1a5-6ceb-473c-b8d8-cddfc8b0d593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\assimp">
+      <UniqueIdentifier>{bab3726d-06ff-4574-8c49-3d8aeef3b1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\D3D12MemoryAllocator">
+      <UniqueIdentifier>{1668bbf0-62d7-44ff-9281-d80ac224d24c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\D3DX12">
+      <UniqueIdentifier>{90d26f7a-c88d-4afc-b0a6-da05d492457e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\imgui">
+      <UniqueIdentifier>{febc5390-74ae-4d73-9509-b4e5f5b3fbe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\optick">
+      <UniqueIdentifier>{d17110c1-57e8-4dcf-8bd0-68e112d657b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\stb">
+      <UniqueIdentifier>{519ed84f-2d45-47e9-bc23-272d00f6d919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Thirdparty\taskflow">
+      <UniqueIdentifier>{56d5e98f-0c5d-4745-922f-04016555a359}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Sources\main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
+      <Filter>Sources\Thirdparty\D3D12MemoryAllocator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui.cpp">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_demo.cpp">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_draw.cpp">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_dx12.cpp">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_tables.cpp">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_widgets.cpp">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\stb\includes\stb\stb_vorbis.c">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\anim.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\BaseImporter.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Bitmap.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\BlobIOSystem.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ByteSwapper.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\camera.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\cexport.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\cfileio.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\cimport.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\color4.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Compiler\poppack1.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Compiler\pstdint.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Compiler\pushpack1.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\config.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\CreateAnimMesh.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\DefaultIOStream.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\DefaultIOSystem.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\DefaultLogger.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Defines.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\defs.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Exceptional.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Exporter.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\fast_atof.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\GenericProperty.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Hash.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Importer.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\importerdesc.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\IOStream.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\IOStreamBuffer.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\IOSystem.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\irrXMLWrapper.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\light.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\LineSplitter.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\LogAux.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Logger.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\LogStream.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\material.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\MathFunctions.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\matrix3x3.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\matrix4x4.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\MemoryIOWrapper.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\mesh.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\metadata.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\NullLogger.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ParsingUtils.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\pbrmaterial.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\port\AndroidJNI\AndroidJNIIOSystem.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\postprocess.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Profiler.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ProgressHandler.hpp">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\qnan.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\quaternion.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\RemoveComments.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\scene.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SceneCombiner.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SGSpatialSort.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SkeletonMeshBuilder.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SmoothingGroups.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\SpatialSort.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StandardShapes.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StreamReader.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StreamWriter.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StringComparison.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\StringUtils.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Subdivision.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\texture.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\TinyFormatter.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\types.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\vector2.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\vector3.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\version.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\Vertex.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\XMLTools.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ZipArchiveIOSystem.h">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.h">
+      <Filter>Sources\Thirdparty\D3D12MemoryAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\d3dx12\includes\d3dx12.h">
+      <Filter>Sources\Thirdparty\D3DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imconfig.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_dx12.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_internal.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_rectpack.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_textedit.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_truetype.h">
+      <Filter>Sources\Thirdparty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.config.h">
+      <Filter>Sources\Thirdparty\optick</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.h">
+      <Filter>Sources\Thirdparty\optick</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_connected_components.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_c_lexer.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_divide.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_ds.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_dxt.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_easy_font.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_herringbone_wang_tile.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_hexwave.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_image.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_image_resize.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_image_write.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_include.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_leakcheck.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_rect_pack.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_sprintf.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_textedit.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_tilemap_editor.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_truetype.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_voxel_render.h">
+      <Filter>Sources\Thirdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\critical.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\for_each.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\pipeline.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\reduce.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\sort.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\algorithm\transform.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\declarations.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\environment.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\error.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\executor-module-opt.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\executor.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\flow_builder.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\graph.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\notifier.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\observer.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\semaphore.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\task.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\taskflow.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\topology.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\tsq.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\core\worker.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\find.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\for_each.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\matmul.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\merge.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\reduce.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\scan.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\sort.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\transform.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\algorithm\transpose.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cudaflow.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_capturer.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_device.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_error.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_execution_policy.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_graph.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_memory.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_meta.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_optimizer.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_pool.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_stream.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\cuda\cuda_task.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\connection.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\dsl.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\meta_macro.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\task_analyzer.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\task_dsl.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\task_trait.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\tuple_utils.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\dsl\type_list.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_algorithm\sycl_for_each.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_algorithm\sycl_reduce.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_algorithm\sycl_transform.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_execution_policy.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_flow.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_graph.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_meta.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\sycl\sycl_task.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\syclflow.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\taskflow.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\iterator.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\math.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\object_pool.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\os.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\serializer.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\singleton.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\small_vector.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\stream.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\traits.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\uuid.hpp">
+      <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\material.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\matrix3x3.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\matrix4x4.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\quaternion.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\SmoothingGroups.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\vector2.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+    <None Include="..\Thirdparty\assimp\includes\assimp\vector3.inl">
+      <Filter>Sources\Thirdparty\assimp</Filter>
+    </None>
+  </ItemGroup>
+</Project>
