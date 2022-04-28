@@ -1,6 +1,6 @@
 # Anya
 ## Introduction
-Research driven Direct3D12 Game Engine for study modern rendering techs and so on.
+Research driven Direct3D12 Game Engine for study modern rendering techs and to on.
 
 ## My Goals
 * Entity Component System
@@ -18,9 +18,9 @@ Research driven Direct3D12 Game Engine for study modern rendering techs and so o
 * Area Lights
 * Atmospheric Scattering
 * Volumetric Fog/Clouds
-* [DLSS SDK](https://developer.nvidia.com/rtx/ray-tracing/dlss/get-started) Integration
+* [DLSS SDK](https://developer.nvidia.com/rtx/ray-tracing/dlss/get-started) integration
 * Subsurface Scattering Materials
 * Physically Based Anime Material
 * Path-Tracing with RTX
 * Support DirectStorage
-* Physics Simulation library integration
+* [Bullet Physcis SDK](https://github.com/bulletphysics/bullet3) integration
