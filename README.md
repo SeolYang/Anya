@@ -9,7 +9,7 @@ Research driven Direct3D12 Game Engine for study modern rendering techs and to o
 * Physically Based Material, Light, Camera
 * Skeletal Animation
 * Cascaded Shadow Mapping
-* PSM(Perspective Shadow Mapping)
+* Shadow map which is applied PCF(Percentage-Closer Filtering)
 * Cinematric Depth Of Field
 * SDFGI(Signed Distance Fields Dynamic Diffuse Global Illumination)
 * Screen Space Reflection
