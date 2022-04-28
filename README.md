@@ -24,3 +24,6 @@ Research driven Direct3D12 Game Engine for study modern rendering techs and to o
 * Path-Tracing with RTX
 * Support DirectStorage
 * [Bullet Physcis SDK](https://github.com/bulletphysics/bullet3) integration
+
+
+The project name came from Anya Forger who is character of Spy X Family.
