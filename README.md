@@ -7,6 +7,7 @@ Research driven Direct3D12 Game Engine for study modern rendering techs and to o
 * Direct3D 12 based rendering system
 * Render Graph
 * Physically Based Material, Light, Camera
+* Terrain
 * Skeletal Animation
 * Cascaded Shadow Mapping
 * Shadow map which is applied PCF(Percentage-Closer Filtering)
