@@ -7,6 +7,7 @@ Research driven Direct3D12 Game Engine for study modern rendering techs and to o
 * Direct3D 12 based rendering system
 * Render Graph
 * Physically Based Material, Light, Camera
+* Terrain
 * Skeletal Animation
 * Cascaded Shadow Mapping
 * Shadow map which is applied PCF(Percentage-Closer Filtering)
@@ -20,10 +21,10 @@ Research driven Direct3D12 Game Engine for study modern rendering techs and to o
 * Volumetric Fog/Clouds
 * [DLSS SDK](https://developer.nvidia.com/rtx/ray-tracing/dlss/get-started) integration
 * Subsurface Scattering Materials
-* Physically Based Anime Material
+* Anime-style Shading
+* [Bullet Physcis SDK](https://github.com/bulletphysics/bullet3) integration
+* [irrKlang](https://www.ambiera.com/irrklang) integration
 * Path-Tracing with RTX
 * Support DirectStorage
-* [Bullet Physcis SDK](https://github.com/bulletphysics/bullet3) integration
-
 
 The project name came from Anya Forger who is character of Spy X Family.
