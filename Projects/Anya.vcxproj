@@ -22,6 +22,8 @@
     <ClCompile Include="..\Thirdparty\stb\includes\stb\stb_vorbis.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Sources\Components\HierarchyComponent.h" />
+    <ClInclude Include="..\Sources\Core\ECS.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\anim.h" />
@@ -256,7 +258,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
@@ -281,7 +283,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>

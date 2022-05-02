@@ -28,6 +28,12 @@
     <Filter Include="Sources\Thirdparty\taskflow">
       <UniqueIdentifier>{56d5e98f-0c5d-4745-922f-04016555a359}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Core">
+      <UniqueIdentifier>{e8d91c3d-4d22-4aed-b021-f69a896db95a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Components">
+      <UniqueIdentifier>{f8356c41-831f-4d7c-a6ff-d0ac142c4348}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -586,6 +592,12 @@
     </ClInclude>
     <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\uuid.hpp">
       <Filter>Sources\Thirdparty\taskflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\ECS.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Components\HierarchyComponent.h">
+      <Filter>Sources\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

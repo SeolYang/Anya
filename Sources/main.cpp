@@ -6,6 +6,7 @@
 #include <assimp/Importer.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#include <Core/ECS.h>
 
 int main(int argc, char** argv)
 {
