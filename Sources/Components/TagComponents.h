@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <Core/ECS.h>
 
-namespace sy
+namespace anya
 {
     struct VisibleToRendererTag
     {

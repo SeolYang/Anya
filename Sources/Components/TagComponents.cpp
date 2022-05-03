@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <Components/TagComponents.h>
 
-namespace sy
+namespace anya
 {
     RegisterComponent(VisibleToRendererTag);
 }
