@@ -10,5 +10,13 @@
 
 int main(int argc, char** argv)
 {
+	int someValue = 0;
+	std::cout << sy::ecs::ComponentID::Value(someValue) << std::endl;
+	std::cout << sy::ecs::ComponentID::Value<int>() << std::endl;
+	std::cout << sy::ecs::ComponentID::Value<int>() << std::endl;
+
+	std::cout << sy::ecs::ComponentID::Value<float>() << std::endl;
+	std::cout << sy::ecs::ComponentID::Value<const float&>() << std::endl;
+
 	return 0;
 }

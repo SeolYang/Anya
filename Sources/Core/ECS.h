@@ -32,6 +32,36 @@ namespace sy::ecs
 		return handle++;
 	}
 
+	class ComponentID
+	{
+	private:
+		inline static size_t idCounter{};
+
+		template <typename Component>
+		inline static size_t InternalValue()
+		{
+			static size_t internalID = idCounter++;
+			return internalID;
+		}
+
+	public:
+		ComponentID() = delete;
+		~ComponentID() = delete;
+
+		template <typename Component>
+		inline static size_t Value()
+		{
+			return InternalValue<std::decay_t<Component>>();
+		}
+
+		template <typename Component>
+		inline static size_t Value(const Component&)
+		{
+			return InternalValue<std::decay_t<Component>>();
+		}
+
+	};
+
 	template <typename Component>
 	class ComponentPoolBase
 	{
