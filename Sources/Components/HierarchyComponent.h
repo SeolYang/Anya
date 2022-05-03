@@ -1,13 +1,18 @@
 #pragma once
 #include <Core/ECS.h>
 
-namespace sy::ecs
+namespace sy
 {
 	struct HierarchyComponent
 	{
-		Entity parentEntity = INVALID_ENTITY_HANDLE;
+		ecs::Entity parentEntity = ecs::INVALID_ENTITY_HANDLE;
 	};
 
+	DeclareComponent(HierarchyComponent);
+}
+
+namespace sy::ecs
+{
 	template <>
 	class ComponentPool<HierarchyComponent> :
 		public ComponentPoolImpl<HierarchyComponent>
@@ -150,5 +155,4 @@ namespace sy::ecs
 
 	};
 
-	DeclareComponent(HierarchyComponent);
 }

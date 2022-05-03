@@ -1,10 +1,11 @@
 #include <PCH.h>
 #include <Core/ECS.h>
 #include <Components/HierarchyComponent.h>
+#include <Components/TagComponents.h>
 
 namespace PrintHierarchySystem
 {
-	void PrintSubtree(const sy::ecs::ComponentPool<sy::ecs::HierarchyComponent>& pool, size_t rootIdx = 0, int depth = 0)
+	void PrintSubtree(const sy::ecs::ComponentPool<sy::HierarchyComponent>& pool, size_t rootIdx = 0, int depth = 0)
 	{
 		auto entityOpt = pool.GetEntity(rootIdx);
 		if (entityOpt.has_value())
@@ -26,7 +27,7 @@ namespace PrintHierarchySystem
 		}
 	}
 
-	void PrintHierarchy(const sy::ecs::ComponentPool<sy::ecs::HierarchyComponent>& pool)
+	void PrintHierarchy(const sy::ecs::ComponentPool<sy::HierarchyComponent>& pool)
 	{
 		std::cout << "ROOT" << std::endl;
 		for (size_t idx = 0; idx < pool.Size(); ++idx)
@@ -44,10 +45,12 @@ namespace PrintHierarchySystem
 int main(int argc, char** argv)
 {
 	sy::ecs::ComponentPoolRegistry* registry = sy::ecs::ComponentPoolRegistry::GetGlobalInitRegistry(true);
-	auto pool = registry->AcquireWithComponentType<sy::ecs::HierarchyComponent>();
+	auto pool = registry->AcquireWithComponentType<sy::HierarchyComponent>();
 	assert(pool != nullptr);
 
-	sy::ecs::ComponentPool<sy::ecs::HierarchyComponent>& hierarchyPool = *pool;
+	std::cout << pool->AcquireComponentInfo().Name << std::endl;
+
+	sy::ecs::ComponentPool<sy::HierarchyComponent>& hierarchyPool = *pool;
 
 	std::vector<sy::ecs::Entity> entities;
 	sy::ecs::Entity root = sy::ecs::GenerateEntity();

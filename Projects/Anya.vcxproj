@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\Components\HierarchyComponent.cpp" />
+    <ClCompile Include="..\Sources\Components\TagComponents.cpp" />
     <ClCompile Include="..\Sources\main.cpp" />
     <ClCompile Include="..\Sources\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Components\HierarchyComponent.h" />
+    <ClInclude Include="..\Sources\Components\TagComponents.h" />
     <ClInclude Include="..\Sources\Core\ECS.h" />
     <ClInclude Include="..\Sources\PCH.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />

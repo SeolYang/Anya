@@ -69,6 +69,9 @@
     <ClCompile Include="..\Sources\PCH.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Components\TagComponents.cpp">
+      <Filter>Sources\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -607,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\PCH.h">
       <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Components\TagComponents.h">
+      <Filter>Sources\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

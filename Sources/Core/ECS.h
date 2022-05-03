@@ -41,19 +41,20 @@ namespace sy::ecs
 		template <typename Component>
 		inline static ComponentID Value()
 		{
-			return InternalValue<std::decay_t<Component>>();
+			return InternalValue<Component>();
 		}
 
 		template <typename Component>
 		inline static ComponentID Value(const Component&)
 		{
-			return InternalValue<std::decay_t<Component>>();
+			return InternalValue<Component>();
 		}
 
 	private:
 		template <typename Component>
 		inline static ComponentID InternalValue()
 		{
+			static_assert(std::same_as<std::decay_t<Component>, Component>);
 			const static ComponentID internalID = idCounter++;
 			return internalID;
 		}
@@ -66,7 +67,7 @@ namespace sy::ecs
 	struct ComponentInfo
 	{
 		ComponentID ID;
-		std::string_view Name;
+		std::string Name;
 		size_t Size;
 		size_t Alignment;
 	};
@@ -74,27 +75,18 @@ namespace sy::ecs
 	template <typename Component>
 	class ComponentInfoGenerator
 	{
-		using ComonentType = std::decay_t<Component>;
 	public:
 		ComponentInfoGenerator() = delete;
 
 		static ComponentInfo Generate()
 		{
 			return ComponentInfo{
-				.ID = id,
-				.Name = std::string_view(name),
-				.Size = size,
-				.Alignment = alignment
+				.ID = ComponentIDGenerator::Value<Component>(),
+				.Name = typeid(Component).name(),
+				.Size = sizeof(Component),
+				.Alignment = alignof(Component)
 			};
 		}
-
-	private:
-		inline static ComponentID id = ComponentIDGenerator::Value<ComonentType>();
-		// ComponentID로 ID가 등록된 Component가 static 데이터를 할당할 때 ComponentNameRegistery에 등록되는걸 보장함.
-		inline static std::string name = typeid(ComonentType).name();
-		inline static size_t size = sizeof(ComonentType);
-		inline static size_t alignment = alignof(ComonentType);
-
 	};
 
 	class ComponentInfoRegistry
@@ -117,7 +109,7 @@ namespace sy::ecs
 		template <typename Component>
 		static ComponentInfo Acquire()
 		{
-			return InternalAcquire<std::decay_t<Component>>();
+			return InternalAcquire<Component>();
 		}
 
 	private:
@@ -150,14 +142,14 @@ namespace sy::ecs
 		{
 		}
 
-		virtual void Attach(Entity parent, Entity child) = 0;
-		virtual void Detach(Entity target) = 0;
-		virtual void Remove(Entity target) = 0;
-
-		ComponentInfo PoolComponentInfo() const
+		ComponentInfo AcquireComponentInfo() const
 		{
 			return componentInfo;
 		}
+
+		virtual bool Contains(Entity entity) const = 0;
+		virtual bool Create(Entity entity) = 0;
+		virtual void Remove(Entity entity) = 0;
 
 	private:
 		ComponentInfo componentInfo;
@@ -192,43 +184,34 @@ namespace sy::ecs
 			return components[idx];
 		}
 
-		inline bool Contains(Entity entity) const
+		virtual bool Contains(Entity entity) const override
 		{
 			return (lut.find(entity) != lut.end());
 		}
 
-		ComponentRetType Create(Entity entity)
+		virtual bool Create(Entity entity) override
 		{
-			
-			if (bool bIsValidEntityHandle = entity != INVALID_ENTITY_HANDLE; 
-				bIsValidEntityHandle)
+			if (bool bIsDuplicatedEntity = Contains(entity); !bIsDuplicatedEntity)
 			{
-				
-				if (bool bIsDuplicatedEntity = Contains(entity); 
-					!bIsDuplicatedEntity)
-				{
-					[[likely]]
-					lut[entity] = components.size();
-					components.emplace_back();
-					entities.push_back(entity);
+				[[likely]]
+				lut[entity] = components.size();
+				components.emplace_back();
+				entities.push_back(entity);
 
-					return (components.back());
-				}
+				return true;
 			}
 
-			return std::nullopt;
+			return false;
 		}
 
-		void Remove(Entity entity)
+		virtual void Remove(Entity entity) override
 		{
 			if (bool bIsValidEntityHandle = entity != INVALID_ENTITY_HANDLE; 
 				bIsValidEntityHandle)
 			{
-				
 				if (auto lutItr = lut.find(entity); lutItr != lut.end())
 				{
 					size_t targetComponentIdx = lutItr->second;
-					
 					
 					if (bool bIsLatestComponent = targetComponentIdx == (components.size() - 1); 
 						!bIsLatestComponent)
@@ -243,6 +226,19 @@ namespace sy::ecs
 					lut.erase(lutItr);
 				}
 			}
+		}
+
+		ComponentRetType CreateWithReturn(Entity entity)
+		{
+			if (bool bIsValidEntityHandle = entity != INVALID_ENTITY_HANDLE; bIsValidEntityHandle)
+			{
+				if (Create(entity))
+				{
+					return (components.back());
+				}
+			}
+
+			return std::nullopt;
 		}
 
 		ConstComponentRetType GetComponent(Entity entity) const
@@ -501,4 +497,4 @@ namespace sy::ecs
 		static ComponentType##Registeration registeration; \
 	};
 
-#define RegistryComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;
+#define RegisterComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;
