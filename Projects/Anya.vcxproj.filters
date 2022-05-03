@@ -72,6 +72,12 @@
     <ClCompile Include="..\Sources\Components\TagComponents.cpp">
       <Filter>Sources\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Core\CommandLineParser.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Core\Application.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -613,6 +619,12 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Components\TagComponents.h">
       <Filter>Sources\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\CommandLineParser.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\Application.h">
+      <Filter>Sources\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
