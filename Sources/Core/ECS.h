@@ -427,7 +427,7 @@ namespace sy::ecs
 		ComponentPoolRegistry(const ComponentPoolRegistry&) = delete;
 		ComponentPoolRegistry& operator=(const ComponentPoolRegistry&) = delete;
 
-		ComponentPoolRegistry(ComponentPoolRegistry&& rhs) :
+		ComponentPoolRegistry(ComponentPoolRegistry&& rhs) noexcept :
 			registry(std::move(rhs.registry))
 		{
 		}

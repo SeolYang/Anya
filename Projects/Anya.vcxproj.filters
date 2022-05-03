@@ -66,6 +66,9 @@
     <ClCompile Include="..\Sources\Components\HierarchyComponent.cpp">
       <Filter>Sources\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\PCH.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -601,6 +604,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Components\HierarchyComponent.h">
       <Filter>Sources\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\PCH.h">
+      <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
