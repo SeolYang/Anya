@@ -60,6 +60,7 @@
     <ClInclude Include="..\Sources\Core\CommandLineParser.h" />
     <ClInclude Include="..\Sources\Core\ECS.h" />
     <ClInclude Include="..\Sources\PCH.h" />
+    <ClInclude Include="..\Sources\Resources\ResourceLoader.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\anim.h" />
@@ -252,7 +253,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{0ffd7331-762e-41c1-813a-bce5c051d2e1}</ProjectGuid>
     <RootNamespace>Anya</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -297,7 +298,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\ThirdpartyDirectXMath\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -324,7 +325,7 @@
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\ThirdpartyDirectXMath\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>

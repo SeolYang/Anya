@@ -34,7 +34,7 @@
 #include <dxgi1_6.h>
 #include <D3D12MemoryAllocator/D3D12MemAlloc.h>
 
-// DirectXMath
+// DirectXMath : requires Windows 11 SDK(10.0.22000)+
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #include <DirectXCollision.h>

@@ -34,6 +34,9 @@
     <Filter Include="Sources\Components">
       <UniqueIdentifier>{f8356c41-831f-4d7c-a6ff-d0ac142c4348}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Resources">
+      <UniqueIdentifier>{d1fd05ec-7386-49db-87eb-718ce7bd9f6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -625,6 +628,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\Application.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Resources\ResourceLoader.h">
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
