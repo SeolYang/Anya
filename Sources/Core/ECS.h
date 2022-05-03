@@ -150,6 +150,8 @@ namespace sy::ecs
 		virtual bool Contains(Entity entity) const = 0;
 		virtual bool Create(Entity entity) = 0;
 		virtual void Remove(Entity entity) = 0;
+		virtual size_t Size() const = 0;
+		virtual void Clear() = 0;
 
 	private:
 		ComponentInfo componentInfo;
