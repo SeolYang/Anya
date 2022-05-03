@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Sources\Components\HierarchyComponent.cpp" />
     <ClCompile Include="..\Sources\main.cpp" />
     <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp" />
     <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui.cpp" />

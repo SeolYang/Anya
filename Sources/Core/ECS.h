@@ -32,38 +32,140 @@ namespace sy::ecs
 		return handle++;
 	}
 
-	class ComponentID
+	using ComponentID = size_t;
+	class ComponentIDGenerator
 	{
-	private:
-		inline static size_t idCounter{};
+	public:
+		ComponentIDGenerator() = delete;
 
 		template <typename Component>
-		inline static size_t InternalValue()
+		inline static ComponentID Value()
 		{
-			static size_t internalID = idCounter++;
+			return InternalValue<std::decay_t<Component>>();
+		}
+
+		template <typename Component>
+		inline static ComponentID Value(const Component&)
+		{
+			return InternalValue<std::decay_t<Component>>();
+		}
+
+	private:
+		template <typename Component>
+		inline static ComponentID InternalValue()
+		{
+			const static ComponentID internalID = idCounter++;
 			return internalID;
 		}
 
+	private:
+		inline static size_t idCounter{};
+
+	};
+
+	struct ComponentInfo
+	{
+		ComponentID ID;
+		std::string_view Name;
+		size_t Size;
+		size_t Alignment;
+	};
+
+	template <typename Component>
+	class ComponentInfoGenerator
+	{
+		using ComonentType = std::decay_t<Component>;
 	public:
-		ComponentID() = delete;
-		~ComponentID() = delete;
+		ComponentInfoGenerator() = delete;
 
-		template <typename Component>
-		inline static size_t Value()
+		static ComponentInfo Generate()
 		{
-			return InternalValue<std::decay_t<Component>>();
+			return ComponentInfo{
+				.ID = id,
+				.Name = std::string_view(name),
+				.Size = size,
+				.Alignment = alignment
+			};
+		}
+
+	private:
+		inline static ComponentID id = ComponentIDGenerator::Value<ComonentType>();
+		// ComponentID로 ID가 등록된 Component가 static 데이터를 할당할 때 ComponentNameRegistery에 등록되는걸 보장함.
+		inline static std::string name = typeid(ComonentType).name();
+		inline static size_t size = sizeof(ComonentType);
+		inline static size_t alignment = alignof(ComonentType);
+
+	};
+
+	class ComponentInfoRegistry
+	{
+	public:
+		ComponentInfoRegistry() = delete;
+
+		static std::optional<ComponentInfo> Acquire(ComponentID id)
+		{
+			std::optional<ComponentInfo> res = std::nullopt;
+			auto itr = lut.find(id);
+			if (itr != lut.end())
+			{
+				res = std::make_optional(itr->second);
+			}
+
+			return res;
 		}
 
 		template <typename Component>
-		inline static size_t Value(const Component&)
+		static ComponentInfo Acquire()
 		{
-			return InternalValue<std::decay_t<Component>>();
+			return InternalAcquire<std::decay_t<Component>>();
 		}
+
+	private:
+		template <typename Component>
+		static ComponentInfo InternalAcquire()
+		{
+			ComponentID id = ComponentIDGenerator::Value<Component>();
+			if (lut.find(id) == lut.end())
+			{
+				lut[id] = ComponentInfoGenerator<Component>::Generate();
+			}
+
+			return lut[id];
+		}
+
+	private:
+		inline static std::unordered_map<ComponentID, ComponentInfo> lut{};
+
+	};
+
+	class ComponentPoolBase
+	{
+	public:
+		ComponentPoolBase(const ComponentInfo& componentInfo) :
+			componentInfo(componentInfo)
+		{
+		}
+
+		virtual ~ComponentPoolBase()
+		{
+		}
+
+		virtual void Attach(Entity parent, Entity child) = 0;
+		virtual void Detach(Entity target) = 0;
+		virtual void Remove(Entity target) = 0;
+
+		ComponentInfo PoolComponentInfo() const
+		{
+			return componentInfo;
+		}
+
+	private:
+		ComponentInfo componentInfo;
 
 	};
 
 	template <typename Component>
-	class ComponentPoolBase
+	class ComponentPoolImpl : public ComponentPoolBase
 	{
 	public:
 		using RefWrapper = std::reference_wrapper<Component>;
@@ -72,7 +174,8 @@ namespace sy::ecs
 		using ConstComponentRetType = std::optional<ConstRefWrapper>;
 
 	public:
-		explicit ComponentPoolBase(size_t reservedSize = DEFAULT_COMPONENT_POOL_SIZE)
+		explicit ComponentPoolImpl(size_t reservedSize) :
+			ComponentPoolBase(sy::ecs::ComponentInfoRegistry::Acquire<Component>())
 		{
 			components.reserve(reservedSize);
 			entities.reserve(reservedSize);
@@ -300,12 +403,102 @@ namespace sy::ecs
 	};
 
 	template <typename Component>
-	class ComponentPool : public ComponentPoolBase<Component>
+	class ComponentPool : public ComponentPoolImpl<Component>
 	{
 	public:
-		explicit ComponentPool(size_t reservedSize = DEFAULT_COMPONENT_POOL_SIZE) :
-			ComponentPoolBase<Component>(reservedSize)
+		explicit ComponentPool(size_t reservedSize = (DEFAULT_COMPONENT_POOL_SIZE)) :
+			ComponentPoolImpl<Component>(reservedSize)
 		{
 		}
 	};
+
+	class ComponentPoolRegistry
+	{
+	public:
+		ComponentPoolRegistry() = default;
+		~ComponentPoolRegistry()
+		{
+			for (auto registered : registry)
+			{
+				delete registered.second;
+			}
+		}
+
+		ComponentPoolRegistry(const ComponentPoolRegistry&) = delete;
+		ComponentPoolRegistry& operator=(const ComponentPoolRegistry&) = delete;
+
+		ComponentPoolRegistry(ComponentPoolRegistry&& rhs) :
+			registry(std::move(rhs.registry))
+		{
+		}
+
+		template <typename Component>
+		ComponentPool<Component>* AcquireWithComponentType()
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<Component>();
+			return static_cast<ComponentPool<Component>*>(Acquire(componentID));
+		}
+
+		ComponentPoolBase* Acquire(const ComponentID componentID)
+		{
+			auto itr = registry.find(componentID);
+			if (itr != registry.end())
+			{
+				return itr->second;
+			}
+
+			return nullptr;
+		}
+
+		template <typename Component>
+		void Register(size_t reservedSize = (DEFAULT_COMPONENT_POOL_SIZE))
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<Component>();
+			if (registry.find(componentID) == registry.end())
+			{
+				registry[componentID] = new ComponentPool<Component>(reservedSize);
+			}
+		}
+
+		// 매크로와 singleton 패턴을 통해 모든 컴포넌트 풀을 등록한다음.
+		// 엔진에서 싱글턴 객체를 사용하게 하고, 이를 완전히 무효화 시키도록 한다.
+		static ComponentPoolRegistry* GetGlobalInitRegistry(bool makeExpire = false)
+		{
+			static bool expired = false;
+			static ComponentPoolRegistry* instance = nullptr;
+			if (!expired)
+			{
+				if (instance == nullptr)
+				{
+					instance = new ComponentPoolRegistry();
+				}
+
+				expired = makeExpire;
+				return instance;
+			}
+
+			return nullptr;
+		}
+
+	private:
+		std::unordered_map<ComponentID, ComponentPoolBase*> registry;
+
+	};
 }
+
+#define DeclareComponent(ComponentType) \
+	struct ComponentType##Registeration \
+	{ \
+		ComponentType##Registeration() \
+		{ \
+			auto registry = sy::ecs::ComponentPoolRegistry::GetGlobalInitRegistry(); \
+			if (registry != nullptr) \
+			{ \
+				registry->Register<ComponentType>(); \
+			} \
+		}	\
+	private: \
+		static ComponentType##Registeration registeration; \
+	};
+
+#define RegistryComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;

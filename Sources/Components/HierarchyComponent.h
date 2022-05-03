@@ -10,11 +10,11 @@ namespace sy::ecs
 
 	template <>
 	class ComponentPool<HierarchyComponent> :
-		public ComponentPoolBase<HierarchyComponent>
+		public ComponentPoolImpl<HierarchyComponent>
 	{
 	public:
 		explicit ComponentPool(size_t reservedSize = DEFAULT_COMPONENT_POOL_SIZE) :
-			ComponentPoolBase<HierarchyComponent>(reservedSize)
+			ComponentPoolImpl<HierarchyComponent>(reservedSize)
 		{
 		}
 
@@ -149,4 +149,6 @@ namespace sy::ecs
 		}
 
 	};
+
+	DeclareComponent(HierarchyComponent);
 }

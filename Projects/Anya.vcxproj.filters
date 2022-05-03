@@ -63,6 +63,9 @@
     <ClCompile Include="..\Thirdparty\stb\includes\stb\stb_vorbis.c">
       <Filter>Sources\Thirdparty\stb</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Components\HierarchyComponent.cpp">
+      <Filter>Sources\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
