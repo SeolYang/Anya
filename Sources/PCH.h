@@ -52,3 +52,9 @@
 #include <stb/stb_image.h>
 
 #include <imgui/imgui.h>
+
+namespace anya
+{
+    namespace fs = std::filesystem;
+    namespace chrono = std::chrono;
+}

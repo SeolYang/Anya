@@ -81,6 +81,9 @@
     <ClCompile Include="..\Sources\Core\Application.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Resources\ResourceLoader.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
