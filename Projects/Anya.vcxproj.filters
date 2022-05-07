@@ -37,6 +37,9 @@
     <Filter Include="Sources\Resources">
       <UniqueIdentifier>{d1fd05ec-7386-49db-87eb-718ce7bd9f6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Math">
+      <UniqueIdentifier>{89399a29-6d78-4b87-97fd-0227231f356f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -634,6 +637,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Resources\ResourceLoader.h">
       <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Math\MathUtils.h">
+      <Filter>Sources\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

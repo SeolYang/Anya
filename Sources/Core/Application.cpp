@@ -1,6 +1,6 @@
 #include <PCH.h>
 #include <Core/Application.h>
-
+#include <Math/MathUtils.h>
 namespace anya
 {
     Application::Application(int argc, char** argv) :

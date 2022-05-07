@@ -482,6 +482,34 @@ namespace sy::ecs
 		std::unordered_map<ComponentID, ComponentPoolBase*> registry;
 
 	};
+
+	template <typename... T>
+		requires (sizeof...(T) > 0) && std::conjunction_v<std::is_base_of<ComponentPoolBase, T>...>
+	bool IsContains(Entity entity, const T&... pools)
+	{
+		// Least one component pool needed to check
+		// Unary Fold-Expression
+		return ( pools.Contains(entity) && ...);
+	}
+
+	template <typename... T>
+		requires (sizeof...(T) > 0) && std::conjunction_v<std::is_base_of<ComponentPoolBase, T>...>
+	std::vector<Entity> Filter(const std::vector<Entity>& entities, const T&... pools)
+	{
+		std::vector<Entity> filtered;
+		filtered.reserve(entities.size());
+
+		for (auto entity : entities)
+		{
+			if (IsContains<T...>(entity, pools...))
+			{
+				filtered.push_back(entity);
+			}
+		}
+
+		// NRVO
+		return filtered;
+	}
 }
 
 #define DeclareComponent(ComponentType) \
