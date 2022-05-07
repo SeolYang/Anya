@@ -510,6 +510,13 @@ namespace sy::ecs
 		// NRVO
 		return filtered;
 	}
+
+	template <typename... T>
+		requires (sizeof...(T) > 0) && std::conjunction_v<std::is_base_of<ComponentPoolBase, T>...>
+	std::vector<Entity> operator|(const std::vector<Entity>& entities, const T&... pools)
+	{
+		return Filter(entities, pools...);
+	}
 }
 
 #define DeclareComponent(ComponentType) \
