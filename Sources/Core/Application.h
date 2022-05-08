@@ -5,16 +5,15 @@
 
 namespace anya
 {
-    using ComponentPoolRegistry = sy::ecs::ComponentPoolRegistry;
     class Application
     {
     public:
-        Application(int argc, char** argv);
+        Application(int32 argc, wchar_t** argv);
         ~Application();
 
     private:
         CommandLineParser cmdLineParser;
-        std::unique_ptr<ComponentPoolRegistry> componentPoolRegistry;
+        std::unique_ptr<ecs::ComponentPoolRegistry> componentPoolRegistry;
 
     };
 }

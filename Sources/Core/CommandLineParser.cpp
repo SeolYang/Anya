@@ -3,7 +3,7 @@
 
 namespace anya
 {
-	CommandLineParser::CommandLineParser(int argc, char** argv)
+	CommandLineParser::CommandLineParser(int argc, wchar_t** argv)
 	{
 		assert(argc > 0);
 
@@ -19,9 +19,9 @@ namespace anya
 		}
 	}
 
-	bool CommandLineParser::Argument(char* argument)
+	bool CommandLineParser::Argument(wchar_t* argument)
 	{
-		if (strcmp(argument, "-enable_debug_layer") == 0)
+		if (lstrcmpW(argument, TEXT("-enable_debug_layer")) == 0)
 		{
 			bShouldEnableDebugLayer = true;
 			return true;

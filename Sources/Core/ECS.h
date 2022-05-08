@@ -1,17 +1,10 @@
 #pragma once
-#include <cstdint>
-#include <optional>
-#include <utility>
-#include <random>
-#include <thread>
-#include <vector>
-#include <unordered_map>
-#include <iostream>
-#include <atomic>
+#include "PCH.h"
+#include <Core/Utility.h>
 
-namespace sy::ecs
+namespace anya::ecs
 {
-	using Entity = uint64_t;
+	using Entity = uint64;
 	constexpr Entity INVALID_ENTITY_HANDLE = 0;
 	constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 16;
 
@@ -67,7 +60,7 @@ namespace sy::ecs
 	struct ComponentInfo
 	{
 		ComponentID ID;
-		std::string Name;
+		std::wstring Name;
 		size_t Size;
 		size_t Alignment;
 	};
@@ -82,7 +75,7 @@ namespace sy::ecs
 		{
 			return ComponentInfo{
 				.ID = ComponentIDGenerator::Value<Component>(),
-				.Name = typeid(Component).name(),
+				.Name = AnsiToWString(typeid(Component).name()),
 				.Size = sizeof(Component),
 				.Alignment = alignof(Component)
 			};
@@ -169,7 +162,7 @@ namespace sy::ecs
 
 	public:
 		explicit ComponentPoolImpl(size_t reservedSize) :
-			ComponentPoolBase(sy::ecs::ComponentInfoRegistry::Acquire<Component>())
+			ComponentPoolBase(ComponentInfoRegistry::Acquire<Component>())
 		{
 			components.reserve(reservedSize);
 			entities.reserve(reservedSize);
@@ -524,7 +517,7 @@ namespace sy::ecs
 	{ \
 		ComponentType##Registeration() \
 		{ \
-			auto registry = sy::ecs::ComponentPoolRegistry::GetGlobalInitRegistry(); \
+			auto registry = anya::ecs::ComponentPoolRegistry::GetGlobalInitRegistry(); \
 			if (registry != nullptr) \
 			{ \
 				registry->Register<ComponentType>(); \

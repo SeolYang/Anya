@@ -638,8 +638,11 @@
     <ClInclude Include="..\Sources\Resources\ResourceLoader.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Math\MathUtils.h">
+    <ClInclude Include="..\Sources\Math\Math.h">
       <Filter>Sources\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\Utility.h">
+      <Filter>Sources\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

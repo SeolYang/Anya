@@ -6,13 +6,13 @@ namespace anya
 	class CommandLineParser
 	{
 	public:
-		CommandLineParser(int argc, char** argv);
+		CommandLineParser(int argc, wchar_t** argv);
 
 		inline std::filesystem::path ExecutablePath() const { return executablePath; }
 		inline bool ShouldEnableDebugLayer() const { return bShouldEnableDebugLayer; }
 
 	private:
-		bool Argument(char* argument);
+		bool Argument(wchar_t* argument);
 
 	private:
 		std::filesystem::path executablePath;
