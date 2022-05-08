@@ -4,7 +4,8 @@
 
 namespace anya
 {
-    Application::Application(int32 argc, wchar_t** argv) :
+    Application::Application(std::wstring_view title, int32 argc, wchar_t** argv) :
+        title(title),
         cmdLineParser({argc, argv}),
         componentPoolRegistry(std::unique_ptr<ecs::ComponentPoolRegistry>(ecs::ComponentPoolRegistry::GetGlobalInitRegistry(true)))
     {
@@ -12,5 +13,19 @@ namespace anya
 
     Application::~Application()
     {
+    }
+
+    int32 Application::Execute()
+    {
+        try
+        {
+        }
+        catch (anya::Exception exception)
+        {
+            exception.ShowErrorMessageBox();
+            return -1;
+        }
+
+        return 0;
     }
 }

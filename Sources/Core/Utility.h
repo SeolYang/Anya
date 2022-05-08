@@ -1,21 +1,22 @@
 #pragma once
 #include <PCH.h>
+#include <Core/Exceptions.h>
 
 namespace anya
 {
     template <size_t BufferSize = 512>
-    inline std::wstring AnsiToWString(const char* ansiString)
+    inline std::wstring AnsiToWString(std::string_view ansiString)
     {
         std::array<wchar_t, BufferSize> buffer;
-        MultiByteToWideChar(CP_ACP, 0, ansiString, -1, buffer.data(), BufferSize);
+        Win32Call(MultiByteToWideChar(CP_ACP, 0, ansiString.data(), -1, buffer.data(), BufferSize));
         return std::wstring(buffer.data());
     }
 
     template <size_t BufferSize = 512>
-    inline std::string WStringToAnsi(const wchar_t* wideString)
+    inline std::string WStringToAnsi(std::wstring_view wideString)
     {
         std::array<char, BufferSize> buffer;
-        WideCharToMultiByte(CP_ACP, 0, wideString, -1, buffer, BufferSize, NULL, NULL);
+        Win32Call(WideCharToMultiByte(CP_ACP, 0, wideString.data(), -1, buffer.data(), BufferSize, NULL, NULL));
         return std::string(buffer.data());
     }
 }
