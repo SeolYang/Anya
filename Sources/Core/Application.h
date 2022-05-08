@@ -9,7 +9,10 @@ namespace anya
     {
     public:
         Application(std::wstring_view title, int32 argc, wchar_t** argv);
-        ~Application();
+        virtual ~Application();
+
+        Application(const Application&) = delete;
+        Application(Application&&) = delete;
 
         int32 Execute();
 
