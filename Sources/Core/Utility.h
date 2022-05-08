@@ -4,6 +4,13 @@
 
 namespace anya
 {
+    /** Effective Modern C++ Items 10 */
+    template <typename E>
+    constexpr auto ToUnderlying(E enumerator) noexcept
+    {
+        return static_cast<std::underlying_type_t<E>>(enumerator);
+    }
+
     template <size_t BufferSize = 512>
     inline std::wstring AnsiToWString(std::string_view ansiString)
     {
