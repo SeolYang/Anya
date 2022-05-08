@@ -1,11 +1,16 @@
 #pragma once
 /** WIN32 */
-#define WIN32_MEAN_AND_LEAN
-#define NO_MIN_MAX
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <Windows.h>
 
 /** Standard Library */
 #include <vector>
+#include <array>
 #include <unordered_map>
 #include <map>
 #include <memory>
@@ -13,6 +18,7 @@
 #include <string_view>
 #include <string>
 #include <algorithm>
+#include <atomic>
 #include <optional>
 #include <variant>
 #include <type_traits>
@@ -23,6 +29,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <filesystem>
+#include <thread>
+#include <utility>
 
 /** Thirdparty */
 #include <taskflow/taskflow.hpp>
@@ -57,4 +65,17 @@ namespace anya
 {
     namespace fs = std::filesystem;
     namespace chrono = std::chrono;
+
+    using uint8 = uint8_t;
+    using uint16 = uint16_t;
+    using uint32 = uint32_t;
+    using uint64 = uint64_t;
+
+    using int8 = int8_t;
+    using int16 = int16_t;
+    using int32 = int32_t;
+    using int64 = int64_t;
+
+    using float32 = float;
+    using float64 = double;
 }
