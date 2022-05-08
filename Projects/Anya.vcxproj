@@ -15,6 +15,11 @@
     <ClCompile Include="..\Sources\Components\TagComponents.cpp" />
     <ClCompile Include="..\Sources\Core\Application.cpp" />
     <ClCompile Include="..\Sources\Core\CommandLineParser.cpp" />
+    <ClCompile Include="..\Sources\Core\Exceptions.cpp" />
+    <ClCompile Include="..\Sources\Graphics\DXErr.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Sources\main.cpp" />
     <ClCompile Include="..\Sources\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -60,7 +65,9 @@
     <ClInclude Include="..\Sources\Core\Application.h" />
     <ClInclude Include="..\Sources\Core\CommandLineParser.h" />
     <ClInclude Include="..\Sources\Core\ECS.h" />
+    <ClInclude Include="..\Sources\Core\Exceptions.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />
+    <ClInclude Include="..\Sources\Graphics\DXErr.h" />
     <ClInclude Include="..\Sources\Math\Math.h" />
     <ClInclude Include="..\Sources\PCH.h" />
     <ClInclude Include="..\Sources\Resources\ResourceLoader.h" />

@@ -40,6 +40,9 @@
     <Filter Include="Sources\Math">
       <UniqueIdentifier>{89399a29-6d78-4b87-97fd-0227231f356f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Graphics">
+      <UniqueIdentifier>{6c8764cf-784a-4db6-a269-20ff16ce9a72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -86,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="..\Sources\Resources\ResourceLoader.cpp">
       <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Graphics\DXErr.cpp">
+      <Filter>Sources\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Core\Exceptions.cpp">
+      <Filter>Sources\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -643,6 +652,12 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\Utility.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\Exceptions.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Graphics\DXErr.h">
+      <Filter>Sources\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
