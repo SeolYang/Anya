@@ -65,6 +65,7 @@
     <ClInclude Include="..\Sources\Core\Application.h" />
     <ClInclude Include="..\Sources\Core\CommandLineParser.h" />
     <ClInclude Include="..\Sources\Core\ECS.h" />
+    <ClInclude Include="..\Sources\Core\EventSystem.h" />
     <ClInclude Include="..\Sources\Core\Exceptions.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />
     <ClInclude Include="..\Sources\Graphics\DXErr.h" />

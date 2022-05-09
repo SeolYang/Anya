@@ -659,6 +659,9 @@
     <ClInclude Include="..\Sources\Graphics\DXErr.h">
       <Filter>Sources\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\Core\EventSystem.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

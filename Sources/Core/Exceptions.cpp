@@ -5,7 +5,7 @@
 namespace anya
 {
     Exception::Exception(const std::string& ansiExceptionMessage) :
-        message(AnsiToWString(ansiExceptionMessage))
+        message(utils::AnsiToWString(ansiExceptionMessage))
     {
     }
 }

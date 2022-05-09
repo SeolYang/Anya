@@ -2,11 +2,11 @@
 #include <PCH.h>
 #include <Core/Exceptions.h>
 
-namespace anya
+namespace anya::utils
 {
     /** Effective Modern C++ Items 10 */
     template <typename E>
-    constexpr auto ToUnderlying(E enumerator) noexcept
+    constexpr auto ToUnderlyingType(E enumerator) noexcept
     {
         return static_cast<std::underlying_type_t<E>>(enumerator);
     }

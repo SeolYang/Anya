@@ -4,25 +4,27 @@
 
 namespace anya::ecs
 {
-	using Entity = uint64;
-	constexpr Entity INVALID_ENTITY_HANDLE = 0;
+	//using Entity = uint64;
+	enum class Entity : uint64 {};
+	constexpr Entity INVALID_ENTITY_HANDLE = static_cast<Entity>(0);
 	constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 16;
 
 	constexpr bool USE_RANDOM_NUM_FOR_ENTITY_HANDLE = false;
 
 	inline Entity GenerateEntity()
 	{
+		using EntityUnderlyingType = std::underlying_type_t<Entity>;
 		if (USE_RANDOM_NUM_FOR_ENTITY_HANDLE)
 		{
 			static thread_local std::mt19937_64 generator(
 				std::hash<std::thread::id>{}(std::this_thread::get_id()));
 
-			std::uniform_int_distribution<Entity> dist(std::numeric_limits<Entity>::min() + 1, std::numeric_limits<Entity>::max());
-			return dist(generator);
+			std::uniform_int_distribution<EntityUnderlyingType> dist(std::numeric_limits<EntityUnderlyingType>::min() + 1, std::numeric_limits<EntityUnderlyingType>::max());
+			return static_cast<Entity>(dist(generator));
 		}
 
-		static std::atomic<Entity> handle = 1;
-		return handle++;
+		static std::atomic<EntityUnderlyingType> handle = 1;
+		return static_cast<Entity>(handle++);
 	}
 
 	using ComponentID = size_t;
@@ -75,7 +77,7 @@ namespace anya::ecs
 		{
 			return ComponentInfo{
 				.ID = ComponentIDGenerator::Value<Component>(),
-				.Name = AnsiToWString(typeid(Component).name()),
+				.Name = utils::AnsiToWString(typeid(Component).name()),
 				.Size = sizeof(Component),
 				.Alignment = alignof(Component)
 			};
@@ -482,7 +484,7 @@ namespace anya::ecs
 	{
 		// Least one component pool needed to check
 		// Unary Fold-Expression
-		return ( pools.Contains(entity) && ...);
+		return (pools.Contains(entity) && ...);
 	}
 
 	template <typename... T>
