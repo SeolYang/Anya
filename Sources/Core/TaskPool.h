@@ -52,6 +52,7 @@ namespace anya
             }
         }
 
+        /** ExecuteTask method will excutes 'callables' concurrently. */
         template <typename Callable, typename... Args>
         auto ExecuteTask(Callable&& callable, Args&&... args)
         {
@@ -69,6 +70,9 @@ namespace anya
             return future;
         }
 
+        /** AddDeferredTask method will excute 'callables' in single thread as serially.*/
+        /** But it is still concurrent to other threads.*/
+        /** Must call 'ExecuteDeferredTask' method before use future object that was created from 'AddDeferredTask' method.*/
         template <typename Callable, typename... Args>
         auto AddDeferredTask(Callable&& callable, Args&&... args)
         {
@@ -84,19 +88,22 @@ namespace anya
 
         void ExecuteDeferredTask()
         {
-            auto lock = std::unique_lock<std::mutex>(mutex);
+            if (!deferredTasks.empty())
             {
-                tasks.emplace([deferredTasks = std::move(deferredTasks)]
-                    {
-                        for (auto& task : deferredTasks)
+                auto lock = std::unique_lock<std::mutex>(mutex);
+                {
+                    tasks.emplace([deferredTasks = std::move(deferredTasks)]
                         {
-                            task();
-                        }
-                    });
-                lock.unlock();
-            }
+                            for (auto& task : deferredTasks)
+                            {
+                                task();
+                            }
+                        });
+                    lock.unlock();
+                }
 
-            cv.notify_one();
+                cv.notify_one();
+            }
         }
 
         size_t ThreadsCount() const { return threads.size(); }
