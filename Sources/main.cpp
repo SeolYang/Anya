@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
+#include <Core/TaskPool.h>
 
 anya::int32 main(int argc, wchar_t** argv)
 {

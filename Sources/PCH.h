@@ -11,6 +11,7 @@
 /** Standard Library */
 #include <vector>
 #include <array>
+#include <queue>
 #include <unordered_map>
 #include <map>
 #include <memory>
@@ -31,6 +32,9 @@
 #include <filesystem>
 #include <thread>
 #include <utility>
+#include <future>
+#include <mutex>
+#include <condition_variable>
 
 /** Thirdparty */
 #include <taskflow/taskflow.hpp>
