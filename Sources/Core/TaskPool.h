@@ -53,20 +53,50 @@ namespace anya
         }
 
         template <typename Callable, typename... Args>
-        auto AddTask(Callable&& callable, Args&&... args)
+        auto ExecuteTask(Callable&& callable, Args&&... args)
         {
             using ReturnType = std::invoke_result_t<Callable, Args...>;
-            auto task = 
+            auto task =
                 std::make_shared<std::packaged_task<ReturnType()>>(std::bind(std::forward<Callable>(callable), std::forward<Args>(args)...));
 
             auto future = task->get_future();
             {
                 auto lock = std::unique_lock<std::mutex>(mutex);
-                tasks.emplace([task]{ (*task)(); });
+                tasks.emplace([task] { (*task)(); });
             }
 
             cv.notify_one();
             return future;
+        }
+
+        template <typename Callable, typename... Args>
+        auto AddDeferredTask(Callable&& callable, Args&&... args)
+        {
+            using ReturnType = std::invoke_result_t<Callable, Args...>;
+            auto task =
+                std::make_shared<std::packaged_task<ReturnType()>>(std::bind(std::forward<Callable>(callable), std::forward<Args>(args)...));
+
+            auto future = task->get_future();
+            deferredTasks.emplace_back([task] { (*task)(); });
+
+            return future;
+        }
+
+        void ExecuteDeferredTask()
+        {
+            auto lock = std::unique_lock<std::mutex>(mutex);
+            {
+                tasks.emplace([deferredTasks = std::move(deferredTasks)]
+                    {
+                        for (auto& task : deferredTasks)
+                        {
+                            task();
+                        }
+                    });
+                lock.unlock();
+            }
+
+            cv.notify_one();
         }
 
         size_t ThreadsCount() const { return threads.size(); }
@@ -75,6 +105,7 @@ namespace anya
         bool bForceExist;
         std::vector<std::thread> threads;
         std::queue<std::function<void()>> tasks;
+        std::vector<std::function<void()>> deferredTasks;
         std::condition_variable cv;
         std::mutex mutex;
 
