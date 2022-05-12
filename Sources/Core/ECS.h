@@ -408,7 +408,6 @@ namespace anya::ecs
 	class ComponentPoolRegistry
 	{
 	public:
-		ComponentPoolRegistry() = default;
 		~ComponentPoolRegistry()
 		{
 			for (auto registered : registry)
@@ -472,6 +471,9 @@ namespace anya::ecs
 
 			return nullptr;
 		}
+
+	private:
+		ComponentPoolRegistry() = default;
 
 	private:
 		std::unordered_map<ComponentID, ComponentPoolBase*> registry;
