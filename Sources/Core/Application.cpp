@@ -7,7 +7,7 @@ namespace anya
     Application::Application(std::wstring_view title, int32 argc, wchar_t** argv) :
         title(title),
         cmdLineParser({argc, argv}),
-        componentPoolRegistry(std::unique_ptr<ecs::ComponentPoolRegistry>(ecs::ComponentPoolRegistry::GetGlobalInitRegistry(true)))
+        componentPoolRegistry(std::unique_ptr<ComponentPoolRegistry>(ComponentPoolRegistry::GetGlobalInitRegistry(true)))
     {
     }
 

@@ -2,7 +2,7 @@
 #include "PCH.h"
 #include <Core/Utility.h>
 
-namespace anya::ecs
+namespace anya
 {
 	//using Entity = uint64;
 	enum class Entity : uint64 {};
@@ -514,6 +514,12 @@ namespace anya::ecs
 	{
 		return Filter(entities, pools...);
 	}
+
+	template <typename QueryType, typename Archetype>
+	QueryType& QueryArchetypeData(Archetype& object)
+	{
+		return std::get<QueryType>(object);
+	}
 }
 
 #define DeclareComponent(ComponentType) \
@@ -521,7 +527,7 @@ namespace anya::ecs
 	{ \
 		ComponentType##Registeration() \
 		{ \
-			auto registry = anya::ecs::ComponentPoolRegistry::GetGlobalInitRegistry(); \
+			auto registry = anya::ComponentPoolRegistry::GetGlobalInitRegistry(); \
 			if (registry != nullptr) \
 			{ \
 				registry->Register<ComponentType>(); \
@@ -535,10 +541,6 @@ namespace anya::ecs
 
 #define DeclareArchetype(ArchetypeName, ...) \
 using ArchetypeName = std::tuple<__VA_ARGS__>; \
-enum class Access##ArchetypeName \
-{ \
-	__VA_ARGS__ \
-}; \
 DeclareComponent(ArchetypeName);
 
 #define RegisterArchetype(ArchetypeName) RegisterComponent(ArchetypeName)

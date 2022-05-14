@@ -5,13 +5,13 @@ namespace anya
 {
 	struct HierarchyComponent
 	{
-		ecs::Entity parentEntity = ecs::INVALID_ENTITY_HANDLE;
+		Entity parentEntity = INVALID_ENTITY_HANDLE;
 	};
 
 	DeclareComponent(HierarchyComponent);
 }
 
-namespace anya::ecs
+namespace anya
 {
 	template <>
 	class ComponentPool<HierarchyComponent> :
