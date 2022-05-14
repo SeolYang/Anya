@@ -532,3 +532,13 @@ namespace anya::ecs
 	};
 
 #define RegisterComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;
+
+#define DeclareArchetype(ArchetypeName, ...) \
+using ArchetypeName = std::tuple<__VA_ARGS__>; \
+enum class Access##ArchetypeName \
+{ \
+	__VA_ARGS__ \
+}; \
+DeclareComponent(ArchetypeName);
+
+#define RegisterArchetype(ArchetypeName) RegisterComponent(ArchetypeName)
