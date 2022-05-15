@@ -4,6 +4,39 @@
 
 namespace anya::utils
 {
+    namespace traits_impl
+    {
+        template <typename T>
+        struct is_tuple_impl : std::false_type { };
+
+        template <typename... T>
+        struct is_tuple_impl<std::tuple<T...>> : std::true_type { };
+
+        template <typename ElementT, typename TupleT>
+        struct is_tuple_element_impl : std::false_type { };
+
+        template <typename ElementT,  typename... ElementTypes>
+        struct is_tuple_element_impl<ElementT, std::tuple<ElementTypes...>> :
+            std::conditional_t<
+                std::disjunction_v<std::is_same<ElementT, ElementTypes>...>,
+                std::true_type,
+                std::false_type>
+        {
+        };
+    }
+
+    template <typename T>
+    using is_tuple = traits_impl::is_tuple_impl<std::decay_t<T>>;
+
+    template <typename T>
+    constexpr bool is_tuple_v = is_tuple<T>::value;
+
+    template <typename ElementT, typename TupleT>
+    using is_tuple_element = traits_impl::is_tuple_element_impl<ElementT, TupleT>;
+
+    template <typename ElementT, typename TupleT>
+    constexpr bool is_tuple_element_v = is_tuple_element<ElementT, TupleT>::value;
+
     /** Effective Modern C++ Items 10 */
     template <typename E>
     constexpr auto ToUnderlyingType(E enumerator) noexcept
