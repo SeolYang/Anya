@@ -4,12 +4,38 @@
 
 namespace anya
 {
-	//using Entity = uint64;
 	enum class Entity : uint64 {};
 	constexpr Entity INVALID_ENTITY_HANDLE = static_cast<Entity>(0);
 	constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 16;
-
 	constexpr bool USE_RANDOM_NUM_FOR_ENTITY_HANDLE = false;
+
+	using ComponentID = size_t;
+	constexpr ComponentID INVALID_COMPONET_ID = 0;
+
+	template <typename T>
+	using is_component = std::is_class<T>;
+	template <typename T>
+	constexpr bool is_component_v = is_component<T>::value;
+
+	template <typename T>
+	concept Component = is_component_v<T>;
+
+	template <typename T>
+	using is_archetype = utils::is_tuple<T>;
+	template <typename T>
+	constexpr bool is_archetype_v = is_archetype<T>::value;
+
+	template <typename T>
+	concept Archetype = is_archetype_v<T>;
+
+	template<Archetype ArchetypeT, Component ComponentT>
+	using is_archetype_contains = utils::is_tuple_element<ArchetypeT, ComponentT>;
+
+	template<Archetype ArchetypeT, Component ComponentT>
+	constexpr bool is_archetype_contains_v = is_archetype_contains<ArchetypeT, ComponentT>::value;
+
+	template <typename ArchetypeT, typename ComponentT>
+	concept ArchetypeContains = is_archetype_v<ArchetypeT> && is_archetype_contains_v<ArchetypeT, ComponentT>;
 
 	inline Entity GenerateEntity()
 	{
@@ -27,47 +53,57 @@ namespace anya
 		return static_cast<Entity>(handle++);
 	}
 
-	using ComponentID = size_t;
 	class ComponentIDGenerator
 	{
 	public:
 		ComponentIDGenerator() = delete;
 
-		template <typename Component>
+		template <Component T>
 		inline static ComponentID Value()
 		{
-			return InternalValue<Component>();
+			return InternalValue<T>();
 		}
 
-		template <typename Component>
-		inline static ComponentID Value(const Component&)
+		template <Component T>
+		inline static ComponentID Value(const T&)
 		{
-			return InternalValue<Component>();
+			return InternalValue<T>();
 		}
 
 	private:
-		template <typename Component>
+		template <Component T>
 		inline static ComponentID InternalValue()
 		{
-			static_assert(std::same_as<std::decay_t<Component>, Component>);
-			const static ComponentID internalID = idCounter++;
+			static_assert(std::same_as<std::decay_t<T>, T>);
+			static ComponentID internalID = ++idCounter;
 			return internalID;
 		}
 
 	private:
-		inline static size_t idCounter{};
+		inline static size_t idCounter{ INVALID_COMPONET_ID };
 
 	};
 
 	struct ComponentInfo
 	{
-		ComponentID ID;
+		ComponentID ID = INVALID_COMPONET_ID;
 		std::wstring Name;
 		size_t Size;
 		size_t Alignment;
+		/** If component is actually archetype, It must be contains one or more subcomponents. */
+		std::vector<ComponentID> Subcomponents;
 	};
 
-	template <typename Component>
+	template <Component... T>
+	std::vector<ComponentID> AcquireSubComponentsFromArchetype(const std::tuple<T...>& archetype)
+	{
+		auto initList = { ComponentIDGenerator::Value<T>()... };
+		std::vector<ComponentID> subcomponents{ initList };
+
+		return subcomponents;
+	}
+
+	template <Component T>
 	class ComponentInfoGenerator
 	{
 	public:
@@ -75,54 +111,19 @@ namespace anya
 
 		static ComponentInfo Generate()
 		{
-			return ComponentInfo{
-				.ID = ComponentIDGenerator::Value<Component>(),
-				.Name = utils::AnsiToWString(typeid(Component).name()),
-				.Size = sizeof(Component),
-				.Alignment = alignof(Component)
-			};
-		}
-	};
+			ComponentInfo result{
+				.ID = ComponentIDGenerator::Value<T>(),
+				.Name = utils::AnsiToWString(typeid(T).name()),
+				.Size = sizeof(T),
+				.Alignment = alignof(T) };
 
-	class ComponentInfoRegistry
-	{
-	public:
-		ComponentInfoRegistry() = delete;
-
-		static std::optional<ComponentInfo> Acquire(ComponentID id)
-		{
-			std::optional<ComponentInfo> res = std::nullopt;
-			auto itr = lut.find(id);
-			if (itr != lut.end())
+			if constexpr (utils::is_tuple_v<T>)
 			{
-				res = std::make_optional(itr->second);
+				result.Subcomponents = AcquireSubComponentsFromArchetype(T());
 			}
 
-			return res;
+			return result;
 		}
-
-		template <typename Component>
-		static ComponentInfo Acquire()
-		{
-			return InternalAcquire<Component>();
-		}
-
-	private:
-		template <typename Component>
-		static ComponentInfo InternalAcquire()
-		{
-			ComponentID id = ComponentIDGenerator::Value<Component>();
-			if (lut.find(id) == lut.end())
-			{
-				lut[id] = ComponentInfoGenerator<Component>::Generate();
-			}
-
-			return lut[id];
-		}
-
-	private:
-		inline static std::unordered_map<ComponentID, ComponentInfo> lut{};
-
 	};
 
 	class ComponentPoolBase
@@ -137,7 +138,7 @@ namespace anya
 		{
 		}
 
-		ComponentInfo AcquireComponentInfo() const
+		const ComponentInfo& AcquireComponentInfo() const
 		{
 			return componentInfo;
 		}
@@ -148,37 +149,54 @@ namespace anya
 		virtual size_t Size() const = 0;
 		virtual void Clear() = 0;
 
+		virtual void Attach(Entity parent, Entity child) { }
+		virtual void Detach(Entity target) {}
+
 	private:
 		ComponentInfo componentInfo;
 
 	};
 
-	template <typename Component>
+	template <Component T>
 	class ComponentPoolImpl : public ComponentPoolBase
 	{
 	public:
-		using RefWrapper = std::reference_wrapper<Component>;
-		using ConstRefWrapper = std::reference_wrapper<const Component>;
-		using ComponentRetType = std::optional<RefWrapper>;
-		using ConstComponentRetType = std::optional<ConstRefWrapper>;
+		using Ref = std::reference_wrapper<T>;
+		using ConstRef = std::reference_wrapper<const T>;
+		using VectorRef = std::reference_wrapper<std::vector<T>>;
+		using ConstVectorRef = std::reference_wrapper<const std::vector<T>>;
+		using OptionalRef = std::optional<Ref>;
+		using OptionalConstRef = std::optional<ConstRef>;
+		using OptionalVectorRef = std::optional<VectorRef>;
+		using OptionalConstVectorRef = std::optional<ConstVectorRef>;
 
 	public:
 		explicit ComponentPoolImpl(size_t reservedSize) :
-			ComponentPoolBase(ComponentInfoRegistry::Acquire<Component>())
+			ComponentPoolBase(ComponentInfoGenerator<T>::Generate())
 		{
 			components.reserve(reservedSize);
 			entities.reserve(reservedSize);
 			lut.reserve(reservedSize);
 		}
 
-		Component& operator[](size_t idx)
+		OptionalConstRef operator[](size_t idx) const
 		{
-			return components[idx];
+			if (idx < components.size())
+			{
+				return std::make_optional(std::cref(components[idx]));
+			}
+
+			return std::nullopt;
 		}
 
-		const Component& operator[](size_t idx) const
+		OptionalRef operator[](size_t idx)
 		{
-			return components[idx];
+			if (idx < components.size())
+			{
+				return std::make_optional(std::ref(components[idx]));
+			}
+
+			return std::nullopt;
 		}
 
 		virtual bool Contains(Entity entity) const override
@@ -225,20 +243,7 @@ namespace anya
 			}
 		}
 
-		ComponentRetType CreateWithReturn(Entity entity)
-		{
-			if (bool bIsValidEntityHandle = entity != INVALID_ENTITY_HANDLE; bIsValidEntityHandle)
-			{
-				if (Create(entity))
-				{
-					return (components.back());
-				}
-			}
-
-			return std::nullopt;
-		}
-
-		ConstComponentRetType GetComponent(Entity entity) const
+		OptionalConstRef GetComponent(Entity entity) const
 		{
 			if (bool bIsValidEntityHandle = entity != INVALID_ENTITY_HANDLE; 
 				bIsValidEntityHandle)
@@ -254,7 +259,7 @@ namespace anya
 			return std::nullopt;
 		}
 
-		ComponentRetType GetComponent(Entity entity)
+		OptionalRef GetComponent(Entity entity)
 		{
 			if (bool bIsValidEntityHandle = entity != INVALID_ENTITY_HANDLE; bIsValidEntityHandle)
 			{
@@ -269,21 +274,21 @@ namespace anya
 			return std::nullopt;
 		}
 
-		const std::vector<Component>& GetComponents() const
+		const std::vector<T>& GetComponents() const
 		{
 			return components;
 		}
 
-		std::vector<Component>& GetComponents()
+		std::vector<T>& GetComponents()
 		{
 			return components;
 		}
 
-		std::optional<Entity> GetEntity(size_t componentIdx) const
+		Entity GetEntity(size_t componentIdx) const
 		{
 			return (componentIdx < entities.size()) ?
-				std::optional<Entity>(entities[componentIdx]) :
-				std::nullopt;
+				entities[componentIdx] :
+				INVALID_ENTITY_HANDLE;
 		}
 
 		inline size_t Size() const
@@ -298,7 +303,7 @@ namespace anya
 			lut.clear();
 		}
 
-		inline bool CheckRelationBetween(Entity entity, const Component& component) const
+		inline bool CheckRelationBetween(Entity entity, const T& component) const
 		{
 			if (!components.empty())
 			{
@@ -315,9 +320,9 @@ namespace anya
 			return false;
 		}
 
-		inline bool CheckValidationOf(const Component& component) const
+		inline bool CheckValidationOf(const T& component) const
 		{
-			auto foundItr = std::find_if(components.begin(), components.end(), [&](const Component& validComponent)
+			auto foundItr = std::find_if(components.begin(), components.end(), [&](const T& validComponent)
 				{
 					return (&validComponent == &component);
 				});
@@ -362,7 +367,7 @@ namespace anya
 			}
 		}
 
-		inline void MoveElementBlockFrom(std::vector<Component> moveComponents, std::vector<Entity> moveEntities, size_t moveAt)
+		inline void MoveElementBlockFrom(std::vector<T> moveComponents, std::vector<Entity> moveEntities, size_t moveAt)
 		{
 			bool bIsValidPoint = moveAt >= 0 && moveAt < Size();
 
@@ -388,131 +393,390 @@ namespace anya
 		}
 
 	protected:
-		std::vector<Component> components;
+		std::vector<T> components;
 		/* Entities[idx] == Entities[LUT[Entities[idx]]] **/
 		std::vector<Entity> entities; 
 		std::unordered_map<Entity, size_t> lut;
 
 	};
 
-	template <typename Component>
-	class ComponentPool : public ComponentPoolImpl<Component>
+	template <Component T>
+	class ComponentPool : public ComponentPoolImpl<T>
 	{
 	public:
 		explicit ComponentPool(size_t reservedSize = (DEFAULT_COMPONENT_POOL_SIZE)) :
-			ComponentPoolImpl<Component>(reservedSize)
+			ComponentPoolImpl<T>(reservedSize)
 		{
 		}
 	};
 
-	class ComponentPoolRegistry
+	class ComponentPoolProxy
 	{
 	public:
-		~ComponentPoolRegistry()
+		~ComponentPoolProxy()
 		{
-			for (auto registered : registry)
+			for (auto& registered : registry)
 			{
 				delete registered.second;
 			}
 		}
 
-		ComponentPoolRegistry(const ComponentPoolRegistry&) = delete;
-		ComponentPoolRegistry& operator=(const ComponentPoolRegistry&) = delete;
+		ComponentPoolProxy(const ComponentPoolProxy&) = delete;
+		ComponentPoolProxy& operator=(const ComponentPoolProxy&) = delete;
 
-		ComponentPoolRegistry(ComponentPoolRegistry&& rhs) noexcept :
+		ComponentPoolProxy(ComponentPoolProxy&& rhs) noexcept :
 			registry(std::move(rhs.registry))
 		{
 		}
 
-		template <typename Component>
-		ComponentPool<Component>* AcquireWithComponentType()
+		static ComponentPoolProxy& Get()
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<Component>();
-			return static_cast<ComponentPool<Component>*>(Acquire(componentID));
-		}
-
-		ComponentPoolBase* Acquire(const ComponentID componentID)
-		{
-			auto itr = registry.find(componentID);
-			if (itr != registry.end())
+			static ComponentPoolProxy* instance = nullptr;
+			if (instance == nullptr)
 			{
-				return itr->second;
+				instance = new ComponentPoolProxy();
 			}
 
-			return nullptr;
+			return *instance;
 		}
 
-		template <typename Component>
+		template <Component T>
 		void Register(size_t reservedSize = (DEFAULT_COMPONENT_POOL_SIZE))
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<Component>();
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
 			if (registry.find(componentID) == registry.end())
 			{
-				registry[componentID] = new ComponentPool<Component>(reservedSize);
+				registry[componentID] = new ComponentPool<std::decay_t<T>>(reservedSize);
 			}
 		}
 
-		// 매크로와 singleton 패턴을 통해 모든 컴포넌트 풀을 등록한다음.
-		// 엔진에서 싱글턴 객체를 사용하게 하고, 이를 완전히 무효화 시키도록 한다.
-		static ComponentPoolRegistry* GetGlobalInitRegistry(bool makeExpire = false)
+		/** Return ComponentID it self when Component is independent to other archetype. */
+		/** Otherwise, It will be return archetype's ComponentID which is have a queried component. */
+		/** Else if, Entity does not have queried component, it will be return INVALID_COMPONENT_ID */
+		ComponentID HasComponent(const Entity entity, const ComponentID componentID) const
 		{
-			static bool expired = false;
-			static ComponentPoolRegistry* instance = nullptr;
-			if (!expired)
+			if (componentID != INVALID_COMPONET_ID)
 			{
-				if (instance == nullptr)
+				if (const auto entityLUTItr = entityLUT.find(entity);
+					entityLUTItr != entityLUT.cend())
 				{
-					instance = new ComponentPoolRegistry();
+					const auto& componentLUT = entityLUTItr->second;
+					if (const auto componentLUTItr = componentLUT.find(componentID);
+						componentLUTItr != componentLUT.cend())
+					{
+						return componentLUTItr->second;
+					}
 				}
-
-				expired = makeExpire;
-				return instance;
 			}
 
-			return nullptr;
+			return INVALID_COMPONET_ID;
+		}
+
+		/** Return ComponentID it self when Component is independent to other archetype. */
+		/** Otherwise, It will be return archetype's ComponentID which is have a queried component. */
+		/** Else if, Entity does not have queried component, it will be return INVALID_COMPONENT_ID */
+		template <Component T>
+		inline ComponentID HasComponent(const Entity entity) const
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			return HasComponent(componentID, entity);
+		}
+
+		bool HasAllComponents(const Entity entity, const std::vector<ComponentID>& components) const
+		{
+			for (auto componentID : components)
+			{
+				auto actualComponent = HasComponent(entity, componentID);
+				if (actualComponent != componentID)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		bool HasAnyComponents(const Entity entity, const std::vector<ComponentID>& components) const
+		{
+			for (auto componentID : components)
+			{
+				auto actualComponent = HasComponent(entity, componentID);
+				if (actualComponent == componentID)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		bool CreateComponent(const Entity entity, const ComponentID componentID)
+		{
+			if (componentID != INVALID_COMPONET_ID)
+			{
+				if (HasComponent(entity, componentID) == INVALID_COMPONET_ID)
+				{
+					auto foundPool = Acquire(componentID);
+					if (foundPool != nullptr)
+					{
+						const ComponentInfo& componentInfo = foundPool->AcquireComponentInfo();
+						if (!HasAnyComponents(entity, componentInfo.Subcomponents))
+						{
+							if (foundPool->Create(entity))
+							{
+								const auto foundEntityLUTItr = entityLUT.find(entity);
+								if (foundEntityLUTItr == entityLUT.cend())
+								{
+									entityLUT[entity] = {};
+								}
+
+								auto& componentLUT = entityLUT[entity];
+								componentLUT[componentID] = componentID;
+								for (const auto subcomponentID : componentInfo.Subcomponents)
+								{
+									componentLUT[subcomponentID] = componentID;
+								}
+
+								return true;
+							}
+						}
+					}
+				}
+			}
+
+			return false;
+		}
+
+		template <Component T>
+		inline bool CreateComponent(const Entity entity)
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			return CreateComponent(entity, componentID);
+		}
+
+		/** It will been removed only when target component is equal with actual component. */
+		void Remove(Entity target, const ComponentID componentID)
+		{
+			if (componentID != INVALID_COMPONET_ID)
+			{
+				const ComponentID actualComponentID = HasComponent(target, componentID);
+				if (actualComponentID == componentID)
+				{
+					auto acquiredPool = Acquire(actualComponentID);
+					if (acquiredPool != nullptr)
+					{
+						acquiredPool->Remove(target);
+
+						auto& componentLUT = entityLUT[target];
+
+						// Make subcomponents to expired.
+						const auto& info = acquiredPool->AcquireComponentInfo();
+						for (const auto componentID : info.Subcomponents)
+						{
+							componentLUT.erase(componentID);
+						}
+
+						// Make expired it self
+						componentLUT.erase(componentID);
+					}
+				}
+			}
+		}
+
+		template <Component T>
+		inline void Remove(Entity target)
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			return Remove(target, componentID);
+		}
+
+		void Attach(const ComponentID componentID, Entity parent, Entity child)
+		{
+			if (componentID != INVALID_COMPONET_ID)
+			{
+				const ComponentID parentsActualComponentID = HasComponent(parent, componentID);
+				const ComponentID childsActualComponentID = HasComponent(child, componentID);
+
+				if (parentsActualComponentID != INVALID_COMPONET_ID && childsActualComponentID != INVALID_COMPONET_ID)
+				{
+					if (parentsActualComponentID == childsActualComponentID)
+					{
+						const ComponentID actualComponentID = parentsActualComponentID;
+						auto acquiredPool = Acquire(actualComponentID);
+						if (acquiredPool != nullptr)
+						{
+							acquiredPool->Attach(parent, child);
+						}
+					}
+				}
+			}
+		}
+
+		template <Component T>
+		inline void Attach(Entity parent, Entity child)
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			return Attach(componentID, parent, child);
+		}
+
+		void Detach(Entity target, const ComponentID componentID)
+		{
+			if (componentID != INVALID_COMPONET_ID)
+			{
+				const ComponentID actualComponentID = HasComponent(target, componentID);
+				if (actualComponentID != INVALID_COMPONET_ID)
+				{
+					auto acquiredPool = Acquire(actualComponentID);
+					if (acquiredPool != nullptr)
+					{
+						acquiredPool->Detach(target);
+					}
+				}
+			}
+		}
+
+		template <Component T>
+		inline void Detach(Entity target)
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			return Detach(target, componentID);
+		}
+
+		template <Component T>
+		ComponentPool<T>::OptionalRef QueryComponent(Entity entity)
+		{
+			ComponentID targetComponentID = ComponentIDGenerator::Value<T>();
+			ComponentID actualComponentID = HasComponent<T>(entity);
+			if (targetComponentID == actualComponentID)
+			{
+				ComponentPool<T>* componentPool = static_cast<ComponentPool<T>*>(Acquire(targetComponentID));
+				if (componentPool != nullptr)
+				{
+					return componentPool->GetComponent(entity);
+				}
+			}
+
+			return std::nullopt;
+		}
+
+		template <Component T>
+		ComponentPool<T>::OptionalConstRef QueryComponent(Entity entity) const
+		{
+			ComponentID targetComponentID = ComponentIDGenerator::Value<T>();
+			ComponentID actualComponentID = HasComponent<T>(entity);
+			if (targetComponentID == actualComponentID)
+			{
+				ComponentPool<T>* componentPool = static_cast<ComponentPool<T>*>(Acquire(targetComponentID));
+				if (componentPool != nullptr)
+				{
+					return componentPool->GetComponent(entity);
+				}
+			}
+
+			return std::nullopt;
+		}
+
+		template <Component T>
+		std::vector<T> QueryComponents()
+		{
+			ComponentPool<T>& componentPool = Acquire<T>();
+			return componentPool->GetComponents();
+		}
+
+		template <Component T>
+		const std::vector<T>& QueryComponents() const
+		{
+			const ComponentPool<T>& componentPool = Acquire<T>();
+			return componentPool->GetComponents();
 		}
 
 	private:
-		ComponentPoolRegistry() = default;
+		ComponentPoolProxy() = default;
+
+		ComponentPoolBase* Acquire(const ComponentID componentID) const
+		{
+			auto itr = registry.find(componentID);
+			if (itr == registry.end())
+			{
+				assert(false && "Component does not registered.");
+			}
+
+			return itr->second;
+		}
+
+		template <Component T>
+		ComponentPool<T>& Acquire()
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			ComponentPool<T>* acquired = static_cast<ComponentPool<T>*>(Acquire(componentID));
+
+			return (*acquired);
+		}
+
+		template <Component T>
+		const ComponentPool<T>& Acquire() const
+		{
+			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			const ComponentPool<T>* acquired = static_cast<ComponentPool<T>*>(Acquire(componentID));
+
+			return (*acquired);
+		}
 
 	private:
 		std::unordered_map<ComponentID, ComponentPoolBase*> registry;
+		// Entity -> Own Component -> Actual Component(or Archetype)
+		std::unordered_map<Entity, std::unordered_map<ComponentID, ComponentID>> entityLUT;
 
 	};
 
-	template <typename... T>
-		requires (sizeof...(T) > 0) && std::conjunction_v<std::is_base_of<ComponentPoolBase, T>...>
-	bool IsContains(Entity entity, const T&... pools)
-	{
-		// Least one component pool needed to check
-		// Unary Fold-Expression
-		return (pools.Contains(entity) && ...);
-	}
-
-	template <typename... T>
-		requires (sizeof...(T) > 0) && std::conjunction_v<std::is_base_of<ComponentPoolBase, T>...>
-	std::vector<Entity> Filter(const std::vector<Entity>& entities, const T&... pools)
+	static std::vector<Entity> FilterAny(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy, const std::vector<ComponentID>& componentIDs)
 	{
 		std::vector<Entity> filtered;
 		filtered.reserve(entities.size());
 
-		for (auto entity : entities)
+		for (const Entity entity : entities)
 		{
-			if (IsContains<T...>(entity, pools...))
+			if (proxy.HasAnyComponents(entity, componentIDs))
 			{
-				filtered.push_back(entity);
+				filtered.emplace_back(entity);
 			}
 		}
 
-		// NRVO
 		return filtered;
 	}
 
 	template <typename... T>
-		requires (sizeof...(T) > 0) && std::conjunction_v<std::is_base_of<ComponentPoolBase, T>...>
-	std::vector<Entity> operator|(const std::vector<Entity>& entities, const T&... pools)
+		requires (sizeof...(T) > 0)
+	std::vector<Entity> FilterAny(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
 	{
-		return Filter(entities, pools...);
+		auto initList = { ComponentIDGenerator::Value<T>()... };
+		std::vector<ComponentID> componentsList = initList;
+		return FilterAny(entities, proxy, componentsList);
+	}
+
+	static std::vector<Entity> FilterAll(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy, const std::vector<ComponentID>& componentIDs)
+	{
+		std::vector<Entity> filtered;
+		filtered.reserve(entities.size());
+
+		for (const Entity entity : entities)
+		{
+			if (proxy.HasAllComponents(entity, componentIDs))
+			{
+				filtered.emplace_back(entity);
+			}
+		}
+
+		return filtered;
+	}
+
+	template <typename... T>
+		requires (sizeof...(T) > 0)
+	std::vector<Entity> FilterAll(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
+	{
+		auto initList = { ComponentIDGenerator::Value<T>()... };
+		std::vector<ComponentID> componentsList = initList;
+		return FilterAll(entities, proxy, componentsList);
 	}
 
 	template <typename QueryType, typename Archetype>
@@ -527,11 +791,8 @@ namespace anya
 	{ \
 		ComponentType##Registeration() \
 		{ \
-			auto registry = anya::ComponentPoolRegistry::GetGlobalInitRegistry(); \
-			if (registry != nullptr) \
-			{ \
-				registry->Register<ComponentType>(); \
-			} \
+			auto& proxy = anya::ComponentPoolProxy::Get(); \
+			proxy.Register<ComponentType>(); \
 		}	\
 	private: \
 		static ComponentType##Registeration registeration; \

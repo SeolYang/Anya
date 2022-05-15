@@ -21,7 +21,6 @@ namespace anya
     private:
         std::wstring title;
         CommandLineParser cmdLineParser;
-        std::unique_ptr<ComponentPoolRegistry> componentPoolRegistry;
 
     };
 }

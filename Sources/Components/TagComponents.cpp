@@ -3,5 +3,5 @@
 
 namespace anya
 {
-    RegisterComponent(VisibleToRendererTag);
+    RegisterComponent(Renderable);
 }

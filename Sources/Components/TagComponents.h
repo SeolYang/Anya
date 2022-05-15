@@ -4,9 +4,9 @@
 
 namespace anya
 {
-    struct VisibleToRendererTag
+    struct Renderable
     {
     };
 
-    DeclareComponent(VisibleToRendererTag);
+    DeclareComponent(Renderable);
 }

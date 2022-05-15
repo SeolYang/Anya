@@ -6,8 +6,7 @@ namespace anya
 {
     Application::Application(std::wstring_view title, int32 argc, wchar_t** argv) :
         title(title),
-        cmdLineParser({argc, argv}),
-        componentPoolRegistry(std::unique_ptr<ComponentPoolRegistry>(ComponentPoolRegistry::GetGlobalInitRegistry(true)))
+        cmdLineParser({argc, argv})
     {
     }
 
