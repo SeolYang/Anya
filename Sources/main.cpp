@@ -47,13 +47,12 @@ anya::int32 main(int argc, wchar_t** argv)
 
 	poolProxy.Attach<SceneArchetype>(e1, e2);
 
-	auto filterAllTest = FilterAll<SceneArchetype>({ e1, e2 }, poolProxy);
-	filterAllTest = FilterAll<SceneArchetype, EmptyComponent>({ e1, e2 }, poolProxy);
-	auto filterAnyTest = FilterAny<SceneArchetype, EmptyComponent>({ e1, e2 }, poolProxy);
+	auto filterAllTest = FilterAllOf<SceneArchetype>({ e1, e2 }, poolProxy);
+	filterAllTest = FilterAllOf<SceneArchetype, EmptyComponent>({ e1, e2 }, poolProxy);
+	auto filterAnyTest = FilterAnyOf<SceneArchetype, EmptyComponent>({ e1, e2 }, poolProxy);
 
 	poolProxy.Detach<SceneArchetype>(e2);
 	poolProxy.Remove<SceneArchetype>(e2);
-
 
 	auto app = std::make_unique<anya::Application>(TEXT("AnyaRenderer"), argc, argv);
 	std::wcout << app->Title() << std::endl;

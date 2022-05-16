@@ -4,26 +4,23 @@
 
 namespace anya
 {
-	enum class Entity : uint64 {};
-	constexpr Entity INVALID_ENTITY_HANDLE = static_cast<Entity>(0);
-	constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 16;
-	constexpr bool USE_RANDOM_NUM_FOR_ENTITY_HANDLE = false;
-
-	using ComponentID = size_t;
-	constexpr ComponentID INVALID_COMPONET_ID = 0;
-
 	template <typename T>
 	using is_component = std::is_class<T>;
 	template <typename T>
 	constexpr bool is_component_v = is_component<T>::value;
 
 	template <typename T>
-	concept Component = is_component_v<T>;
-
-	template <typename T>
-	using is_archetype = utils::is_tuple<T>;
+	using is_archetype = std::conjunction<utils::is_tuple<T>, utils::is_tuple_contains_only_class<T>>;
 	template <typename T>
 	constexpr bool is_archetype_v = is_archetype<T>::value;
+
+	template <typename T>
+	using is_one_of_comp_arche = std::disjunction<is_component<T>, is_archetype<T>>;
+	template <typename T>
+	constexpr bool is_one_of_comp_arche_v = is_one_of_comp_arche<T>::value;
+
+	template <typename T>
+	concept Component = is_one_of_comp_arche_v<T>;
 
 	template <typename T>
 	concept Archetype = is_archetype_v<T>;
@@ -36,6 +33,14 @@ namespace anya
 
 	template <typename ArchetypeT, typename ComponentT>
 	concept ArchetypeContains = is_archetype_v<ArchetypeT> && is_archetype_contains_v<ArchetypeT, ComponentT>;
+
+	enum class Entity : uint64 {};
+	constexpr Entity INVALID_ENTITY_HANDLE = static_cast<Entity>(0);
+	constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 16;
+	constexpr bool USE_RANDOM_NUM_FOR_ENTITY_HANDLE = false;
+
+	using ComponentID = size_t;
+	constexpr ComponentID INVALID_COMPONET_ID = 0;
 
 	inline Entity GenerateEntity()
 	{
@@ -496,6 +501,14 @@ namespace anya
 			return true;
 		}
 
+		template <Component... T>
+		bool HasAllComponents(const Entity entity)
+		{
+			auto initList = { ComponentIDGenerator::Value<T>()... };
+			std::vector<ComponentID> components = initList;
+			return HasAllComponents(entity, components);
+		}
+
 		bool HasAnyComponents(const Entity entity, const std::vector<ComponentID>& components) const
 		{
 			for (auto componentID : components)
@@ -508,6 +521,14 @@ namespace anya
 			}
 
 			return false;
+		}
+
+		template <Component... T>
+		bool HasAnyComponents(const Entity entity)
+		{
+			auto initList = { ComponentIDGenerator::Value<T>()... };
+			std::vector<ComponentID> components = initList;
+			return HasAnyComponents(entity, components);
 		}
 
 		bool CreateComponent(const Entity entity, const ComponentID componentID)
@@ -729,7 +750,7 @@ namespace anya
 
 	};
 
-	static std::vector<Entity> FilterAny(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy, const std::vector<ComponentID>& componentIDs)
+	static std::vector<Entity> FilterAnyOf(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy, const std::vector<ComponentID>& componentIDs)
 	{
 		std::vector<Entity> filtered;
 		filtered.reserve(entities.size());
@@ -745,16 +766,15 @@ namespace anya
 		return filtered;
 	}
 
-	template <typename... T>
-		requires (sizeof...(T) > 0)
-	std::vector<Entity> FilterAny(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
+	template <Component... T>
+	std::vector<Entity> FilterAnyOf(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
 	{
 		auto initList = { ComponentIDGenerator::Value<T>()... };
 		std::vector<ComponentID> componentsList = initList;
-		return FilterAny(entities, proxy, componentsList);
+		return FilterAnyOf(entities, proxy, componentsList);
 	}
 
-	static std::vector<Entity> FilterAll(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy, const std::vector<ComponentID>& componentIDs)
+	static std::vector<Entity> FilterAllOf(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy, const std::vector<ComponentID>& componentIDs)
 	{
 		std::vector<Entity> filtered;
 		filtered.reserve(entities.size());
@@ -770,13 +790,12 @@ namespace anya
 		return filtered;
 	}
 
-	template <typename... T>
-		requires (sizeof...(T) > 0)
-	std::vector<Entity> FilterAll(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
+	template <Component... T>
+	std::vector<Entity> FilterAllOf(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
 	{
 		auto initList = { ComponentIDGenerator::Value<T>()... };
 		std::vector<ComponentID> componentsList = initList;
-		return FilterAll(entities, proxy, componentsList);
+		return FilterAllOf(entities, proxy, componentsList);
 	}
 
 	template <typename QueryType, typename Archetype>
@@ -796,7 +815,7 @@ namespace anya
 		}	\
 	private: \
 		static ComponentType##Registeration registeration; \
-	};
+	};\
 
 #define RegisterComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;
 

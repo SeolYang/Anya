@@ -23,6 +23,18 @@ namespace anya::utils
                 std::false_type>
         {
         };
+
+        template <typename TupleT>
+        struct is_tuple_contains_only_class_impl : std::false_type { };
+
+        template <typename... ElementTypes>
+        struct is_tuple_contains_only_class_impl<std::tuple<ElementTypes...>> :
+            std::conditional_t<
+                std::conjunction_v<std::is_class<ElementTypes>...>,
+                std::true_type,
+                std::false_type>
+        {
+        };
     }
 
     template <typename T>
@@ -36,6 +48,12 @@ namespace anya::utils
 
     template <typename TupleT, typename ElementT>
     constexpr bool is_tuple_element_v = is_tuple_element<TupleT, ElementT>::value;
+
+    template <typename TupleT>
+    using is_tuple_contains_only_class = traits_impl::is_tuple_contains_only_class_impl<std::decay_t<TupleT>>;
+
+    template <typename TupleT>
+    constexpr bool is_tuple_contains_only_class_v = is_tuple_contains_only_class<TupleT>::value;
 
     /** Effective Modern C++ Items 10 */
     template <typename E>
