@@ -1,7 +1,7 @@
 #pragma once
 #include <PCH.h>
 
-namespace anya
+namespace sy
 {
 	class CommandLineParser
 	{

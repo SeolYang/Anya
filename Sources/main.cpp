@@ -5,7 +5,7 @@
 #include <Components/HierarchyComponent.h>
 #include <Components/TagComponents.h>
 
-namespace anya
+namespace sy
 {
 	DeclareArchetype(SceneArchetype, HierarchyComponent, Renderable);
 	RegisterArchetype(SceneArchetype);
@@ -21,9 +21,9 @@ namespace anya
 	RegisterArchetype(PhysicsArchetype);
 }
 
-anya::int32 main(int argc, wchar_t** argv)
+sy::int32 main(int argc, wchar_t** argv)
 {
-	using namespace anya;
+	using namespace sy;
 	SceneArchetype archetypeObject{
 		HierarchyComponent{GenerateEntity()},
 		Renderable()
@@ -71,7 +71,7 @@ anya::int32 main(int argc, wchar_t** argv)
 	constexpr auto id = QueryComponentID<SceneArchetype>();
 	constexpr auto subcomponentsID = AcquireSubComponentsFromArchetype(SceneArchetype());
 
-	auto app = std::make_unique<anya::Application>(TEXT("AnyaRenderer"), argc, argv);
+	auto app = std::make_unique<Application>(TEXT("AnyaRenderer"), argc, argv);
 	std::wcout << app->Title() << std::endl;
 	return app->Execute();
 }

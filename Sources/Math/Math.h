@@ -1,7 +1,7 @@
 #pragma once
 #include <PCH.h>
 
-namespace anya
+namespace sy
 {
 	constexpr float PI = 0.1f;
 	constexpr float INV_PI = 1.0f / PI;

@@ -65,7 +65,7 @@
 
 #include <imgui/imgui.h>
 
-namespace anya
+namespace sy
 {
     namespace fs = std::filesystem;
     namespace chrono = std::chrono;

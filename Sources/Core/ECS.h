@@ -2,7 +2,7 @@
 #include "PCH.h"
 #include <Core/Utility.h>
 
-namespace anya
+namespace sy
 {
 	template <typename T>
 	using is_component = std::is_class<T>;
@@ -881,25 +881,25 @@ namespace anya
 	}
 }
 
-#define COMPONENT_TYPE_HASH(x) anya::utils::ELFHash(#x)
+#define COMPONENT_TYPE_HASH(x) sy::utils::ELFHash(#x)
 
 #define DeclareComponent(ComponentType) \
 	struct ComponentType##Registeration \
 	{ \
 		ComponentType##Registeration() \
 		{ \
-			auto& proxy = anya::ComponentPoolProxy::Get(); \
+			auto& proxy = sy::ComponentPoolProxy::Get(); \
 			proxy.Register<ComponentType>(); \
 		}	\
 	private: \
 		static ComponentType##Registeration registeration; \
 	};\
 	template <> \
-	constexpr anya::ComponentID anya::QueryComponentID<ComponentType>() \
+	constexpr sy::ComponentID sy::QueryComponentID<ComponentType>() \
 	{	\
 		constexpr uint32_t genID = COMPONENT_TYPE_HASH(ComponentType); \
 		static_assert(genID != 0); \
-		return static_cast<anya::ComponentID>(genID);	\
+		return static_cast<sy::ComponentID>(genID);	\
 	} \
 
 #define RegisterComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;
@@ -910,19 +910,19 @@ using ArchetypeType = std::tuple<__VA_ARGS__>; \
 	{ \
 		ArchetypeType##Registeration() \
 		{ \
-			auto& proxy = anya::ComponentPoolProxy::Get(); \
+			auto& proxy = sy::ComponentPoolProxy::Get(); \
 			proxy.Register<ArchetypeType>(); \
-			anya::ArchivingSubcomponents<ArchetypeType, __VA_ARGS__>(); \
+			sy::ArchivingSubcomponents<ArchetypeType, __VA_ARGS__>(); \
 		}	\
 	private: \
 		static ArchetypeType##Registeration registeration; \
 	};\
 	template <> \
-	constexpr anya::ComponentID anya::QueryComponentID<ArchetypeType>() \
+	constexpr sy::ComponentID sy::QueryComponentID<ArchetypeType>() \
 	{	\
 		constexpr uint32_t genID = COMPONENT_TYPE_HASH(ArchetypeType); \
 		static_assert(genID != 0); \
-		return static_cast<anya::ComponentID>(genID);	\
+		return static_cast<sy::ComponentID>(genID);	\
 	} \
 
 #define RegisterArchetype(ArchetypeName) RegisterComponent(ArchetypeName)

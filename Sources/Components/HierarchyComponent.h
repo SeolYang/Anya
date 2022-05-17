@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/ECS.h>
 
-namespace anya
+namespace sy
 {
 	struct HierarchyComponent
 	{
@@ -11,7 +11,7 @@ namespace anya
 	DeclareComponent(HierarchyComponent);
 }
 
-namespace anya
+namespace sy
 {
 	template <>
 	class ComponentPool<HierarchyComponent> :

@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <Components/TagComponents.h>
 
-namespace anya
+namespace sy
 {
     RegisterComponent(Renderable);
 }

@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <Graphics/DXErr.h>
 
-namespace anya
+namespace sy
 {
     inline std::wstring GetWin32Message(DWORD messageID)
     {

@@ -3,7 +3,7 @@
 #include <Core/CommandLineParser.h>
 #include <Core/ECS.h>
 
-namespace anya
+namespace sy
 {
     class Application
     {

@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <Components/HierarchyComponent.h>
 
-namespace anya
+namespace sy
 {
     RegisterComponent(HierarchyComponent);
 }

@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <Core/Utility.h>
 
-namespace anya
+namespace sy
 {
 	template <typename... EventParams>
 	class EventSystem;

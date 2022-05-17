@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <Core/CommandLineParser.h>
 
-namespace anya
+namespace sy
 {
 	CommandLineParser::CommandLineParser(int argc, wchar_t** argv)
 	{

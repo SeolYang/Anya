@@ -2,7 +2,7 @@
 #include <Resources/ResourceLoader.h>
 #include <Core/CommandLineParser.h>
 
-namespace anya
+namespace sy
 {
     std::shared_ptr<Text> ResourceLoader::LoadTextFile(std::filesystem::path absolutePath)
     {

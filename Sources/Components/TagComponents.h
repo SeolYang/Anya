@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <Core/ECS.h>
 
-namespace anya
+namespace sy
 {
     struct Renderable
     {

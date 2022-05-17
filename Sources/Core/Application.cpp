@@ -2,7 +2,7 @@
 #include <Core/Application.h>
 #include <Math/Math.h>
 
-namespace anya
+namespace sy
 {
     Application::Application(std::wstring_view title, int32 argc, wchar_t** argv) :
         title(title),
@@ -19,7 +19,7 @@ namespace anya
         try
         {
         }
-        catch (anya::Exception exception)
+        catch (Exception exception)
         {
             exception.ShowErrorMessageBox();
             return -1;

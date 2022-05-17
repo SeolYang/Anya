@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <Core/Exceptions.h>
 
-namespace anya::utils
+namespace sy::utils
 {
     namespace traits_impl
     {
