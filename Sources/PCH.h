@@ -82,4 +82,7 @@ namespace anya
 
     using float32 = float;
     using float64 = double;
+
+    template <typename T>
+    using OptionalRef = std::optional<std::reference_wrapper<T>>;
 }

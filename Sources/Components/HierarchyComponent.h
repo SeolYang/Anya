@@ -85,14 +85,17 @@ namespace anya
 			{
 				size_t rootIdx = targetItr->second;
 
-				std::vector<HierarchyComponent> componentSubTree;
-				std::vector<Entity> entitySubTree;
-				InjectSubtree(INVALID_ENTITY_HANDLE, rootIdx, componentSubTree, entitySubTree);
+				if (components[rootIdx].parentEntity != INVALID_ENTITY_HANDLE)
+				{
+					std::vector<HierarchyComponent> componentSubTree;
+					std::vector<Entity> entitySubTree;
+					InjectSubtree(INVALID_ENTITY_HANDLE, rootIdx, componentSubTree, entitySubTree);
 
-				size_t injectedRange = entitySubTree.size();
-				MoveElementBlock(rootIdx + injectedRange, Size(), rootIdx);
-				MoveElementBlockFrom(std::move(componentSubTree), std::move(entitySubTree), rootIdx + injectedRange);
-				UpdateLUT();
+					size_t injectedRange = entitySubTree.size();
+					MoveElementBlock(rootIdx + injectedRange, Size(), rootIdx);
+					MoveElementBlockFrom(std::move(componentSubTree), std::move(entitySubTree), rootIdx + injectedRange);
+					UpdateLUT();
+				}
 			}
 		}
 
@@ -233,14 +236,17 @@ namespace anya
 			{
 				size_t rootIdx = targetItr->second;
 
-				std::vector<T> componentSubTree;
-				std::vector<Entity> entitySubTree;
-				this->InjectSubtree(INVALID_ENTITY_HANDLE, rootIdx, componentSubTree, entitySubTree);
+				if (std::get<HierarchyComponent>(this->components[rootIdx]).parentEntity != INVALID_ENTITY_HANDLE)
+				{
+					std::vector<T> componentSubTree;
+					std::vector<Entity> entitySubTree;
+					this->InjectSubtree(INVALID_ENTITY_HANDLE, rootIdx, componentSubTree, entitySubTree);
 
-				size_t injectedRange = entitySubTree.size();
-				this->MoveElementBlock(rootIdx + injectedRange, this->Size(), rootIdx);
-				this->MoveElementBlockFrom(std::move(componentSubTree), std::move(entitySubTree), rootIdx + injectedRange);
-				this->UpdateLUT();
+					size_t injectedRange = entitySubTree.size();
+					this->MoveElementBlock(rootIdx + injectedRange, this->Size(), rootIdx);
+					this->MoveElementBlockFrom(std::move(componentSubTree), std::move(entitySubTree), rootIdx + injectedRange);
+					this->UpdateLUT();
+				}
 			}
 		}
 		

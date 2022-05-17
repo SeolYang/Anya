@@ -10,17 +10,12 @@ namespace anya
 	constexpr bool is_component_v = is_component<T>::value;
 
 	template <typename T>
-	using is_archetype = std::conjunction<utils::is_tuple<T>, utils::is_tuple_contains_only_class<T>>;
+	using is_archetype = std::conjunction<utils::is_tuple<T>, utils::is_tuple_contains_only_class<T>, std::negation<utils::is_tuple_contains_other_tuple<T>>>;
 	template <typename T>
 	constexpr bool is_archetype_v = is_archetype<T>::value;
 
 	template <typename T>
-	using is_one_of_comp_arche = std::disjunction<is_component<T>, is_archetype<T>>;
-	template <typename T>
-	constexpr bool is_one_of_comp_arche_v = is_one_of_comp_arche<T>::value;
-
-	template <typename T>
-	concept Component = is_one_of_comp_arche_v<T>;
+	concept Component = is_component_v<T>;
 
 	template <typename T>
 	concept Archetype = is_archetype_v<T>;
@@ -38,10 +33,6 @@ namespace anya
 	constexpr Entity INVALID_ENTITY_HANDLE = static_cast<Entity>(0);
 	constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 16;
 	constexpr bool USE_RANDOM_NUM_FOR_ENTITY_HANDLE = false;
-
-	using ComponentID = size_t;
-	constexpr ComponentID INVALID_COMPONET_ID = 0;
-
 	inline Entity GenerateEntity()
 	{
 		using EntityUnderlyingType = std::underlying_type_t<Entity>;
@@ -58,36 +49,20 @@ namespace anya
 		return static_cast<Entity>(handle++);
 	}
 
-	class ComponentIDGenerator
+	using ComponentID = uint32;
+	constexpr ComponentID INVALID_COMPONET_ID = 0;
+
+	template <Component T>
+	constexpr ComponentID QueryComponentID()
 	{
-	public:
-		ComponentIDGenerator() = delete;
+		return INVALID_COMPONET_ID;
+	}
 
-		template <Component T>
-		inline static ComponentID Value()
-		{
-			return InternalValue<T>();
-		}
-
-		template <Component T>
-		inline static ComponentID Value(const T&)
-		{
-			return InternalValue<T>();
-		}
-
-	private:
-		template <Component T>
-		inline static ComponentID InternalValue()
-		{
-			static_assert(std::same_as<std::decay_t<T>, T>);
-			static ComponentID internalID = ++idCounter;
-			return internalID;
-		}
-
-	private:
-		inline static size_t idCounter{ INVALID_COMPONET_ID };
-
-	};
+	template <Component T>
+	constexpr ComponentID QueryComponentID(const T&)
+	{
+		return QueryComponentID<T>;
+	}
 
 	struct ComponentInfo
 	{
@@ -97,39 +72,32 @@ namespace anya
 		size_t Alignment;
 		/** If component is actually archetype, It must be contains one or more subcomponents. */
 		std::vector<ComponentID> Subcomponents;
-	};
 
-	template <Component... T>
-	std::vector<ComponentID> AcquireSubComponentsFromArchetype(const std::tuple<T...>& archetype)
-	{
-		auto initList = { ComponentIDGenerator::Value<T>()... };
-		std::vector<ComponentID> subcomponents{ initList };
-
-		return subcomponents;
-	}
-
-	template <Component T>
-	class ComponentInfoGenerator
-	{
-	public:
-		ComponentInfoGenerator() = delete;
-
+		template <Component T>
 		static ComponentInfo Generate()
 		{
 			ComponentInfo result{
-				.ID = ComponentIDGenerator::Value<T>(),
+				.ID = QueryComponentID<T>(),
 				.Name = utils::AnsiToWString(typeid(T).name()),
 				.Size = sizeof(T),
 				.Alignment = alignof(T) };
 
-			if constexpr (utils::is_tuple_v<T>)
+			if constexpr (is_archetype_v<T>)
 			{
-				result.Subcomponents = AcquireSubComponentsFromArchetype(T());
+				auto subcomponentsArray = AcquireSubComponentsFromArchetype(T());
+				result.Subcomponents = std::vector<ComponentID>(subcomponentsArray.cbegin(), subcomponentsArray.cend());
 			}
 
 			return result;
 		}
 	};
+
+	template <Component... T>
+	constexpr std::array<ComponentID, sizeof...(T)> AcquireSubComponentsFromArchetype(const std::tuple<T...>&)
+	{
+		std::array<ComponentID, sizeof...(T)> subcomponents{ QueryComponentID<T>()... };
+		return subcomponents;
+	}
 
 	class ComponentPoolBase
 	{
@@ -139,9 +107,7 @@ namespace anya
 		{
 		}
 
-		virtual ~ComponentPoolBase()
-		{
-		}
+		virtual ~ComponentPoolBase() = default;
 
 		const ComponentInfo& AcquireComponentInfo() const
 		{
@@ -156,6 +122,7 @@ namespace anya
 
 		virtual void Attach(Entity parent, Entity child) { }
 		virtual void Detach(Entity target) {}
+
 
 	private:
 		ComponentInfo componentInfo;
@@ -177,7 +144,7 @@ namespace anya
 
 	public:
 		explicit ComponentPoolImpl(size_t reservedSize) :
-			ComponentPoolBase(ComponentInfoGenerator<T>::Generate())
+			ComponentPoolBase(ComponentInfo::Generate<T>())
 		{
 			components.reserve(reservedSize);
 			entities.reserve(reservedSize);
@@ -256,8 +223,8 @@ namespace anya
 				if (bool bHasRelatedComponent = Contains(entity); 
 					bHasRelatedComponent)
 				{
-					size_t targetComponentIdx = lut[entity];
-					return ConstComponentRetType(components[targetComponentIdx]);
+					size_t targetComponentIdx = lut.find(entity)->second;
+					return OptionalConstRef(std::cref(components[targetComponentIdx]));
 				}
 			}
 
@@ -272,7 +239,7 @@ namespace anya
 				if (bool bHasRelatedComponent = Contains(entity); bHasRelatedComponent)
 				{
 					size_t targetComponentIdx = lut[entity];
-					return components[targetComponentIdx];
+					return std::ref(components[targetComponentIdx]);
 				}
 			}
 
@@ -415,6 +382,64 @@ namespace anya
 		}
 	};
 
+	template <Component T>
+	class ArchetypeArchive
+	{
+	public:
+		using Func = std::function<std::optional<std::reference_wrapper<T>>(ComponentPoolBase*, Entity entity)>;
+
+		ArchetypeArchive(const ArchetypeArchive&) = delete;
+		ArchetypeArchive(ArchetypeArchive&&) = delete;
+		ArchetypeArchive& operator=(const ArchetypeArchive&) = delete;
+		ArchetypeArchive& operator=(ArchetypeArchive&&) = delete;
+
+		template <Archetype ArchetypeT>
+		void Archiving(Func convFunc)
+		{
+			constexpr ComponentID archetypeID = QueryComponentID<ArchetypeT>();
+			if (archive.find(archetypeID) == archive.end())
+			{
+				archive[archetypeID] = convFunc;
+			}
+		}
+
+		template <Archetype ArchetypeT>
+		std::optional<Func> Retrive() const
+		{
+			auto itr = archive.find(QueryComponentID<ArchetypeT>());
+			if (itr != archive.end())
+			{
+				return std::make_optional(itr->second);
+			}
+
+			return std::nullopt;
+		}
+
+		std::optional<Func> Retrive(ComponentID componentID) const
+		{
+			auto itr = archive.find(componentID);
+			if (itr != archive.end())
+			{
+				return std::make_optional(itr->second);
+			}
+
+			return std::nullopt;
+		}
+
+		static ArchetypeArchive& Get()
+		{
+			static std::unique_ptr<ArchetypeArchive> instance(new ArchetypeArchive);
+			return *instance;
+		}
+
+	private:
+		ArchetypeArchive() = default;
+
+	private:
+		std::unordered_map<ComponentID, Func> archive;
+
+	};
+
 	class ComponentPoolProxy
 	{
 	public:
@@ -427,28 +452,20 @@ namespace anya
 		}
 
 		ComponentPoolProxy(const ComponentPoolProxy&) = delete;
+		ComponentPoolProxy(ComponentPoolProxy&&) = delete;
 		ComponentPoolProxy& operator=(const ComponentPoolProxy&) = delete;
-
-		ComponentPoolProxy(ComponentPoolProxy&& rhs) noexcept :
-			registry(std::move(rhs.registry))
-		{
-		}
+		ComponentPoolProxy& operator=(ComponentPoolProxy&&) = delete;
 
 		static ComponentPoolProxy& Get()
 		{
-			static ComponentPoolProxy* instance = nullptr;
-			if (instance == nullptr)
-			{
-				instance = new ComponentPoolProxy();
-			}
-
+			static std::unique_ptr<ComponentPoolProxy> instance(new ComponentPoolProxy);
 			return *instance;
 		}
 
 		template <Component T>
 		void Register(size_t reservedSize = (DEFAULT_COMPONENT_POOL_SIZE))
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			if (registry.find(componentID) == registry.end())
 			{
 				registry[componentID] = new ComponentPool<std::decay_t<T>>(reservedSize);
@@ -483,8 +500,8 @@ namespace anya
 		template <Component T>
 		inline ComponentID HasComponent(const Entity entity) const
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
-			return HasComponent(componentID, entity);
+			constexpr ComponentID componentID = QueryComponentID<T>();
+			return HasComponent(entity, componentID);
 		}
 
 		bool HasAllComponents(const Entity entity, const std::vector<ComponentID>& components) const
@@ -492,7 +509,7 @@ namespace anya
 			for (auto componentID : components)
 			{
 				auto actualComponent = HasComponent(entity, componentID);
-				if (actualComponent != componentID)
+				if (actualComponent == INVALID_COMPONET_ID)
 				{
 					return false;
 				}
@@ -504,7 +521,7 @@ namespace anya
 		template <Component... T>
 		bool HasAllComponents(const Entity entity)
 		{
-			auto initList = { ComponentIDGenerator::Value<T>()... };
+			auto initList = { QueryComponentID<T>()... };
 			std::vector<ComponentID> components = initList;
 			return HasAllComponents(entity, components);
 		}
@@ -514,7 +531,7 @@ namespace anya
 			for (auto componentID : components)
 			{
 				auto actualComponent = HasComponent(entity, componentID);
-				if (actualComponent == componentID)
+				if (actualComponent != INVALID_COMPONET_ID)
 				{
 					return true;
 				}
@@ -526,7 +543,7 @@ namespace anya
 		template <Component... T>
 		bool HasAnyComponents(const Entity entity)
 		{
-			auto initList = { ComponentIDGenerator::Value<T>()... };
+			auto initList = { QueryComponentID<T>()... };
 			std::vector<ComponentID> components = initList;
 			return HasAnyComponents(entity, components);
 		}
@@ -571,7 +588,7 @@ namespace anya
 		template <Component T>
 		inline bool CreateComponent(const Entity entity)
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			return CreateComponent(entity, componentID);
 		}
 
@@ -607,11 +624,11 @@ namespace anya
 		template <Component T>
 		inline void Remove(Entity target)
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			return Remove(target, componentID);
 		}
 
-		void Attach(const ComponentID componentID, Entity parent, Entity child)
+		bool Attach(const ComponentID componentID, Entity parent, Entity child)
 		{
 			if (componentID != INVALID_COMPONET_ID)
 			{
@@ -627,16 +644,19 @@ namespace anya
 						if (acquiredPool != nullptr)
 						{
 							acquiredPool->Attach(parent, child);
+							return true;
 						}
 					}
 				}
 			}
+
+			return false;
 		}
 
 		template <Component T>
-		inline void Attach(Entity parent, Entity child)
+		inline bool Attach(Entity parent, Entity child)
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			return Attach(componentID, parent, child);
 		}
 
@@ -659,21 +679,37 @@ namespace anya
 		template <Component T>
 		inline void Detach(Entity target)
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			return Detach(target, componentID);
 		}
 
 		template <Component T>
 		ComponentPool<T>::OptionalRef QueryComponent(Entity entity)
 		{
-			ComponentID targetComponentID = ComponentIDGenerator::Value<T>();
-			ComponentID actualComponentID = HasComponent<T>(entity);
-			if (targetComponentID == actualComponentID)
+			constexpr ComponentID targetComponentID = QueryComponentID<T>();
+			if (targetComponentID != INVALID_COMPONET_ID)
 			{
-				ComponentPool<T>* componentPool = static_cast<ComponentPool<T>*>(Acquire(targetComponentID));
-				if (componentPool != nullptr)
+				ComponentID actualComponentID = HasComponent<T>(entity);
+
+				if (targetComponentID == actualComponentID)
 				{
-					return componentPool->GetComponent(entity);
+					ComponentPool<T>* componentPool = static_cast<ComponentPool<T>*>(Acquire(targetComponentID));
+					if (componentPool != nullptr)
+					{
+						return componentPool->GetComponent(entity);
+					}
+				}
+				else
+				{
+					ComponentPoolBase* actualComponentPool = Acquire(actualComponentID);
+					if (actualComponentPool != nullptr)
+					{
+						auto func = ArchetypeArchive<T>::Get().Retrive(actualComponentID);
+						if (func)
+						{
+							return (*func)(actualComponentPool, entity);
+						}
+					}
 				}
 			}
 
@@ -683,14 +719,34 @@ namespace anya
 		template <Component T>
 		ComponentPool<T>::OptionalConstRef QueryComponent(Entity entity) const
 		{
-			ComponentID targetComponentID = ComponentIDGenerator::Value<T>();
-			ComponentID actualComponentID = HasComponent<T>(entity);
-			if (targetComponentID == actualComponentID)
+			constexpr ComponentID targetComponentID = QueryComponentID<T>();
+			if (targetComponentID != INVALID_COMPONET_ID)
 			{
-				ComponentPool<T>* componentPool = static_cast<ComponentPool<T>*>(Acquire(targetComponentID));
-				if (componentPool != nullptr)
+				ComponentID actualComponentID = HasComponent<T>(entity);
+
+				if (targetComponentID == actualComponentID)
 				{
-					return componentPool->GetComponent(entity);
+					const ComponentPool<T>* componentPool = static_cast<ComponentPool<T>*>(Acquire(targetComponentID));
+					if (componentPool != nullptr)
+					{
+						return componentPool->GetComponent(entity);
+					}
+				}
+				else
+				{
+					ComponentPoolBase* actualComponentPool = Acquire(actualComponentID);
+					if (actualComponentPool != nullptr)
+					{
+						auto func = ArchetypeArchive<T>::Get().Retrive(actualComponentID);
+						if (func)
+						{
+							auto resOpt = (*func)(actualComponentPool, entity);
+							if (resOpt)
+							{
+								return std::make_optional(std::cref(resOpt->get()));
+							}
+						}
+					}
 				}
 			}
 
@@ -698,14 +754,14 @@ namespace anya
 		}
 
 		template <Component T>
-		std::vector<T> QueryComponents()
+		std::vector<T> GetComponents()
 		{
 			ComponentPool<T>& componentPool = Acquire<T>();
 			return componentPool->GetComponents();
 		}
 
 		template <Component T>
-		const std::vector<T>& QueryComponents() const
+		const std::vector<T>& GetComponents() const
 		{
 			const ComponentPool<T>& componentPool = Acquire<T>();
 			return componentPool->GetComponents();
@@ -719,7 +775,7 @@ namespace anya
 			auto itr = registry.find(componentID);
 			if (itr == registry.end())
 			{
-				assert(false && "Component does not registered.");
+				assert(false && "Component does not registered or exist.");
 			}
 
 			return itr->second;
@@ -728,7 +784,7 @@ namespace anya
 		template <Component T>
 		ComponentPool<T>& Acquire()
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			ComponentPool<T>* acquired = static_cast<ComponentPool<T>*>(Acquire(componentID));
 
 			return (*acquired);
@@ -737,7 +793,7 @@ namespace anya
 		template <Component T>
 		const ComponentPool<T>& Acquire() const
 		{
-			const ComponentID componentID = ComponentIDGenerator::Value<T>();
+			constexpr ComponentID componentID = QueryComponentID<T>();
 			const ComponentPool<T>* acquired = static_cast<ComponentPool<T>*>(Acquire(componentID));
 
 			return (*acquired);
@@ -769,7 +825,7 @@ namespace anya
 	template <Component... T>
 	std::vector<Entity> FilterAnyOf(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
 	{
-		auto initList = { ComponentIDGenerator::Value<T>()... };
+		auto initList = { QueryComponentID<T>()... };
 		std::vector<ComponentID> componentsList = initList;
 		return FilterAnyOf(entities, proxy, componentsList);
 	}
@@ -793,17 +849,39 @@ namespace anya
 	template <Component... T>
 	std::vector<Entity> FilterAllOf(const std::vector<Entity>& entities, const ComponentPoolProxy& proxy)
 	{
-		auto initList = { ComponentIDGenerator::Value<T>()... };
+		auto initList = { QueryComponentID<T>()... };
 		std::vector<ComponentID> componentsList = initList;
 		return FilterAllOf(entities, proxy, componentsList);
 	}
 
-	template <typename QueryType, typename Archetype>
+	template <Component QueryType, Archetype Archetype>
 	QueryType& QueryArchetypeData(Archetype& object)
 	{
 		return std::get<QueryType>(object);
 	}
+
+	template <Archetype AT, Component... CT>
+	void ArchivingSubcomponents()
+	{
+		(ArchetypeArchive<CT>::Get().Archiving<AT>([](ComponentPoolBase* poolBase, Entity entity)
+			-> std::optional<std::reference_wrapper<CT>>
+			{
+				if (poolBase != nullptr)
+				{
+					ComponentPool<AT>* pool = static_cast<ComponentPool<AT>*>(poolBase);
+					typename ComponentPool<AT>::OptionalRef archetypeRefOpt = pool->GetComponent(entity);
+					if (archetypeRefOpt)
+					{
+						return std::make_optional(std::ref(std::get<CT>(archetypeRefOpt->get())));
+					}
+				}
+
+				return std::nullopt;
+			}), ...);
+	}
 }
+
+#define COMPONENT_TYPE_HASH(x) anya::utils::ELFHash(#x)
 
 #define DeclareComponent(ComponentType) \
 	struct ComponentType##Registeration \
@@ -816,11 +894,35 @@ namespace anya
 	private: \
 		static ComponentType##Registeration registeration; \
 	};\
+	template <> \
+	constexpr anya::ComponentID anya::QueryComponentID<ComponentType>() \
+	{	\
+		constexpr uint32_t genID = COMPONENT_TYPE_HASH(ComponentType); \
+		static_assert(genID != 0); \
+		return static_cast<anya::ComponentID>(genID);	\
+	} \
 
 #define RegisterComponent(ComponentType) ComponentType##Registeration ComponentType##Registeration::registeration;
 
-#define DeclareArchetype(ArchetypeName, ...) \
-using ArchetypeName = std::tuple<__VA_ARGS__>; \
-DeclareComponent(ArchetypeName);
+#define DeclareArchetype(ArchetypeType, ...) \
+using ArchetypeType = std::tuple<__VA_ARGS__>; \
+	struct ArchetypeType##Registeration \
+	{ \
+		ArchetypeType##Registeration() \
+		{ \
+			auto& proxy = anya::ComponentPoolProxy::Get(); \
+			proxy.Register<ArchetypeType>(); \
+			anya::ArchivingSubcomponents<ArchetypeType, __VA_ARGS__>(); \
+		}	\
+	private: \
+		static ArchetypeType##Registeration registeration; \
+	};\
+	template <> \
+	constexpr anya::ComponentID anya::QueryComponentID<ArchetypeType>() \
+	{	\
+		constexpr uint32_t genID = COMPONENT_TYPE_HASH(ArchetypeType); \
+		static_assert(genID != 0); \
+		return static_cast<anya::ComponentID>(genID);	\
+	} \
 
 #define RegisterArchetype(ArchetypeName) RegisterComponent(ArchetypeName)

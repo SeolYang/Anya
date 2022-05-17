@@ -16,6 +16,9 @@ namespace anya
 
 	DeclareComponent(EmptyComponent);
 	RegisterComponent(EmptyComponent);
+
+	DeclareArchetype(PhysicsArchetype, HierarchyComponent, Renderable, EmptyComponent);
+	RegisterArchetype(PhysicsArchetype);
 }
 
 anya::int32 main(int argc, wchar_t** argv)
@@ -39,13 +42,23 @@ anya::int32 main(int argc, wchar_t** argv)
 	auto& poolProxy = ComponentPoolProxy::Get();
 
 	Entity e1 = GenerateEntity();
-	poolProxy.CreateComponent<SceneArchetype>(e1);
+	assert(poolProxy.CreateComponent<SceneArchetype>(e1));
 
 	Entity e2 = GenerateEntity();
-	poolProxy.CreateComponent<SceneArchetype>(e2);
-	poolProxy.CreateComponent<EmptyComponent>(e2);
+	assert(poolProxy.CreateComponent<SceneArchetype>(e2));
+	assert(poolProxy.CreateComponent<EmptyComponent>(e2));
 
-	poolProxy.Attach<SceneArchetype>(e1, e2);
+	Entity e3 = GenerateEntity();
+	assert(poolProxy.CreateComponent<PhysicsArchetype>(e3));
+
+	auto queryHierarchyFromSceneArchetype =
+		poolProxy.QueryComponent<HierarchyComponent>(e2);
+	OptionalRef<const HierarchyComponent> queryHierarchyFromPhysicsArchetype =
+		poolProxy.QueryComponent<HierarchyComponent>(e3);
+
+	assert(poolProxy.Attach<SceneArchetype>(e1, e2));
+	// This shoud not work, because those are rely on each other archetypes separably.
+	assert(!poolProxy.Attach<SceneArchetype>(e1, e3)); 
 
 	auto filterAllTest = FilterAllOf<SceneArchetype>({ e1, e2 }, poolProxy);
 	filterAllTest = FilterAllOf<SceneArchetype, EmptyComponent>({ e1, e2 }, poolProxy);
@@ -53,6 +66,10 @@ anya::int32 main(int argc, wchar_t** argv)
 
 	poolProxy.Detach<SceneArchetype>(e2);
 	poolProxy.Remove<SceneArchetype>(e2);
+
+	// Meta-Component ID
+	constexpr auto id = QueryComponentID<SceneArchetype>();
+	constexpr auto subcomponentsID = AcquireSubComponentsFromArchetype(SceneArchetype());
 
 	auto app = std::make_unique<anya::Application>(TEXT("AnyaRenderer"), argc, argv);
 	std::wcout << app->Title() << std::endl;
