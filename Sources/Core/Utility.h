@@ -73,6 +73,12 @@ namespace sy::utils
     template <typename TupleT>
     constexpr bool is_tuple_contains_other_tuple_v = is_tuple_contains_other_tuple<TupleT>::value;
 
+    template <typename T, typename Key>
+    bool HasKey(const T& data, const Key& key)
+    {
+        return data.find(key) != data.end();
+    }
+
     /** Effective Modern C++ Items 10 */
     template <typename E>
     constexpr auto ToUnderlyingType(E enumerator) noexcept
