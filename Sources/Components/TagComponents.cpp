@@ -3,5 +3,5 @@
 
 namespace sy
 {
-    RegisterComponent(Renderable);
+    DefineComponent(Renderable);
 }

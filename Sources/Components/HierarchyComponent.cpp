@@ -3,5 +3,5 @@
 
 namespace sy
 {
-    RegisterComponent(HierarchyComponent);
+    DefineComponent(HierarchyComponent);
 }
