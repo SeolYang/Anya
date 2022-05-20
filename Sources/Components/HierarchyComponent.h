@@ -3,7 +3,7 @@
 
 namespace sy
 {
-	struct HierarchyComponent
+	struct HierarchyComponent : Component
 	{
 		Entity parentEntity = INVALID_ENTITY_HANDLE;
 	};

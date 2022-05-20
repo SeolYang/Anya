@@ -4,9 +4,4 @@
 
 namespace sy
 {
-    struct Renderable
-    {
-    };
-
-    DeclareComponent(Renderable);
 }
