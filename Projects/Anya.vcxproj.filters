@@ -105,6 +105,9 @@
     <ClCompile Include="..\Thirdparty\DirectXTex\includes\WICTextureLoader\WICTextureLoader.cpp">
       <Filter>Sources\Thirdparty\DirectXTex</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Components\TransformComponent.cpp">
+      <Filter>Sources\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -674,14 +677,14 @@
     <ClInclude Include="..\Sources\Core\TaskPool.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Math\Transform.h">
-      <Filter>Sources\Math</Filter>
-    </ClInclude>
     <ClInclude Include="..\Thirdparty\DirectXTex\includes\DDSTextureLoader\DDSTextureLoader.h">
       <Filter>Sources\Thirdparty\DirectXTex</Filter>
     </ClInclude>
     <ClInclude Include="..\Thirdparty\DirectXTex\includes\WICTextureLoader\WICTextureLoader.h">
       <Filter>Sources\Thirdparty\DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Components\TransformComponent.h">
+      <Filter>Sources\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
