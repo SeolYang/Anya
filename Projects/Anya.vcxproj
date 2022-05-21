@@ -30,6 +30,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Thirdparty\DirectXTex\includes\DDSTextureLoader\DDSTextureLoader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Thirdparty\DirectXTex\includes\WICTextureLoader\WICTextureLoader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -152,6 +160,8 @@
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.h" />
     <ClInclude Include="..\Thirdparty\d3dx12\includes\d3dx12.h" />
+    <ClInclude Include="..\Thirdparty\DirectXTex\includes\DDSTextureLoader\DDSTextureLoader.h" />
+    <ClInclude Include="..\Thirdparty\DirectXTex\includes\WICTextureLoader\WICTextureLoader.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imconfig.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_dx12.h" />
@@ -311,7 +321,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -338,7 +348,7 @@
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>

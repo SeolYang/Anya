@@ -54,6 +54,10 @@
 // DirectX Shader Compiler
 #include <dxcapi.h>
 
+// DirectXTex
+#include <WICTextureLoader/WICTextureLoader.h>
+#include <DDSTextureLoader/DDSTextureLoader.h>
+
 // Assimp
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
