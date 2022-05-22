@@ -1,4 +1,7 @@
 #pragma once
+#pragma warning(disable : 4127) /** https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4127?view=msvc-170 */
+#pragma warning(disable : 4324) /** https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4324?view=msvc-170 */
+
 /** WIN32 */
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -37,14 +40,21 @@
 #include <condition_variable>
 
 /** Thirdparty */
+#pragma warning(push)
+#pragma warning(disable:6387 26439 26495)
 #include <taskflow/taskflow.hpp>
+#pragma warning(pop)
 
 // Direct3D
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <dxgi.h>
 #include <dxgi1_6.h>
+
+#pragma warning(push)
+#pragma warning(disable:26812)
 #include <D3D12MemoryAllocator/D3D12MemAlloc.h>
+#pragma warning(pop)
 
 // DirectXMath : requires Windows 11 SDK(10.0.22000)+
 #include <DirectXMath.h>
@@ -55,17 +65,26 @@
 #include <dxcapi.h>
 
 // DirectXTex
+#pragma warning(push)
+#pragma warning(disable:26812)
 #include <WICTextureLoader/WICTextureLoader.h>
 #include <DDSTextureLoader/DDSTextureLoader.h>
+#pragma warning(pop)
 
 // Assimp
+#pragma warning(push)
+#pragma warning(disable:26451 26495 26812)
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#pragma warning(pop)
 
 // STB
 #define STB_IMAGE_IMPLEMENTATION
+#pragma warning(push)
+#pragma warning(disable:6262 26451)
 #include <stb/stb_image.h>
+#pragma warning(pop)
 
 #include <imgui/imgui.h>
 

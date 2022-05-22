@@ -1,5 +1,6 @@
 #include <PCH.h>
 #include <Core/Application.h>
+#include <Core/Exceptions.h>
 #include <Math/Math.h>
 
 namespace sy
