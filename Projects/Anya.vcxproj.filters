@@ -46,6 +46,9 @@
     <Filter Include="Sources\Thirdparty\DirectXTex">
       <UniqueIdentifier>{e937ab4e-b6ff-436c-9ef0-c111012d27b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Thirdparty\robin_hood">
+      <UniqueIdentifier>{6924b86c-c814-450a-993e-be5ff639dcb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -685,6 +688,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Components\TransformComponent.h">
       <Filter>Sources\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\robin_hood\includes\robin_hood\robin_hood.h">
+      <Filter>Sources\Thirdparty\robin_hood</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

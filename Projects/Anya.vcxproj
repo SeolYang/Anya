@@ -172,6 +172,7 @@
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_truetype.h" />
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.config.h" />
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.h" />
+    <ClInclude Include="..\Thirdparty\robin_hood\includes\robin_hood\robin_hood.h" />
     <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_connected_components.h" />
     <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_c_lexer.h" />
     <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_divide.h" />
@@ -322,7 +323,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -349,7 +350,7 @@
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
