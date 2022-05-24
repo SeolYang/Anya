@@ -186,6 +186,27 @@ namespace sy::utils
 
         return hash;
     }
+
+    /**
+    * Jenkins One At Time Hash
+    * https://en.wikipedia.org/wiki/Jenkins_hash_function
+    */
+    constexpr uint32_t JenkinsOneAtTimeHash(const char* key)
+    {
+        size_t idx = 0;
+        uint32_t hash = 0;
+        while (idx != sizeof(key))
+        {
+            hash += key[idx++];
+            hash += hash << 10;
+            hash += hash >> 6;
+        }
+
+        hash += hash << 3;
+        hash ^= hash >> 11;
+        hash += hash << 15;
+        return hash;
+    }
 }
 
 #define COMPILE_TIME_CRC32_STR(x) (anya::utils::_internal::CRC32<sizeof(x) - 2>(x) ^ 0xFFFFFFFF)
