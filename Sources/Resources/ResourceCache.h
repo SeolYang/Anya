@@ -1,6 +1,6 @@
 #pragma once
 #include <PCH.h>
-#include <Resources/Resource.h>
+#include <Resources/ResourceBase.h>
 
 namespace sy
 {
@@ -53,7 +53,7 @@ namespace sy
 
     private:
         std::mutex mutex;
-        robin_hood::unordered_map<fs::path, std::weak_ptr<Resource>> cache;
+        robin_hood::unordered_map<fs::path, std::weak_ptr<ResourceBase>> cache;
 
     };
 }

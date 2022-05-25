@@ -31,7 +31,6 @@
     <ClCompile Include="..\Sources\RHI\Device.cpp" />
     <ClCompile Include="..\Sources\RHI\Display.cpp" />
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
-    <ClCompile Include="..\Sources\RHI\StaticSampler.cpp" />
     <ClCompile Include="..\Sources\RHI\SwapChain.cpp" />
     <ClCompile Include="..\Sources\RHI\Viewport.cpp" />
     <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
@@ -91,7 +90,7 @@
     <ClInclude Include="..\Sources\Math\Math.h" />
     <ClInclude Include="..\Sources\PCH.h" />
     <ClInclude Include="..\Sources\Render\Renderer.h" />
-    <ClInclude Include="..\Sources\Resources\Resource.h" />
+    <ClInclude Include="..\Sources\Resources\ResourceBase.h" />
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Sources\RHI\Adapter.h" />
     <ClInclude Include="..\Sources\RHI\AdapterPatcher.h" />
@@ -101,7 +100,6 @@
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
-    <ClInclude Include="..\Sources\RHI\StaticSampler.h" />
     <ClInclude Include="..\Sources\RHI\SwapChain.h" />
     <ClInclude Include="..\Sources\RHI\Viewport.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />

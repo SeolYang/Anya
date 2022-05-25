@@ -3,9 +3,6 @@
 
 namespace sy
 {
-    using ResourcePtr = std::shared_ptr<class Resource>;
-    using ResourceUniquePtr = std::unique_ptr<class Resource>;
-
     enum class EResourceType
     {
         Image,
@@ -15,15 +12,15 @@ namespace sy
         Unknown
     };
 
-    class Resource
+    class ResourceBase
     {
     public:
-        Resource(const fs::path& path) noexcept : 
+        ResourceBase(const fs::path& path) noexcept :
             path(path)
         {
         }
 
-        virtual ~Resource() noexcept(false)
+        virtual ~ResourceBase() noexcept(false)
         {
             if (bIsLoaded)
             {
@@ -80,7 +77,7 @@ namespace sy
     template <typename T>
     concept ResourceType = requires
     {
-        std::is_base_of_v<Resource, T>;
+        std::is_base_of_v<ResourceBase, T>;
         T::StaticType();
     };
 }
