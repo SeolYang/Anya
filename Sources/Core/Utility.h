@@ -74,7 +74,7 @@ namespace sy::utils
     constexpr bool is_tuple_contains_other_tuple_v = is_tuple_contains_other_tuple<TupleT>::value;
 
     template <typename T, typename Key>
-    bool HasKey(const T& data, const Key& key)
+    bool HasKey(const T& data, const Key& key) noexcept
     {
         return data.find(key) != data.end();
     }

@@ -52,10 +52,9 @@ namespace sy
 				}
 			}
 
-			EventID ID() const { return id; }
-			bool IsAvailable() const { return parentSystem != nullptr && bIsSubscribed && parentSystem.Contains(id); }
-
-			EventSystem& ParentSystem() const { return parentSystem; }
+			EventID ID() const noexcept { return id; }
+			bool IsAvailable() const noexcept { return parentSystem != nullptr && bIsSubscribed && parentSystem.Contains(id); }
+			EventSystem& ParentSystem() const noexcept { return parentSystem; }
 
 		private:
 			Event(EventID id, EventSystem* parentSystem) :
@@ -82,7 +81,7 @@ namespace sy
 			return Event{ static_cast<EventID>(id), this };
 		}
 
-		bool Contains(EventID eventID) const
+		bool Contains(EventID eventID) const noexcept
 		{
 			return lut.find(eventID) != lut.end();
 		}

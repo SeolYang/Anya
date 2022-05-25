@@ -26,7 +26,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Sources\Resources\ResourceLoader.cpp" />
     <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -82,7 +81,8 @@
     <ClInclude Include="..\Sources\Graphics\DXErr.h" />
     <ClInclude Include="..\Sources\Math\Math.h" />
     <ClInclude Include="..\Sources\PCH.h" />
-    <ClInclude Include="..\Sources\Resources\ResourceLoader.h" />
+    <ClInclude Include="..\Sources\Resources\Resource.h" />
+    <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\anim.h" />

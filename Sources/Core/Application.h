@@ -16,7 +16,7 @@ namespace sy
 
         int32 Execute();
 
-        std::wstring_view Title() const { return title; }
+        std::wstring_view Title() const noexcept { return title; }
 
     private:
         std::wstring title;

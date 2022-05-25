@@ -96,9 +96,6 @@
     <ClCompile Include="..\Sources\Core\Application.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Resources\ResourceLoader.cpp">
-      <Filter>Sources\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\Graphics\DXErr.cpp">
       <Filter>Sources\Graphics</Filter>
     </ClCompile>
@@ -662,9 +659,6 @@
     <ClInclude Include="..\Sources\Core\Application.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Resources\ResourceLoader.h">
-      <Filter>Sources\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\Math\Math.h">
       <Filter>Sources\Math</Filter>
     </ClInclude>
@@ -991,6 +985,12 @@
     </ClInclude>
     <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\version.h">
       <Filter>Sources\Thirdparty\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Resources\Resource.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Resources\ResourceCache.h">
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

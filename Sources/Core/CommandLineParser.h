@@ -8,8 +8,8 @@ namespace sy
 	public:
 		CommandLineParser(int argc, wchar_t** argv);
 
-		inline std::filesystem::path ExecutablePath() const { return executablePath; }
-		inline bool ShouldEnableDebugLayer() const { return bShouldEnableDebugLayer; }
+		inline std::filesystem::path ExecutablePath() const  noexcept { return executablePath; }
+		inline bool ShouldEnableDebugLayer() const  noexcept { return bShouldEnableDebugLayer; }
 
 	private:
 		bool Argument(wchar_t* argument);
