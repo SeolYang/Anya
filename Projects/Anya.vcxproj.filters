@@ -117,22 +117,10 @@
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Buffer.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\RHI\CommandQueue.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Descriptor.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\RHI\DescriptorHeap.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\DescriptorRange.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\Device.cpp">
@@ -144,40 +132,10 @@
     <ClCompile Include="..\Sources\RHI\Fence.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Heap.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\InputLayout.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\PipelineState.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Resource.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\ResourceAllocator.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\RootParameter.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\RootSignature.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Sampler.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Shader.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\RHI\StaticSampler.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\SwapChain.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Texture.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\Viewport.cpp">
@@ -1073,31 +1031,13 @@
     <ClInclude Include="..\Sources\RHI\AdapterPatcher.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Buffer.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\ClearValue.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\CommandAllocator.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\CommandList.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\RHI\CommandQueue.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\DebugLayer.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Descriptor.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\RHI\DescriptorHeap.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\DescriptorRange.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\Device.h">
@@ -1109,40 +1049,10 @@
     <ClInclude Include="..\Sources\RHI\Fence.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Heap.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\InputLayout.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\PipelineState.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Resource.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\ResourceAllocator.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\RootParameter.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\RootSignature.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Sampler.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Shader.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\RHI\StaticSampler.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\SwapChain.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Texture.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\Viewport.h">
