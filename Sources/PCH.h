@@ -92,6 +92,12 @@
 // robin_hood
 #include <robin_hood/robin_hood.h>
 
+// SPDLOG
+#pragma warning(push)
+#pragma warning(disable:4819 6285 26437 26451 26498 26800)
+#include <spdlog/spdlog.h>
+#pragma warning(pop)
+
 namespace sy
 {
     namespace fs = std::filesystem;

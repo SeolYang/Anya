@@ -173,6 +173,105 @@
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.config.h" />
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.h" />
     <ClInclude Include="..\Thirdparty\robin_hood\includes\robin_hood\robin_hood.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\async.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\async_logger-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\async_logger.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\cfg\argv.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\cfg\env.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\cfg\helpers-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\cfg\helpers.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\common-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\common.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\backtracer-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\backtracer.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\circular_q.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\console_globals.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\file_helper-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\file_helper.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\fmt_helper.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\log_msg-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\log_msg.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\log_msg_buffer-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\log_msg_buffer.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\mpmc_blocking_q.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\null_mutex.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\os-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\os.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\periodic_worker-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\periodic_worker.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\registry-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\registry.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\synchronous_factory.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\tcp_client-windows.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\tcp_client.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\thread_pool-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\thread_pool.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\udp_client-windows.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\udp_client.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\details\windows_include.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bin_to_hex.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\args.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\chrono.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\color.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\compile.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\core.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\format-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\locale.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\os.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\ranges.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\bundled\xchar.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\chrono.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\compile.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\fmt.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\ostr.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\ranges.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fmt\xchar.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\formatter.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\fwd.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\logger-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\logger.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\pattern_formatter-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\pattern_formatter.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\ansicolor_sink-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\base_sink-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\basic_file_sink-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\basic_file_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\daily_file_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\dup_filter_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\hourly_file_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\mongo_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\qt_sinks.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\ringbuffer_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\rotating_file_sink-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\rotating_file_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\sink-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\stdout_color_sinks-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\stdout_sinks-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\systemd_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\tcp_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\udp_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\wincolor_sink-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\sinks\win_eventlog_sink.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\spdlog-inl.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\spdlog.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\stopwatch.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\tweakme.h" />
+    <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\version.h" />
     <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_connected_components.h" />
     <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_c_lexer.h" />
     <ClInclude Include="..\Thirdparty\stb\includes\stb\stb_divide.h" />
@@ -323,7 +422,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -350,7 +449,7 @@
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
