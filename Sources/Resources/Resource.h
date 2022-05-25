@@ -11,7 +11,6 @@ namespace sy
         Image,
         Model,
         Text,
-        Shader,
         Audio,
         Unknown
     };

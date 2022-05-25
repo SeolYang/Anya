@@ -40,9 +40,6 @@
     <Filter Include="Sources\Math">
       <UniqueIdentifier>{89399a29-6d78-4b87-97fd-0227231f356f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Graphics">
-      <UniqueIdentifier>{6c8764cf-784a-4db6-a269-20ff16ce9a72}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Thirdparty\DirectXTex">
       <UniqueIdentifier>{e937ab4e-b6ff-436c-9ef0-c111012d27b4}</UniqueIdentifier>
     </Filter>
@@ -51,6 +48,12 @@
     </Filter>
     <Filter Include="Sources\Thirdparty\spdlog">
       <UniqueIdentifier>{8b5b349e-34eb-45c2-b482-65f56ae4d15c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\RHI">
+      <UniqueIdentifier>{9e3e2154-8880-46d2-bc85-a83fcc6eda77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Render">
+      <UniqueIdentifier>{d10de36f-1a09-4754-88eb-32c4a596863b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +99,6 @@
     <ClCompile Include="..\Sources\Core\Application.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Graphics\DXErr.cpp">
-      <Filter>Sources\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\Core\Exceptions.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
@@ -110,6 +110,84 @@
     </ClCompile>
     <ClCompile Include="..\Sources\Components\TransformComponent.cpp">
       <Filter>Sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Adapter.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Buffer.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\CommandQueue.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Descriptor.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\DescriptorHeap.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\DescriptorRange.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Device.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Display.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Fence.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Heap.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\InputLayout.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\PipelineState.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Resource.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\ResourceAllocator.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\RootParameter.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\RootSignature.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Sampler.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Shader.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\StaticSampler.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\SwapChain.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Texture.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Viewport.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Core\DXErr.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Render\Renderer.cpp">
+      <Filter>Sources\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -668,9 +746,6 @@
     <ClInclude Include="..\Sources\Core\Exceptions.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Graphics\DXErr.h">
-      <Filter>Sources\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\Core\EventSystem.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
@@ -991,6 +1066,96 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Resources\ResourceCache.h">
       <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Adapter.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\AdapterPatcher.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Buffer.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\ClearValue.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\CommandAllocator.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\CommandList.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\CommandQueue.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\DebugLayer.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Descriptor.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\DescriptorHeap.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\DescriptorRange.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Device.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Display.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Fence.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Heap.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\InputLayout.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\PipelineState.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Resource.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\ResourceAllocator.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\RootParameter.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\RootSignature.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Sampler.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Shader.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\StaticSampler.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\SwapChain.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Texture.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Viewport.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\DXErr.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Math\Dimension.h">
+      <Filter>Sources\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Render\Renderer.h">
+      <Filter>Sources\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -117,5 +117,8 @@ namespace sy
     using float64 = double;
 
     template <typename T>
+    using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+    template <typename T>
     using OptionalRef = std::optional<std::reference_wrapper<T>>;
 }

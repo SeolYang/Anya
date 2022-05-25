@@ -1,6 +1,6 @@
 #pragma once
 #include <PCH.h>
-#include <Graphics/DXErr.h>
+#include <Core/DXErr.h>
 
 namespace sy
 {
