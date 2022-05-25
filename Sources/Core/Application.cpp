@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
+#include <Framework/Scene.h>
 #include <Math/Math.h>
 
 namespace sy
@@ -18,12 +19,20 @@ namespace sy
     }
 
     Application::Application(std::wstring_view title, int32 argc, wchar_t** argv) :
+        componentArchive(ComponentArchive::Instance()),
         title(title),
         cmdLineParser({argc, argv})
     {
         CreateAppWindow();
         renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
-        
+        LoadScene(EDefaultScenes::Basic);
+    }
+
+    Application::~Application()
+    {
+        renderer.reset();
+        scene.reset();
+        componentArchive.DestroyInstance();
     }
 
     int32 Application::Execute()
@@ -55,6 +64,24 @@ namespace sy
         }
 
         return 0;
+    }
+
+    void Application::LoadScene(const EDefaultScenes defaultScene)
+    {
+        if (scene != nullptr)
+        {
+            scene.reset();
+        }
+
+        switch (defaultScene)
+        {
+        default:
+        case EDefaultScenes::Basic:
+            scene = std::make_unique<Scene>(componentArchive);
+            break;
+        }
+
+        scene->Init();
     }
 
     void Application::CreateAppWindow()

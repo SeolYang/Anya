@@ -18,6 +18,7 @@
     <ClCompile Include="..\Sources\Core\CommandLineParser.cpp" />
     <ClCompile Include="..\Sources\Core\DXErr.cpp" />
     <ClCompile Include="..\Sources\Core\Exceptions.cpp" />
+    <ClCompile Include="..\Sources\Framework\Scene.cpp" />
     <ClCompile Include="..\Sources\main.cpp" />
     <ClCompile Include="..\Sources\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -86,6 +87,7 @@
     <ClInclude Include="..\Sources\Core\Exceptions.h" />
     <ClInclude Include="..\Sources\Core\TaskPool.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />
+    <ClInclude Include="..\Sources\Framework\Scene.h" />
     <ClInclude Include="..\Sources\Math\Dimension.h" />
     <ClInclude Include="..\Sources\Math\Math.h" />
     <ClInclude Include="..\Sources\PCH.h" />

@@ -55,6 +55,9 @@
     <Filter Include="Sources\Render">
       <UniqueIdentifier>{d10de36f-1a09-4754-88eb-32c4a596863b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Framework">
+      <UniqueIdentifier>{8fc9c471-c1ad-4eb2-baaf-04d809b74b9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -143,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="..\Sources\Render\Renderer.cpp">
       <Filter>Sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Framework\Scene.cpp">
+      <Filter>Sources\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1060,6 +1066,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Render\Renderer.h">
       <Filter>Sources\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Framework\Scene.h">
+      <Filter>Sources\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

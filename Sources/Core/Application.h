@@ -6,11 +6,17 @@
 
 namespace sy
 {
+    enum class EDefaultScenes
+    {
+        Basic, /* Empty Scene */
+    };
+
+    class Scene;
     class Application
     {
     public:
         Application(std::wstring_view title, int32 argc, wchar_t** argv);
-        virtual ~Application() = default;
+        virtual ~Application();
 
         Application(const Application&) = delete;
         Application(Application&&) = delete;
@@ -20,6 +26,8 @@ namespace sy
         std::wstring_view Title() const noexcept { return title; }
 
         inline void Close() { bShouldClose = true; }
+
+        void LoadScene(const EDefaultScenes defaultScene);
 
     private:
         void CreateAppWindow();
@@ -32,7 +40,9 @@ namespace sy
         std::wstring title;
 
         CommandLineParser cmdLineParser;
+        ComponentArchive& componentArchive;
         std::unique_ptr<Renderer> renderer;
+        std::unique_ptr<Scene> scene;
 
     };
 }

@@ -5,7 +5,15 @@ namespace sy
 {
 	struct HierarchyComponent : Component
 	{
-		Entity parentEntity = INVALID_ENTITY_HANDLE;
+	public:
+		HierarchyComponent(const Entity parent = INVALID_ENTITY_HANDLE) :
+			Parent(parent)
+		{
+		}
+
+	public:
+		Entity Parent;
+
 	};
 
 	DeclareComponent(HierarchyComponent);
