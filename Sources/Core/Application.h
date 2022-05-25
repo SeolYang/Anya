@@ -30,6 +30,7 @@ namespace sy
         void LoadScene(const EDefaultScenes defaultScene);
 
     private:
+        void CreateLogger();
         void CreateAppWindow();
         void DestroyAppWindow();
 
@@ -39,6 +40,7 @@ namespace sy
         WNDCLASSEX windowClass;
         std::wstring title;
 
+        std::unique_ptr<spdlog::logger> logger;
         CommandLineParser cmdLineParser;
         ComponentArchive& componentArchive;
         std::unique_ptr<Renderer> renderer;

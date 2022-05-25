@@ -8,8 +8,8 @@
 
 sy::int32 main(int argc, wchar_t** argv)
 {
+
 	using namespace sy;
-	auto app = std::make_unique<Application>(TEXT("AnyaRenderer"), argc, argv);
-	std::wcout << app->Title() << std::endl;
+	auto app = std::make_unique<Application>(TEXT("Anya"), argc, argv);
 	return app->Execute();
 }

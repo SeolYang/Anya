@@ -96,6 +96,7 @@
 #pragma warning(push)
 #pragma warning(disable:4819 6285 26437 26451 26498 26800)
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
 #pragma warning(pop)
 
 namespace sy
@@ -118,6 +119,8 @@ namespace sy
 
     template <typename T>
     using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+    using Logger = spdlog::logger;
 
     template <typename T>
     using OptionalRef = std::optional<std::reference_wrapper<T>>;

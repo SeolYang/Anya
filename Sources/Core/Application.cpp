@@ -23,16 +23,20 @@ namespace sy
         title(title),
         cmdLineParser({argc, argv})
     {
+        CreateLogger();
         CreateAppWindow();
-        renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
+        renderer = std::make_unique<Renderer>(*logger, windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);
     }
 
     Application::~Application()
     {
-        renderer.reset();
         scene.reset();
+        renderer.reset();
         componentArchive.DestroyInstance();
+        DestroyAppWindow();
+
+        logger.reset();
     }
 
     int32 Application::Execute()
@@ -77,15 +81,35 @@ namespace sy
         {
         default:
         case EDefaultScenes::Basic:
-            scene = std::make_unique<Scene>(componentArchive);
+            logger->info("Loading Basic Scene...");
+            scene = std::make_unique<Scene>(*logger, componentArchive);
             break;
         }
 
         scene->Init();
     }
 
+    void Application::CreateLogger()
+    {
+        const auto currentTime = std::chrono::system_clock::now();
+        const auto localTime = std::chrono::current_zone()->to_local(currentTime);
+        const std::string fileName = std::format("LOG_{:%F %H %M %S}.txt", localTime);
+
+        fs::path logFilePath = "Logs";
+        logFilePath /= fileName;
+        auto consoleSink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+        auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(utils::WStringToAnsi(logFilePath.c_str()), true);
+
+        const auto sinksInitList = { 
+            std::static_pointer_cast<spdlog::sinks::sink>(consoleSink),
+            std::static_pointer_cast<spdlog::sinks::sink>(fileSink) };
+        logger = std::make_unique<spdlog::logger>("Anya", sinksInitList);
+        logger->info("Logger Initialized.");
+    }
+
     void Application::CreateAppWindow()
     {
+        logger->info("Creating Application window...");
         windowClass = {
             sizeof(WNDCLASSEX),
             CS_CLASSDC,
@@ -104,11 +128,14 @@ namespace sy
 
         ShowWindow(windowHandle, SW_SHOWDEFAULT);
         UpdateWindow(windowHandle);
+        logger->info("Application window created.");
     }
 
     void Application::DestroyAppWindow()
     {
+        logger->info("Destroying Application window...");
         DestroyWindow(windowHandle);
         UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
+        logger->info("Application window destroyed.");
     }
 }

@@ -5,10 +5,11 @@
 namespace sy
 {
     class Model;
+    enum class ESkyType;
     class Scene
     {
     public:
-        Scene(ComponentArchive& componentArchive) noexcept;
+        Scene(Logger& logger, ComponentArchive& componentArchive) noexcept;
         virtual ~Scene() noexcept(false);
 
         Entity CreateSceneEntity(const Entity parent = INVALID_ENTITY_HANDLE);
@@ -16,16 +17,28 @@ namespace sy
         Entity CreateSkeletalMesh(std::weak_ptr<Model> model);
         Entity CreateLight();
         Entity CreateCamera();
-        Entity CreateSky();
+        Entity CreateSky(ESkyType);
 
-        void Init() { Init_Internal(); }
+        void Init()
+        { 
+            logger.info("Initializing Scene...");
+            if (Init_Internal())
+            {
+                logger.info("Scene Initialized.");
+            }
+            else
+            {
+                logger.error("Failed to initialize Scene.");
+            }
+        }
 
         const std::vector<Entity>& Entities() const noexcept { return entities; }
 
     protected:
-        virtual void Init_Internal() { };
+        virtual bool Init_Internal() { return true; };
 
     private:
+        Logger& logger;
         ComponentArchive& componentArchive;
         std::vector<Entity> entities;
 
