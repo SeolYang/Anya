@@ -153,6 +153,9 @@
     <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\RHIResource.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1025,7 +1028,7 @@
     <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\version.h">
       <Filter>Sources\Thirdparty\spdlog</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Resources\ResourceBase.h">
+    <ClInclude Include="..\Sources\Resources\Resource.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Resources\ResourceCache.h">
@@ -1064,7 +1067,7 @@
     <ClInclude Include="..\Sources\Core\DXErr.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Math\Dimension.h">
+    <ClInclude Include="..\Sources\Math\Dimensions.h">
       <Filter>Sources\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Render\Renderer.h">
@@ -1080,6 +1083,9 @@
       <Filter>Sources\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\CommandAllocator.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\RHIResource.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,16 +1,16 @@
 #pragma once
 #include <PCH.h>
-#include <RHI/DebugLayer.h>
+#include <Math/Dimensions.h>
 #include <RHI/AdapterPatcher.h>
-#include <RHI/Device.h>
-#include <RHI/CommandQueue.h>
-#include <RHI/SwapChain.h>
-#include <RHI/DescriptorHeap.h>
-#include <Math/Dimension.h>
 
 namespace sy
 {
 	class CommandLineParser;
+	class Device;
+	class CommandQueue;
+	class DirectCommandQueue;
+	class SwapChain;
+	class RTDescriptorHeap;
 	class Renderer
 	{
 	public:
@@ -20,11 +20,11 @@ namespace sy
 
 	private:
 		AdapterPatcher adapterPatcher;
-		Dimension renderResolution;
+		Dimensions renderResolution;
 		std::unique_ptr<Device> device;
-		std::unique_ptr<CommandQueue> graphicsCommandQueue;
+		std::unique_ptr<DirectCommandQueue> graphicsCommandQueue;
 		std::unique_ptr<SwapChain> swapChain;
-		std::unique_ptr<DescriptorHeap> backBuffersDescriptorHeap;
+		std::unique_ptr<RTDescriptorHeap> backBuffersDescriptorHeap;
 
 	};
 }

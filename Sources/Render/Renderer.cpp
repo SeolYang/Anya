@@ -2,6 +2,11 @@
 #include <Render/Renderer.h>
 #include <Core/CommandLineParser.h>
 #include <Core/EngineModuleMediator.h>
+#include <RHI/DebugLayer.h>
+#include <RHI/Device.h>
+#include <RHI/CommandQueue.h>
+#include <RHI/SwapChain.h>
+#include <RHI/DescriptorHeap.h>
 
 namespace sy
 {
@@ -19,9 +24,9 @@ namespace sy
 
 		logger.info("Initializing Renderer...");
 		device = std::make_unique<Device>(adapterPatcher[0]);
-		graphicsCommandQueue = std::make_unique<CommandQueue>(*device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		graphicsCommandQueue = std::make_unique<DirectCommandQueue>(*device);
+		backBuffersDescriptorHeap = std::make_unique<RTDescriptorHeap>(*device, static_cast<uint32_t>(swapChain->NumBackBuffer()));
 		swapChain = std::make_unique<SwapChain>(adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, 2, false);
-		backBuffersDescriptorHeap = std::make_unique<DescriptorHeap>(*device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, static_cast<uint32_t>(swapChain->NumBackBuffer()));
 		logger.info("Renderer Initialized.");
 	}
 

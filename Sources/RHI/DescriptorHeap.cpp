@@ -36,20 +36,24 @@ namespace sy
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, cbvCapacity + srvCapacity + uavCapacity),
 		descriptorCapacities({cbvCapacity, srvCapacity, uavCapacity})
 	{
+		SetDebugName(TEXT("CB_SR_UA DescriporHeap"));
 	}
 
 	SamplerDescriptorHeap::SamplerDescriptorHeap(const Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, capacity)
 	{
+		SetDebugName(TEXT("Sampler DescriporHeap"));
 	}
 
 	DSDescriptorHeap::DSDescriptorHeap(const Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, capacity)
 	{
+		SetDebugName(TEXT("Depth-Stencil DescriporHeap"));
 	}
 
 	RTDescriptorHeap::RTDescriptorHeap(const Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, capacity)
 	{
+		SetDebugName(TEXT("RenderTarget DescriporHeap"));
 	}
 }

@@ -59,6 +59,6 @@ namespace sy
 	CopyCommandQueue::CopyCommandQueue(const Device& device) :
 		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_COPY)
 	{
-		SetDebugName(TEXT("CopyQueue"));
+		SetDebugName(TEXT("CopyCommandQueue"));
 	}
 }
