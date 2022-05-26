@@ -140,7 +140,9 @@ namespace sy
 			return (*this);
 		}
 
-		/** Return index of allocation */
+		/**
+		* @brief Return index of allocation
+		*/
 		size_t Allocate()
 		{
 			assert(!IsFull());
@@ -149,12 +151,12 @@ namespace sy
 			return alloc;
 		}
 
-		/** Return moved allocation, only if return 0 when numOfAllocation is 1 */
+		/** 
+		* @brief Return moved allocation, only if return 0 when numOfAllocation is 1
+		*/
 		void Deallocate(size_t at)
 		{
 			assert(at < MaxNumOfAllocations());
-			//assert((std::find(allocationPool.cbegin(), allocationPool.cend(), at) == allocationPool.cend()));
-			//allocationPool.push_back(at);
 			allocationPool.push(at);
 		}
 
@@ -243,7 +245,10 @@ namespace sy
 			return (*this);
 		}
 
-		/** It doesn't call anyof constructor. */
+		/**
+		* @brief	Create new allocation from free chunk.
+		* @warn		It doesn't call any constructor. 
+		*/
 		Allocation Create()
 		{
 			assert(sizeOfData > 0);
@@ -263,7 +268,10 @@ namespace sy
 			};
 		}
 
-		/** It doesn't call anyof destructor. */
+		/**
+		* @brief	Destroy allocation.
+		* @warn		It doesn't call any destructor.
+		*/
 		void Destroy(const Allocation allocation)
 		{
 			assert(!allocation.IsFailedToAllocate());

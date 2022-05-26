@@ -4,7 +4,9 @@
 namespace sy
 {
     class ComponentArchive;
-    /** Engine Module Mediator */
+    /** 
+    * @brief Engine Module Mediator
+    */
     class EngineModuleMediator
     {
     public:

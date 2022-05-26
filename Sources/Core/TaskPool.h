@@ -52,7 +52,9 @@ namespace sy
             }
         }
 
-        /** ExecuteTask method will excutes 'callables' concurrently. */
+        /**
+        * @brief ExecuteTask method will excutes 'callables' concurrently.
+        */
         template <typename Callable, typename... Args>
         auto ExecuteTask(Callable&& callable, Args&&... args)
         {
@@ -70,9 +72,10 @@ namespace sy
             return future;
         }
 
-        /** AddDeferredTask method will excute 'callables' in single thread as serially.*/
-        /** But it is still concurrent to other threads.*/
-        /** Must call 'ExecuteDeferredTask' method before use future object that was created from 'AddDeferredTask' method.*/
+        /**
+        * @brief AddDeferredTask method will excute 'callables' in single thread as serially. But it is still concurrent to other threads.
+        * And also must call 'ExecuteDeferredTask' method before use future object that was created from 'AddDeferredTask' method.
+        */
         template <typename Callable, typename... Args>
         auto AddDeferredTask(Callable&& callable, Args&&... args)
         {

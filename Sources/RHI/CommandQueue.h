@@ -24,6 +24,9 @@ namespace sy
 
 	};
 
+	/**
+	* @brief This type of command queue can be used to execute draw, compute and copy commands.
+	*/
 	class DirectCommandQueue : public CommandQueue
 	{
 	public:
@@ -38,6 +41,9 @@ namespace sy
 
 	};
 
+	/**
+	* @brief This type of command queue can be used to execute compute and copy commands.
+	*/
 	class ComputeCommandQueue : public CommandQueue
 	{
 	public:
@@ -45,6 +51,9 @@ namespace sy
 
 	};
 
+	/**
+	* @brief This type of command queue can be used to execut only copy commands.
+	*/
 	class CopyCommandQueue : public CommandQueue
 	{
 	public:

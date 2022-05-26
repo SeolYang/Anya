@@ -150,6 +150,9 @@
     <ClCompile Include="..\Sources\Framework\Scene.cpp">
       <Filter>Sources\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1075,6 +1078,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\EngineModuleMediator.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\CommandAllocator.h">
+      <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

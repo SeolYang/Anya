@@ -72,7 +72,9 @@ namespace sy
 		};
 
 	public:
-		/** Becareful with lambda which capture the (this) pointer in object. */
+		/**
+		* @brief Becareful with lambda which captured the (this) pointer in object.
+		*/
 		Event Subscribe(Callable e)
 		{
 			static auto id = utils::ToUnderlyingType(INVALID_EVENT_ID);

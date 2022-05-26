@@ -12,7 +12,7 @@ namespace sy
 		Logger& logger = EngineModuleMediator::LoggerModule();
 		logger.info("Creating RHI Device...");
 
-		D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_1;
+		D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_2;
 		DXCall(D3D12CreateDevice(adapter.D3DAdapter(), featureLevel, IID_PPV_ARGS(&device)));
 
 #if (defined(DEBUG) || defined(_DEBUG)) && !FORCE_DISABLE_DEBUG_LAYER

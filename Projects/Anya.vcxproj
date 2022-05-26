@@ -27,6 +27,7 @@
     <ClCompile Include="..\Sources\Render\Renderer.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
+    <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandQueue.cpp" />
     <ClCompile Include="..\Sources\RHI\DescriptorHeap.cpp" />
     <ClCompile Include="..\Sources\RHI\Device.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Sources\RHI\Adapter.h" />
     <ClInclude Include="..\Sources\RHI\AdapterPatcher.h" />
+    <ClInclude Include="..\Sources\RHI\CommandAllocator.h" />
     <ClInclude Include="..\Sources\RHI\CommandQueue.h" />
     <ClInclude Include="..\Sources\RHI\DebugLayer.h" />
     <ClInclude Include="..\Sources\RHI\DescriptorHeap.h" />

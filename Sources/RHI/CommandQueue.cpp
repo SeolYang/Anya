@@ -10,7 +10,7 @@ namespace sy
 	{
 		D3D12_COMMAND_QUEUE_DESC desc = {
 			.Type = type,
-			.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL,
+			.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL, /* @TODO Should i make able to customize command queue priority? */
 			.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE,
 			.NodeMask = device.NodeMask()
 		};
