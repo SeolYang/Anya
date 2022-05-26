@@ -83,6 +83,7 @@
     <ClInclude Include="..\Sources\Core\CommandLineParser.h" />
     <ClInclude Include="..\Sources\Core\DXErr.h" />
     <ClInclude Include="..\Sources\Core\ECS.h" />
+    <ClInclude Include="..\Sources\Core\EngineModuleMediator.h" />
     <ClInclude Include="..\Sources\Core\EventSystem.h" />
     <ClInclude Include="..\Sources\Core\Exceptions.h" />
     <ClInclude Include="..\Sources\Core\TaskPool.h" />
@@ -102,7 +103,6 @@
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
-    <ClInclude Include="..\Sources\RHI\InfoQueue.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\SwapChain.h" />
     <ClInclude Include="..\Sources\RHI\Viewport.h" />

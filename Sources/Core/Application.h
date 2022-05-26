@@ -1,8 +1,6 @@
 #pragma once
 #include <PCH.h>
 #include <Core/CommandLineParser.h>
-#include <Core/ECS.h>
-#include <Render/Renderer.h>
 
 namespace sy
 {
@@ -12,6 +10,9 @@ namespace sy
     };
 
     class Scene;
+    class Renderer;
+    class ComponentArchive;
+    class EngineModuleMediator;
     class Application
     {
     public:
@@ -40,9 +41,10 @@ namespace sy
         WNDCLASSEX windowClass;
         std::wstring title;
 
-        std::unique_ptr<spdlog::logger> logger;
         CommandLineParser cmdLineParser;
+        std::unique_ptr<spdlog::logger> logger;
         ComponentArchive& componentArchive;
+        std::unique_ptr<EngineModuleMediator> engineModuleMediator;
         std::unique_ptr<Renderer> renderer;
         std::unique_ptr<Scene> scene;
 

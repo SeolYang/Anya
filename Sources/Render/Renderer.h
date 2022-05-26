@@ -14,12 +14,11 @@ namespace sy
 	class Renderer
 	{
 	public:
-		Renderer(Logger& logger, HWND windowHandle, const CommandLineParser& commandLineParser);
+		Renderer(HWND windowHandle, const CommandLineParser& commandLineParser);
 
 		void Render();
 
 	private:
-		Logger& logger;
 		AdapterPatcher adapterPatcher;
 		Dimension renderResolution;
 		std::unique_ptr<Device> device;

@@ -1,6 +1,8 @@
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
+#include <Core/EngineModuleMediator.h>
+#include <Render/Renderer.h>
 #include <Framework/Scene.h>
 #include <Math/Math.h>
 
@@ -24,8 +26,9 @@ namespace sy
         cmdLineParser({argc, argv})
     {
         CreateLogger();
+        engineModuleMediator = std::make_unique<EngineModuleMediator>(*logger, componentArchive);
         CreateAppWindow();
-        renderer = std::make_unique<Renderer>(*logger, windowHandle, cmdLineParser);
+        renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);
     }
 
@@ -33,9 +36,10 @@ namespace sy
     {
         scene.reset();
         renderer.reset();
+        engineModuleMediator.reset();
         componentArchive.DestroyInstance();
-        DestroyAppWindow();
 
+        DestroyAppWindow();
         logger.reset();
     }
 
@@ -82,7 +86,7 @@ namespace sy
         default:
         case EDefaultScenes::Basic:
             logger->info("Loading Basic Scene...");
-            scene = std::make_unique<Scene>(*logger, componentArchive);
+            scene = std::make_unique<Scene>(componentArchive);
             break;
         }
 
@@ -93,7 +97,7 @@ namespace sy
     {
         const auto currentTime = std::chrono::system_clock::now();
         const auto localTime = std::chrono::current_zone()->to_local(currentTime);
-        const std::string fileName = std::format("LOG_{:%F %H %M %S}.txt", localTime);
+        const std::string fileName = std::format("LOG_{:%F %H %M %S}.log", localTime);
 
         fs::path logFilePath = "Logs";
         logFilePath /= fileName;

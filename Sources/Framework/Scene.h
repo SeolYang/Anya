@@ -1,6 +1,7 @@
 #pragma once
 #include <PCH.h>
 #include <Core/ECS.h>
+#include <Core/EngineModuleMediator.h>
 
 namespace sy
 {
@@ -9,7 +10,7 @@ namespace sy
     class Scene
     {
     public:
-        Scene(Logger& logger, ComponentArchive& componentArchive) noexcept;
+        Scene(ComponentArchive& componentArchive) noexcept;
         virtual ~Scene() noexcept(false);
 
         Entity CreateSceneEntity(const Entity parent = INVALID_ENTITY_HANDLE);
@@ -21,6 +22,7 @@ namespace sy
 
         void Init()
         { 
+            Logger& logger = EngineModuleMediator::LoggerModule();
             logger.info("Initializing Scene...");
             if (Init_Internal())
             {
@@ -38,7 +40,6 @@ namespace sy
         virtual bool Init_Internal() { return true; };
 
     private:
-        Logger& logger;
         ComponentArchive& componentArchive;
         std::vector<Entity> entities;
 

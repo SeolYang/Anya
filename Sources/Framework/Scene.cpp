@@ -6,8 +6,7 @@
 
 namespace sy
 {
-    Scene::Scene(Logger& logger, ComponentArchive& componentArchive) noexcept :
-        logger(logger),
+    Scene::Scene(ComponentArchive& componentArchive) noexcept :
         componentArchive(componentArchive)
     {
     }
@@ -37,6 +36,7 @@ namespace sy
         componentArchive.Attach<HierarchyComponent>(newEntity, parent);
         componentArchive.Attach<TransformComponent>(newEntity);
 
+        Logger& logger = EngineModuleMediator::LoggerModule();
         logger.info("Scene Entity %d created in scene.", utils::ToUnderlyingType(newEntity));
         return newEntity;
     }

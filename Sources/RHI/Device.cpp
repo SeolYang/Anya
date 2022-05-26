@@ -9,8 +9,15 @@ namespace sy
 	{
 		D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_1;
 		DXCall(D3D12CreateDevice(adapter.D3DAdapter(), featureLevel, IID_PPV_ARGS(&device)));
+
+#if defined(DEBUG) || defined(_DEBUG)
+		if (SUCCEEDED(device.As(&infoQueue)))
+		{
+
+		}
+#endif
+
 		SetDebugName(TEXT("Device"));
-		// Debug Device?
 	}
 
 	void Device::SetDebugName(const std::wstring_view debugName)

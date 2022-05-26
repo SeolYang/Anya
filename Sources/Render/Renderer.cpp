@@ -1,14 +1,15 @@
 #include <PCH.h>
 #include <Render/Renderer.h>
 #include <Core/CommandLineParser.h>
+#include <Core/EngineModuleMediator.h>
 
 namespace sy
 {
-	Renderer::Renderer(Logger& logger, HWND windowHandle, const CommandLineParser& commandLineParser) :
-		logger(logger),
+	Renderer::Renderer(HWND windowHandle, const CommandLineParser& commandLineParser) :
 		adapterPatcher(commandLineParser),
 		renderResolution({ 1280, 720 })
 	{
+		Logger& logger = EngineModuleMediator::LoggerModule();
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
 			logger.info("Trying to enable DX12 debug layer...");

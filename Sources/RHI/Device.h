@@ -16,6 +16,7 @@ namespace sy
 
 	private:
 		ComPtr<ID3D12Device8> device;
+		ComPtr<ID3D12InfoQueue> infoQueue;
 		UINT nodeMask = 0;
 
 	};
