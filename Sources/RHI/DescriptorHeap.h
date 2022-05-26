@@ -15,6 +15,8 @@ namespace sy
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
+		inline size_t Capacity() const noexcept { return capacity; }
+
 	private:
 		ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 		size_t unitDescriptorSize;
