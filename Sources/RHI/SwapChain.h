@@ -1,5 +1,6 @@
 #pragma once
 #include <PCH.h>
+#include <RHI/RHI.h>
 #include <RHI/Device.h>
 #include <Math/Dimension.h>
 
@@ -7,7 +8,7 @@ namespace sy
 {
 	class Display;
 	class CommandQueue;
-	class SwapChain
+	class SwapChain : public RHIObject
 	{
 	public:
 		SwapChain(
@@ -20,9 +21,9 @@ namespace sy
 
 		void Present();
 
-		std::vector<ComPtr<ID3D12Resource2>>& BackBuffers() { return backBuffers; }
-		auto NumBackBuffer() const { return backBuffers.size(); }
-		IDXGISwapChain4* D3DSwapChain() const { return swapChain.Get(); }
+		std::vector<ComPtr<ID3D12Resource2>>& BackBuffers() noexcept { return backBuffers; }
+		auto NumBackBuffer() const noexcept { return backBuffers.size(); }
+		IDXGISwapChain4* D3DSwapChain() const noexcept { return swapChain.Get(); }
 
 	private:
 		void ConstructSwapChain(DXGI_SWAP_CHAIN_DESC1 desc);

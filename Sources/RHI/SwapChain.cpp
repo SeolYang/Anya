@@ -25,6 +25,7 @@ namespace sy
 
 		ConstructSwapChain(desc);
 		swapChain->SetColorSpace1(display.ColorSpace());
+		SetDebugName(TEXT("SwapChain"));
 	}
 
 	void SwapChain::Present()

@@ -35,5 +35,7 @@ namespace sy
 			DXCall(output6->GetDesc1(&desc));
 			displays.emplace_back(desc);
 		}
+
+		SetDebugName(TEXT("Adapter"));
 	}
 }

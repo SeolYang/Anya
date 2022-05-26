@@ -11,6 +11,7 @@ namespace sy
 		minDepth(minDepth),
 		maxDepth(maxDepth)
 	{
+		SetDebugName(TEXT("Viewport"));
 	}
 
 }

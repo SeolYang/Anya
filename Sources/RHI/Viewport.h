@@ -1,14 +1,15 @@
 #pragma once
 #include <PCH.h>
+#include <RHI/RHI.h>
 
 namespace sy
 {
-	class Viewport
+	class Viewport : public RHIObject
 	{
 	public:
 		Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
 
-		inline auto D3DViewport() const
+		inline auto D3DViewport() const noexcept
 		{
 			return D3D12_VIEWPORT{
 				.TopLeftX = topLeftX,

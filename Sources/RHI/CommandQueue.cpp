@@ -16,6 +16,7 @@ namespace sy
 		};
 
 		DXCall(device.D3DDevice()->CreateCommandQueue(&desc, IID_PPV_ARGS(&queue)));
+		SetDebugName(TEXT("CommandQueue"));
 	}
 
 	void CommandQueue::Signal(const Fence& fence)
@@ -26,5 +27,14 @@ namespace sy
 	void CommandQueue::Wait(const Fence& fence)
 	{
 		DXCall(queue->Wait(fence.D3DFence(), fence.Value()));
+	}
+
+	void CommandQueue::SetDebugName(const std::wstring_view debugName)
+	{
+		RHIObject::SetDebugName(debugName);
+		if (queue != nullptr)
+		{
+			queue->SetName(debugName.data());
+		}
 	}
 }

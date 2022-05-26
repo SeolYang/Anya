@@ -4,7 +4,7 @@
 namespace sy
 {
 
-	Display::Display(const DXGI_OUTPUT_DESC1& output) :
+	Display::Display(const DXGI_OUTPUT_DESC1& output) noexcept :
 		desktopCoordinates(output.DesktopCoordinates),
 		redPrimary(DirectX::XMFLOAT2{ output.RedPrimary }),
 		greenPrimary(DirectX::XMFLOAT2{ output.GreenPrimary }),
@@ -16,5 +16,6 @@ namespace sy
 		colorSpace(output.ColorSpace),
 		bIsHDRCapable(colorSpace == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020)
 	{
+		SetDebugName(TEXT("Display"));
 	}
 }

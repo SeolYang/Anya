@@ -1,10 +1,11 @@
 #pragma once
 #include <PCH.h>
+#include <RHI/RHI.h>
 #include <RHI/Display.h>
 
 namespace sy
 {
-	class Adapter
+	class Adapter : public RHIObject
 	{
 	public:
 		Adapter(const ComPtr<IDXGIAdapter1>& adapter);
@@ -12,15 +13,15 @@ namespace sy
 		Display& operator[](size_t idx) { return displays[idx]; }
 		Display operator[](size_t idx) const { return displays[idx]; }
 
-		std::string_view Description() const { return description; }
-		inline auto  VendorID() const { return vendorID; }
-		inline auto DeviceID() const { return deviceID; }
-		inline auto SubSysID() const { return subSysID; }
-		inline auto Revision() const { return revision; }
-		inline auto DedicatedVideoMemory() const { return dedicatedVideoMemory; }
-		inline auto DedicatedSystemMemory() const { return dedicatedSystemMemory; }
-		inline auto SharedSystemMemory() const { return sharedSystemMemory; }
-		IDXGIAdapter1* D3DAdapter() const { return adapter.Get(); }
+		std::string_view Description() const noexcept { return description; }
+		inline auto  VendorID() const noexcept { return vendorID; }
+		inline auto DeviceID() const noexcept { return deviceID; }
+		inline auto SubSysID() const noexcept { return subSysID; }
+		inline auto Revision() const noexcept { return revision; }
+		inline auto DedicatedVideoMemory() const noexcept { return dedicatedVideoMemory; }
+		inline auto DedicatedSystemMemory() const noexcept { return dedicatedSystemMemory; }
+		inline auto SharedSystemMemory() const noexcept { return sharedSystemMemory; }
+		IDXGIAdapter1* D3DAdapter() const noexcept { return adapter.Get(); }
 
 	private:
 		ComPtr<IDXGIAdapter1> adapter;

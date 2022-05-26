@@ -102,6 +102,8 @@
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
+    <ClInclude Include="..\Sources\RHI\InfoQueue.h" />
+    <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\SwapChain.h" />
     <ClInclude Include="..\Sources\RHI\Viewport.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />

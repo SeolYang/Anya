@@ -1070,6 +1070,12 @@
     <ClInclude Include="..\Sources\Framework\Scene.h">
       <Filter>Sources\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\RHI\InfoQueue.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\RHI.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

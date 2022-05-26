@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include <RHI/DescriptorHeap.h>
 #include <RHI/Device.h>
+#include <Core/Exceptions.h>
 
 namespace sy
 {
@@ -15,6 +16,16 @@ namespace sy
 			.NodeMask = device.NodeMask()
 		};
 
-		device.D3DDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap));
+		DXCall(device.D3DDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap)));
+		SetDebugName(TEXT("DescriptorHeap"));
+	}
+
+	void DescriptorHeap::SetDebugName(const std::wstring_view debugName)
+	{
+		RHIObject::SetDebugName(debugName);
+		if (descriptorHeap != nullptr)
+		{
+			descriptorHeap->SetName(debugName.data());
+		}
 	}
 }
