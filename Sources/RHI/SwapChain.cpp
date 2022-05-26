@@ -43,6 +43,8 @@ namespace sy
 	{
 		ComPtr<IDXGISwapChain1> _swapChain;
 		DXCall(dxgiFactory->CreateSwapChainForHwnd(queue.D3DCommandQueue(), windowHandle, &desc, nullptr, nullptr, &_swapChain));
+		/** Disable ALT+ENTER Full screen toggle */
+		DXCall(dxgiFactory->MakeWindowAssociation(windowHandle, DXGI_MWA_NO_ALT_ENTER));
 		DXCall(_swapChain.As(&swapChain));
 
 		backBuffers.resize(desc.BufferCount);
