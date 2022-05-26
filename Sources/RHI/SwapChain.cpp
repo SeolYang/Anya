@@ -21,10 +21,12 @@ namespace sy
 			.Height = surfaceDimension.Height,
 			.Format = ConvertColorSpaceToColorFormatForBackbuffer(display.ColorSpace(), bIsPreferHDR),
 			.SampleDesc = {.Count = 1, .Quality = 0 },
-			.BufferUsage = DXGI_USAGE_BACK_BUFFER,
+			.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
 			.BufferCount = backBufferCount,
+			.Scaling = DXGI_SCALING_STRETCH,
 			.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD,
-			.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH
+			.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH |
+					(CheckFeatureSupport::PresentAllowTearing() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : (UINT)0)
 		};
 
 		ConstructSwapChain(desc);
