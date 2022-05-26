@@ -23,4 +23,32 @@ namespace sy
 		ComPtr<ID3D12CommandQueue> queue;
 
 	};
+
+	class DirectCommandQueue : public CommandQueue
+	{
+	public:
+		DirectCommandQueue(const Device& device);
+
+	};
+
+	class BundleCommandQueue : public CommandQueue
+	{
+	public:
+		BundleCommandQueue(const Device& device);
+
+	};
+
+	class ComputeCommandQueue : public CommandQueue
+	{
+	public:
+		ComputeCommandQueue(const Device& device);
+
+	};
+
+	class CopyCommandQueue : public CommandQueue
+	{
+	public:
+		CopyCommandQueue(const Device& device);
+
+	};
 }

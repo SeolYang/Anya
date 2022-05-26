@@ -37,4 +37,28 @@ namespace sy
 			queue->SetName(debugName.data());
 		}
 	}
+
+	DirectCommandQueue::DirectCommandQueue(const Device& device) :
+		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_DIRECT)
+	{
+		SetDebugName(TEXT("DirectCommandQueue"));
+	}
+
+	BundleCommandQueue::BundleCommandQueue(const Device& device) :
+		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_BUNDLE)
+	{
+		SetDebugName(TEXT("BundleCommandQueue"));
+	}
+
+	ComputeCommandQueue::ComputeCommandQueue(const Device& device) :
+		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_COMPUTE)
+	{
+		SetDebugName(TEXT("ComputeCommandQueue"));
+	}
+
+	CopyCommandQueue::CopyCommandQueue(const Device& device) :
+		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_COPY)
+	{
+		SetDebugName(TEXT("CopyQueue"));
+	}
 }
