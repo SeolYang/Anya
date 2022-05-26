@@ -12,15 +12,15 @@ namespace sy
         Unknown
     };
 
-    class ResourceBase
+    class Resource
     {
     public:
-        ResourceBase(const fs::path& path) noexcept :
+        Resource(const fs::path& path) noexcept :
             path(path)
         {
         }
 
-        virtual ~ResourceBase() noexcept(false)
+        virtual ~Resource() noexcept(false)
         {
             if (bIsLoaded)
             {
@@ -77,7 +77,7 @@ namespace sy
     template <typename T>
     concept ResourceType = requires
     {
-        std::is_base_of_v<ResourceBase, T>;
+        std::is_base_of_v<Resource, T>;
         T::StaticType();
     };
 }

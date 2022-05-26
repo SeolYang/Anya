@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 #include <RHI/Device.h>
-#include <Math/Dimension.h>
+#include <Math/Dimensions.h>
 
 namespace sy
 {
@@ -15,7 +15,7 @@ namespace sy
 			const Display& display,
 			const CommandQueue& graphicsCommandQueue,
 			HWND windowHandle,
-			const Dimension& surfaceDimension,
+			const Dimensions& surfaceDimension,
 			uint8_t backBufferCount,
 			bool bIsPreferHDR);
 

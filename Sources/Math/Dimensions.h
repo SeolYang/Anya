@@ -5,20 +5,20 @@ namespace sy
 {
 	template <typename UINT_TYPE>
 		requires std::unsigned_integral<UINT_TYPE>
-	struct DimensionType
+	struct DimensionsType
 	{
 	public:
-		DimensionType(UINT_TYPE width = 1, UINT_TYPE height = 1, UINT_TYPE depth = 1) :
+		DimensionsType(UINT_TYPE width = 1, UINT_TYPE height = 1, UINT_TYPE depth = 1) :
 			Width(width), Height(height), Depth(depth)
 		{
 		}
 
-		inline bool operator==(const DimensionType& rhs) const
+		inline bool operator==(const DimensionsType& rhs) const
 		{
 			return (Width == rhs.Width) && (Height == rhs.Height) && (Depth == rhs.Depth);
 		}
 
-		inline bool operator!=(const DimensionType& rhs) const
+		inline bool operator!=(const DimensionsType& rhs) const
 		{
 			return (Width != rhs.Width) || (Height != rhs.Height) || (Depth != rhs.Depth);
 		}
@@ -29,7 +29,7 @@ namespace sy
 		UINT_TYPE Depth = 1;
 	};
 
-	using Dimension = DimensionType<uint32_t>;
-	using Dimension64 = DimensionType<uint64_t>;
+	using Dimensions = DimensionsType<uint32_t>;
+	using Dimensions64 = DimensionsType<uint64_t>;
 
 }

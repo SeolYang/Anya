@@ -1,6 +1,6 @@
 #pragma once
 #include <PCH.h>
-#include <Resources/ResourceBase.h>
+#include <Resources/Resource.h>
 
 namespace sy
 {
@@ -10,10 +10,10 @@ namespace sy
         ResourceCache() = default;
         ~ResourceCache() = default;
         ResourceCache(const ResourceCache&) = delete;
-        ResourceCache(ResourceCache&&) = delete;
+        ResourceCache(ResourceCache&&) = default;
 
         ResourceCache& operator=(const ResourceCache&) = delete;
-        ResourceCache& operator=(ResourceCache&&) = delete;
+        ResourceCache& operator=(ResourceCache&&) = default;
 
         template <ResourceType T>
         bool Register(std::weak_ptr<T> resource)
@@ -53,7 +53,7 @@ namespace sy
 
     private:
         std::mutex mutex;
-        robin_hood::unordered_map<fs::path, std::weak_ptr<ResourceBase>> cache;
+        robin_hood::unordered_map<fs::path, std::weak_ptr<Resource>> cache;
 
     };
 }

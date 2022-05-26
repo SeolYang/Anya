@@ -6,7 +6,7 @@
 
 namespace sy
 {
-	SwapChain::SwapChain(const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimension& surfaceDimension, uint8_t backBufferCount, bool bIsPreferHDR) :
+	SwapChain::SwapChain(const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, uint8_t backBufferCount, bool bIsPreferHDR) :
 		queue(graphicsCommandQueue),
 		windowHandle(windowHandle)
 	{
