@@ -4,6 +4,7 @@
 
 namespace sy
 {
+    /* https://www.geeksforgeeks.org/pure-virtual-destructor-c/ */
     class CPUDescriptor
     {
     public:

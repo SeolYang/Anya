@@ -29,12 +29,14 @@
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandQueue.cpp" />
+    <ClCompile Include="..\Sources\RHI\Descriptor.cpp" />
     <ClCompile Include="..\Sources\RHI\DescriptorHeap.cpp" />
     <ClCompile Include="..\Sources\RHI\Device.cpp" />
     <ClCompile Include="..\Sources\RHI\Display.cpp" />
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
     <ClCompile Include="..\Sources\RHI\RHIResource.cpp" />
     <ClCompile Include="..\Sources\RHI\SwapChain.cpp" />
+    <ClCompile Include="..\Sources\RHI\Texture.cpp" />
     <ClCompile Include="..\Sources\RHI\Viewport.cpp" />
     <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -102,6 +104,7 @@
     <ClInclude Include="..\Sources\RHI\CommandAllocator.h" />
     <ClInclude Include="..\Sources\RHI\CommandQueue.h" />
     <ClInclude Include="..\Sources\RHI\DebugLayer.h" />
+    <ClInclude Include="..\Sources\RHI\Descriptor.h" />
     <ClInclude Include="..\Sources\RHI\DescriptorHeap.h" />
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
@@ -109,6 +112,7 @@
     <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\RHIResource.h" />
     <ClInclude Include="..\Sources\RHI\SwapChain.h" />
+    <ClInclude Include="..\Sources\RHI\Texture.h" />
     <ClInclude Include="..\Sources\RHI\Viewport.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h" />

@@ -156,6 +156,12 @@
     <ClCompile Include="..\Sources\RHI\RHIResource.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Texture.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Descriptor.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1086,6 +1092,12 @@
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\RHIResource.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Descriptor.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Texture.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>

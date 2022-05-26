@@ -15,7 +15,7 @@ namespace sy
 	{
 	public:
 		Renderer(HWND windowHandle, const CommandLineParser& commandLineParser);
-
+		~Renderer();
 		void Render();
 
 	private:
@@ -24,7 +24,6 @@ namespace sy
 		std::unique_ptr<Device> device;
 		std::unique_ptr<DirectCommandQueue> graphicsCommandQueue;
 		std::unique_ptr<SwapChain> swapChain;
-		std::unique_ptr<RTDescriptorHeap> backBuffersDescriptorHeap;
 
 	};
 }

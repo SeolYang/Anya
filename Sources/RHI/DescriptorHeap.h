@@ -1,25 +1,32 @@
 #pragma once
 #include <PCH.h>
 #include <RHI/RHI.h>
+#include <RHI/Descriptor.h>
 #include <Core/Utility.h>
 
 namespace sy
 {
 	class Device;
+	class Texture;
+	class Buffer;
 	class DescriptorHeap : public RHIObject
 	{
 	public:
-		DescriptorHeap(const Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity);
+		DescriptorHeap(Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity);
 
 		auto D3DDescriptorHeap() const noexcept { return descriptorHeap.Get(); }
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
-		inline size_t Capacity() const noexcept { return capacity; }
+		size_t Capacity() const noexcept { return capacity; }
+		size_t DescriptorSize() const noexcept { return descriptorSize; }
+
+	protected:
+		Device& device;
 
 	private:
 		ComPtr<ID3D12DescriptorHeap> descriptorHeap;
-		size_t unitDescriptorSize;
+		size_t descriptorSize;
 		size_t capacity;
 
 	};
@@ -40,7 +47,7 @@ namespace sy
 		};
 
 	public:
-		CBSRUADescriptorHeap(const Device& device, const uint32_t cbvCapacity, const uint32_t srvCapacity, const uint32_t uavCapacity);
+		CBSRUADescriptorHeap(Device& device, const uint32_t cbvCapacity, const uint32_t srvCapacity, const uint32_t uavCapacity);
 
 	private:
 		std::array<uint32_t, utils::ToUnderlyingType(DescriptorType::NumOfTypes)> descriptorCapacities;
@@ -54,7 +61,7 @@ namespace sy
 	class SamplerDescriptorHeap : public DescriptorHeap
 	{
 	public:
-		SamplerDescriptorHeap(const Device& device, const uint32_t capacity);
+		SamplerDescriptorHeap(Device& device, const uint32_t capacity);
 
 	};
 
@@ -65,7 +72,7 @@ namespace sy
 	class DSDescriptorHeap : public DescriptorHeap
 	{
 	public:
-		DSDescriptorHeap(const Device& device, const uint32_t capacity);
+		DSDescriptorHeap(Device& device, const uint32_t capacity);
 
 	};
 
@@ -76,7 +83,11 @@ namespace sy
 	class RTDescriptorHeap : public DescriptorHeap
 	{
 	public:
-		RTDescriptorHeap(const Device& device, const uint32_t capacity);
+		RTDescriptorHeap(Device& device, const uint32_t capacity);
+
+		RTDescriptor Allocate(const size_t at, const Texture& texture, const uint16 mipLevel = 0);
+
+		static D3D12_RENDER_TARGET_VIEW_DESC TextureToRTVDesc(const Texture& texture, const uint16 mipLevel);
 
 	};
 }

@@ -2,11 +2,16 @@
 #include <RHI/SwapChain.h>
 #include <RHI/Display.h>
 #include <RHI/CommandQueue.h>
+#include <RHI/DescriptorHeap.h>
+#include <RHI/Descriptor.h>
+#include <RHI/Texture.h>
+#include <RHI/Device.h>
 #include <Core/Exceptions.h>
 
 namespace sy
 {
-	SwapChain::SwapChain(const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, uint8_t backBufferCount, bool bIsPreferHDR) :
+	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, uint8_t backBufferCount, bool bIsPreferHDR) :
+		device(device),
 		queue(graphicsCommandQueue),
 		windowHandle(windowHandle)
 	{
@@ -30,6 +35,7 @@ namespace sy
 		};
 
 		ConstructSwapChain(desc);
+		ConstructRTV(desc.BufferCount);
 		swapChain->SetColorSpace1(display.ColorSpace());
 		SetDebugName(TEXT("SwapChain"));
 	}
@@ -39,18 +45,32 @@ namespace sy
 		swapChain->Present(0, 0);
 	}
 
-	void SwapChain::ConstructSwapChain(DXGI_SWAP_CHAIN_DESC1 desc)
+	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc)
 	{
 		ComPtr<IDXGISwapChain1> _swapChain;
 		DXCall(dxgiFactory->CreateSwapChainForHwnd(queue.D3DCommandQueue(), windowHandle, &desc, nullptr, nullptr, &_swapChain));
 		/** Disable ALT+ENTER Full screen toggle */
 		DXCall(dxgiFactory->MakeWindowAssociation(windowHandle, DXGI_MWA_NO_ALT_ENTER));
 		DXCall(_swapChain.As(&swapChain));
+	}
 
-		backBuffers.resize(desc.BufferCount);
-		for (uint32_t idx = 0; idx < desc.BufferCount; idx++)
+	void SwapChain::ConstructRTV(const size_t bufferCount)
+	{
+		std::vector<ComPtr<ID3D12Resource>> backBufferResources;
+		backBuffers.resize(bufferCount);
+		backBufferResources.resize(bufferCount);
+		for (uint32 idx = 0; idx < bufferCount; ++idx)
 		{
-			DXCall(swapChain->GetBuffer(idx, IID_PPV_ARGS(&backBuffers[idx])));
+			DXCall(swapChain->GetBuffer(idx, IID_PPV_ARGS(&backBufferResources[idx])));
+			backBuffers[idx] = std::make_unique<Texture>(backBufferResources.at(idx));
+		}
+
+		backBuffersDescriptorHeap = std::make_unique<RTDescriptorHeap>(device, static_cast<uint32_t>(NumBackBuffer()));
+		rtDescriptors.reserve(bufferCount);
+
+		for (uint32 idx = 0; idx < bufferCount; ++idx)
+		{
+			rtDescriptors.emplace_back(backBuffersDescriptorHeap->Allocate(idx, *backBuffers.at(idx)));
 		}
 	}
 }

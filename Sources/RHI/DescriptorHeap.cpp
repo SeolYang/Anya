@@ -1,11 +1,13 @@
 #include <PCH.h>
 #include <RHI/DescriptorHeap.h>
 #include <RHI/Device.h>
+#include <RHI/Texture.h>
 #include <Core/Exceptions.h>
 
 namespace sy
 {
-	DescriptorHeap::DescriptorHeap(const Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity) :
+	DescriptorHeap::DescriptorHeap(Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity) :
+		device(device),
 		capacity(capacity)
 	{
 		// Shaer Visibility of Descriptor Heap: https://seolyang.tistory.com/35 -> 리소스 뷰 분류 참고
@@ -19,7 +21,7 @@ namespace sy
 		};
 
 		DXCall(device.D3DDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap)));
-		unitDescriptorSize = device.D3DDevice()->GetDescriptorHandleIncrementSize(heapType);
+		descriptorSize = device.D3DDevice()->GetDescriptorHandleIncrementSize(heapType);
 		SetDebugName(TEXT("DescriptorHeap"));
 	}
 
@@ -32,28 +34,104 @@ namespace sy
 		}
 	}
 	
-	CBSRUADescriptorHeap::CBSRUADescriptorHeap(const Device& device, const uint32_t cbvCapacity, const uint32_t srvCapacity, const uint32_t uavCapacity) :
+	CBSRUADescriptorHeap::CBSRUADescriptorHeap(Device& device, const uint32_t cbvCapacity, const uint32_t srvCapacity, const uint32_t uavCapacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, cbvCapacity + srvCapacity + uavCapacity),
 		descriptorCapacities({cbvCapacity, srvCapacity, uavCapacity})
 	{
 		SetDebugName(TEXT("CB_SR_UA DescriporHeap"));
 	}
 
-	SamplerDescriptorHeap::SamplerDescriptorHeap(const Device& device, const uint32_t capacity) :
+	SamplerDescriptorHeap::SamplerDescriptorHeap(Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, capacity)
 	{
 		SetDebugName(TEXT("Sampler DescriporHeap"));
 	}
 
-	DSDescriptorHeap::DSDescriptorHeap(const Device& device, const uint32_t capacity) :
+	DSDescriptorHeap::DSDescriptorHeap(Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, capacity)
 	{
 		SetDebugName(TEXT("Depth-Stencil DescriporHeap"));
 	}
 
-	RTDescriptorHeap::RTDescriptorHeap(const Device& device, const uint32_t capacity) :
+	RTDescriptorHeap::RTDescriptorHeap(Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, capacity)
 	{
 		SetDebugName(TEXT("RenderTarget DescriporHeap"));
+	}
+
+	RTDescriptor RTDescriptorHeap::Allocate(const size_t idx, const Texture& texture, const uint16 mipLevel)
+	{
+		assert(idx < Capacity());
+
+		auto heap = D3DDescriptorHeap();
+		assert(heap != nullptr);
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
+		rtvHandle.Offset(idx, DescriptorSize());
+
+		const auto rtvDesc = RTDescriptorHeap::TextureToRTVDesc(texture, mipLevel);
+		device.D3DDevice()->CreateRenderTargetView(texture.Resource(), &rtvDesc, rtvHandle);
+
+		return RTDescriptor{ rtvHandle };
+	}
+
+	D3D12_RENDER_TARGET_VIEW_DESC RTDescriptorHeap::TextureToRTVDesc(const Texture& texture, const uint16 mipLevel)
+	{
+		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+
+		const auto& resolution = texture.Resolution();
+		switch (texture.Dimension())
+		{
+		case D3D12_RESOURCE_DIMENSION_BUFFER:
+			rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_BUFFER;
+			rtvDesc.Buffer.FirstElement = 0;
+			rtvDesc.Buffer.NumElements = resolution.Width;
+			break;
+
+		case D3D12_RESOURCE_DIMENSION_TEXTURE1D:
+			if (resolution.Depth > 1) /* Texture1D Array */
+			{
+				rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE1DARRAY;
+				rtvDesc.Texture1DArray.MipSlice = mipLevel;
+				rtvDesc.Texture1DArray.FirstArraySlice = 0;
+				rtvDesc.Texture1DArray.ArraySize = resolution.Depth;
+			}
+			else /* Texture1D */
+			{
+				rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE1D;
+				rtvDesc.Texture1D.MipSlice = mipLevel;
+			}
+			break;
+
+		case D3D12_RESOURCE_DIMENSION_TEXTURE2D:
+			if (resolution.Depth > 1) /* Texture2D Array */
+			{
+				rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DARRAY;
+				rtvDesc.Texture2DArray.MipSlice = mipLevel;
+				rtvDesc.Texture2DArray.FirstArraySlice = 0;
+				rtvDesc.Texture2DArray.PlaneSlice = 0;
+				rtvDesc.Texture2DArray.ArraySize = resolution.Depth;
+			}
+			else /* Texture2D */
+			{
+				rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+				rtvDesc.Texture2D.MipSlice = mipLevel;
+				rtvDesc.Texture2D.PlaneSlice = 0;
+			}
+			break;
+
+		case D3D12_RESOURCE_DIMENSION_TEXTURE3D:
+			rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE3D;
+			rtvDesc.Texture3D.MipSlice = mipLevel;
+			rtvDesc.Texture3D.FirstWSlice = 0;
+			rtvDesc.Texture3D.WSize = -1;
+			break;
+
+		default:
+			return rtvDesc;
+		}
+
+		rtvDesc.Format = texture.Format();
+		return rtvDesc;
 	}
 }

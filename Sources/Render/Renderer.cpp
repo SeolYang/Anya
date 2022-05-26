@@ -25,9 +25,12 @@ namespace sy
 		logger.info("Initializing Renderer...");
 		device = std::make_unique<Device>(adapterPatcher[0]);
 		graphicsCommandQueue = std::make_unique<DirectCommandQueue>(*device);
-		backBuffersDescriptorHeap = std::make_unique<RTDescriptorHeap>(*device, static_cast<uint32_t>(swapChain->NumBackBuffer()));
-		swapChain = std::make_unique<SwapChain>(adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, 2, false);
+		swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, 2, false);
 		logger.info("Renderer Initialized.");
+	}
+
+	Renderer::~Renderer()
+	{
 	}
 
 	void Renderer::Render()

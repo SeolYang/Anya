@@ -12,14 +12,12 @@ namespace sy
         Texture(const ComPtr<ID3D12Resource>& existingResource) :
             RHIResource(existingResource)
         {
-            const auto& description = Description();
-            assert(description.Dimension != D3D12_RESOURCE_DIMENSION_BUFFER && description.Dimension == D3D12_RESOURCE_DIMENSION_UNKNOWN);
         }
 
-        Dimensions Resolution() const
+        Dimensions64 Resolution() const
         {
             const auto& description = Description();
-            return Dimensions{ description.Width, description.Height, description.DepthOrArraySize };
+            return Dimensions64{ description.Width, description.Height, description.DepthOrArraySize };
         }
 
         uint16 MipLevels() const
