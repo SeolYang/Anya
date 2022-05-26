@@ -14,6 +14,7 @@ namespace sy
 		{
 			logger.info("Trying to enable DX12 debug layer...");
 			DebugLayer::Enable();
+			logger.info("DX12 debug layer enabled.");
 		}
 
 		logger.info("Initializing Renderer...");
@@ -26,6 +27,6 @@ namespace sy
 
 	void Renderer::Render()
 	{
-		swapChain->Present();
+		//swapChain->Present();
 	}
 }

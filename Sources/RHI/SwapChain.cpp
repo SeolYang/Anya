@@ -6,11 +6,15 @@
 
 namespace sy
 {
-	SwapChain::SwapChain(const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimension& surfaceDimension, uint8 backBufferCount, bool bIsPreferHDR) :
+	SwapChain::SwapChain(const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimension& surfaceDimension, uint8_t backBufferCount, bool bIsPreferHDR) :
 		queue(graphicsCommandQueue),
 		windowHandle(windowHandle)
 	{
-		DXCall(CreateDXGIFactory2(0, IID_PPV_ARGS(&dxgiFactory)));
+		uint32_t factoryFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)
+		factoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+#endif
+		DXCall(CreateDXGIFactory2(factoryFlags, IID_PPV_ARGS(&dxgiFactory)));
 
 		DXGI_SWAP_CHAIN_DESC1 desc{
 			.Width = surfaceDimension.Width,

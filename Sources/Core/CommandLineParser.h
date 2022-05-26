@@ -16,7 +16,12 @@ namespace sy
 
 	private:
 		std::filesystem::path executablePath;
+
+#if defined(DEBUG) || defined(_DEBUG)
+		bool bShouldEnableDebugLayer = true;
+#else
 		bool bShouldEnableDebugLayer = false;
+#endif
 
 	};
 }
