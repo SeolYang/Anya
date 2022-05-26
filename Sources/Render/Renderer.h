@@ -16,6 +16,7 @@ namespace sy
 	public:
 		Renderer(HWND windowHandle, const CommandLineParser& commandLineParser);
 		~Renderer();
+
 		void Render();
 
 	private:
