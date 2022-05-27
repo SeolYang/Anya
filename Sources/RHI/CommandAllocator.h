@@ -10,6 +10,8 @@ namespace sy
     public:
         virtual void SetDebugName(const std::wstring_view debugName) override;
 
+        void Reset() { commandAllocator->Reset(); }
+
         auto D3DCommandAllocator() const { return commandAllocator.Get(); }
 
     protected:
