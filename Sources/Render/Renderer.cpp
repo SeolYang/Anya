@@ -44,47 +44,67 @@ namespace sy
 			graphicsCmdQueue = std::make_unique<DirectCommandQueue>(*device);
 			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, windowHandle, renderResolution, EBackBufferMode::Double, false);
 
-			graphicsCmdAllocator = std::make_unique<DirectCommandAllocator>(*device);
-			graphicsCmdList = std::make_unique<DirectCommandList>(*device, *graphicsCmdAllocator);
+			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
+			graphicsCmdLists.reserve(swapChain->NumBackBuffer());
+			fences.reserve(swapChain->NumBackBuffer());
+			fenceEvents.reserve(swapChain->NumBackBuffer());
+			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
+			{
+				graphicsCmdAllocators.emplace_back(std::make_unique<DirectCommandAllocator>(*device));
+				graphicsCmdLists.emplace_back(std::make_unique<DirectCommandList>(*device, *graphicsCmdAllocators[idx]));
 
-			fence = std::make_unique<Fence>(*device);
-			finishEventHandle = CreateEventHandle();
+				fences.emplace_back(std::make_unique<Fence>(*device));
+				fenceEvents.emplace_back(CreateEventHandle());
+			}
+
 		}
 		logger.info("Renderer Initialized.");
 	}
 
 	Renderer::~Renderer()
 	{
-		CommandQueue::Flush(*graphicsCmdQueue, *fence, finishEventHandle);
-		::CloseHandle(finishEventHandle);
+		for (size_t idx = 0; idx < fences.size(); ++idx)
+		{
+			CommandQueue::Flush(*graphicsCmdQueue, *fences[idx], fenceEvents[idx]);
+		}
+
+		for (auto handle : fenceEvents)
+		{
+			::CloseHandle(handle);
+		}
 	}
 
 	void Renderer::Render()
 	{
-		graphicsCmdAllocator->Reset();
-		graphicsCmdList->Reset();
+		const auto currentBackbufferIdx = swapChain->CurrentBackBufferIndex();
+
+		auto& graphicsCmdAllocator = *graphicsCmdAllocators[currentBackbufferIdx];
+		auto& graphicsCmdList = *graphicsCmdLists[currentBackbufferIdx];
+		graphicsCmdAllocator.Reset();
+		graphicsCmdList.Reset();
 
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
 			ResourceTransitionBarrier barrier{ backBuffer, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET };
-			graphicsCmdList->AppendResourceBarrier(barrier);
+			graphicsCmdList.AppendResourceBarrier(barrier);
 
 			ClearValue clearVal{ backBuffer.Format(), DirectX::XMFLOAT4(0.4f, 0.6f, 0.9f, 1.0f)};
-			graphicsCmdList->ClearRenderTarget(swapChain->CurrentBackBufferRTV(), clearVal.Color);
+			graphicsCmdList.ClearRenderTarget(swapChain->CurrentBackBufferRTV(), clearVal.Color);
 		}
 
+		auto& fence = *fences[currentBackbufferIdx];
 		{
 			ResourceTransitionBarrier barrier{ backBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
-			graphicsCmdList->AppendResourceBarrier(barrier);
-			graphicsCmdList->Close();
+			graphicsCmdList.AppendResourceBarrier(barrier);
+			graphicsCmdList.Close();
 
-			graphicsCmdQueue->ExecuteCommandList(*graphicsCmdList);
+			graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
 
 			swapChain->Present();
 
-			fence->IncrementValue();
-			graphicsCmdQueue->Signal(*fence);
-			fence->Wait(finishEventHandle);
+			fence.IncrementValue();
+			graphicsCmdQueue->Signal(fence);
+			fence.Wait(fenceEvents[currentBackbufferIdx]);
 		}
 	}
 }

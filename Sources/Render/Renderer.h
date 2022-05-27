@@ -15,11 +15,20 @@ namespace sy
 	class CopyCommandQueue;
 	class CopyCommandList;
 	class CopyCommandAllocator;
+	class ComputeCommandAllocator;
 	class ComputeCommandQueue;
 	class ComputeCommandList;
-	class ComputeCommandAllocator;
 	class RTDescriptorHeap;
 	class Fence;
+
+	using DirectCommandAllocatorPtr = std::unique_ptr<DirectCommandAllocator>;
+	using ComputeCommandAllocatorPtr = std::unique_ptr<ComputeCommandAllocator>;
+	using CopyCommandAllocatorPtr = std::unique_ptr<CopyCommandAllocator>;
+	using DirectCommandListPtr = std::unique_ptr<DirectCommandList>;
+	using ComputeCommandListPtr = std::unique_ptr<ComputeCommandList>;
+	using CopyCommandListPtr = std::unique_ptr<CopyCommandList>;
+	using FencePtr = std::unique_ptr<Fence>;
+
 	class Renderer
 	{
 	public:
@@ -35,10 +44,10 @@ namespace sy
 		std::unique_ptr<Device> device;
 		std::unique_ptr<DirectCommandQueue> graphicsCmdQueue;
 		std::unique_ptr<SwapChain> swapChain;
-		std::unique_ptr<DirectCommandAllocator> graphicsCmdAllocator;
-		std::unique_ptr<DirectCommandList> graphicsCmdList;
-		std::unique_ptr<Fence> fence;
-		HANDLE finishEventHandle;
+		std::vector<DirectCommandAllocatorPtr> graphicsCmdAllocators;
+		std::vector<DirectCommandListPtr> graphicsCmdLists;
+		std::vector<FencePtr> fences;
+		std::vector<HANDLE> fenceEvents;
 
 	};
 }
