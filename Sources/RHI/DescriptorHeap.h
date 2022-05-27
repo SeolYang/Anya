@@ -75,6 +75,8 @@ namespace sy
 	public:
 		DSDescriptorHeap(Device& device, const uint32_t capacity);
 
+		DSDescriptor Allocate(const size_t idx, const Texture& texture);
+
 	};
 
 	/**
@@ -86,9 +88,7 @@ namespace sy
 	public:
 		RTDescriptorHeap(Device& device, const uint32_t capacity);
 
-		RTDescriptor Allocate(const size_t at, const Texture& texture, const uint16 mipLevel = 0);
-
-		static D3D12_RENDER_TARGET_VIEW_DESC TextureToRTVDesc(const Texture& texture, const uint16 mipLevel);
+		RTDescriptor Allocate(const size_t idx, const Texture& texture, const uint16 mipLevel = 0);
 
 	};
 }

@@ -6,6 +6,20 @@
 
 namespace sy
 {
+	CD3DX12_CPU_DESCRIPTOR_HANDLE CPUHandleOffset(CD3DX12_CPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
+	{
+		CD3DX12_CPU_DESCRIPTOR_HANDLE newHandle;
+		newHandle.InitOffsetted(offsetHandle, (int32)idx, (uint32)descriptorSize);
+		return newHandle;
+	}
+
+	CD3DX12_GPU_DESCRIPTOR_HANDLE GPUHandleOffset(CD3DX12_GPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
+	{
+		CD3DX12_GPU_DESCRIPTOR_HANDLE newHandle;
+		newHandle.InitOffsetted(offsetHandle, (int32)idx, (uint32)descriptorSize);
+		return newHandle;
+	}
+
 	DescriptorHeap::DescriptorHeap(Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity) :
 		device(device),
 		capacity(capacity)
@@ -53,29 +67,58 @@ namespace sy
 		SetDebugName(TEXT("Depth-Stencil DescriporHeap"));
 	}
 
-	RTDescriptorHeap::RTDescriptorHeap(Device& device, const uint32_t capacity) :
-		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, capacity)
+	D3D12_DEPTH_STENCIL_VIEW_DESC TextureToDSVDesc(const Texture& texture)
 	{
-		SetDebugName(TEXT("RenderTarget DescriporHeap"));
+		D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+		const auto& resolution = texture.Resolution();
+		switch (texture.Dimension())
+		{
+		case D3D12_RESOURCE_DIMENSION_TEXTURE2D:
+			if (resolution.Depth > 1)
+			{
+				desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+				desc.Texture2DArray.MipSlice = 0;
+				desc.Texture2DArray.FirstArraySlice = 0;
+				desc.Texture2DArray.ArraySize = resolution.Depth;
+			}
+			else
+			{
+				desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+				desc.Texture2D.MipSlice = 0;
+			}
+			break;
+
+		default:
+			assert("Not supported Texture Dimension for Depth-Stencil View.");
+			break;
+		}
+
+		return desc;
 	}
 
-	RTDescriptor RTDescriptorHeap::Allocate(const size_t idx, const Texture& texture, const uint16 mipLevel)
+	DSDescriptor DSDescriptorHeap::Allocate(const size_t idx, const Texture& texture)
 	{
 		assert(idx < Capacity());
 
 		auto heap = D3DDescriptorHeap();
 		assert(heap != nullptr);
 
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
-		rtvHandle.Offset((int32)idx, (uint32)DescriptorSize());
+		CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
+		dsvHandle = CPUHandleOffset(dsvHandle, idx, DescriptorSize());
 
-		const auto rtvDesc = RTDescriptorHeap::TextureToRTVDesc(texture, mipLevel);
-		device.D3DDevice()->CreateRenderTargetView(texture.D3DResource(), &rtvDesc, rtvHandle);
+		const auto dsvDesc = TextureToDSVDesc(texture);
+		device.D3DDevice()->CreateDepthStencilView(texture.D3DResource(), &dsvDesc, dsvHandle);
 
-		return RTDescriptor{ rtvHandle };
+		return dsvHandle;
 	}
 
-	D3D12_RENDER_TARGET_VIEW_DESC RTDescriptorHeap::TextureToRTVDesc(const Texture& texture, const uint16 mipLevel)
+	RTDescriptorHeap::RTDescriptorHeap(Device& device, const uint32_t capacity) :
+		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, capacity)
+	{
+		SetDebugName(TEXT("RenderTarget DescriporHeap"));
+	}
+
+	D3D12_RENDER_TARGET_VIEW_DESC TextureToRTVDesc(const Texture& texture, const uint16 mipLevel)
 	{
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 
@@ -128,10 +171,27 @@ namespace sy
 			break;
 
 		default:
-			return rtvDesc;
+			assert("Not supported Texture Dimension for Render Target View.");
+			break;
 		}
 
 		rtvDesc.Format = texture.Format();
 		return rtvDesc;
+	}
+
+	RTDescriptor RTDescriptorHeap::Allocate(const size_t idx, const Texture& texture, const uint16 mipLevel)
+	{
+		assert(idx < Capacity());
+
+		auto heap = D3DDescriptorHeap();
+		assert(heap != nullptr);
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
+		rtvHandle = CPUHandleOffset(rtvHandle, idx, DescriptorSize());
+
+		const auto rtvDesc = TextureToRTVDesc(texture, mipLevel);
+		device.D3DDevice()->CreateRenderTargetView(texture.D3DResource(), &rtvDesc, rtvHandle);
+
+		return RTDescriptor{ rtvHandle };
 	}
 }
