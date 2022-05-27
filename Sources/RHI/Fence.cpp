@@ -14,7 +14,7 @@ namespace sy
 
 	void Fence::SetEventOnCompletion(uint64_t value, HANDLE event)
 	{
-		DXCall (fence->SetEventOnCompletion(value, event));
+		DXCall(fence->SetEventOnCompletion(value, event));
 	}
 
 	void Fence::SetDebugName(std::wstring_view debugName)
@@ -22,7 +22,17 @@ namespace sy
 		RHIObject::SetDebugName(debugName);
 		if (fence != nullptr)
 		{
-			fence->SetName(debugName.data());
+			DXCall(fence->SetName(debugName.data()));
+		}
+	}
+
+	void Fence::Wait(HANDLE handle)
+	{
+		std::chrono::milliseconds duration = std::chrono::milliseconds::max();
+		if (CompletedValue() < Value())
+		{
+			SetEventOnCompletion(Value(), handle);
+			::WaitForSingleObject(handle, duration.count());
 		}
 	}
 }

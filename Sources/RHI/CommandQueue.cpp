@@ -29,6 +29,13 @@ namespace sy
 		DXCall(queue->Wait(fence.D3DFence(), fence.Value()));
 	}
 
+	void CommandQueue::Flush(CommandQueue& commandQueue, Fence& fence, HANDLE fenceEvent)
+	{
+		fence.IncrementValue();
+		commandQueue.Signal(fence);
+		fence.Wait(fenceEvent);
+	}
+
 	void CommandQueue::SetDebugName(const std::wstring_view debugName)
 	{
 		RHIObject::SetDebugName(debugName);

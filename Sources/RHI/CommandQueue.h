@@ -16,6 +16,8 @@ namespace sy
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
+		static void Flush(CommandQueue& commandQueue, Fence& fence, HANDLE fenceEvent);
+
 	protected:
 		CommandQueue(const Device& device, D3D12_COMMAND_LIST_TYPE type);
 

@@ -10,6 +10,7 @@ namespace sy
         commandAllocator(commandAllocator)
     {
         DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&commandList)));
+        /** Command List is on recording state. So close it at here to make able to call reset later. */
         Close();
         SetDebugName(TEXT("CommandList"));
     }

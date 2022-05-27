@@ -28,6 +28,11 @@ namespace sy
 		void SetEventOnCompletion(uint64_t value, HANDLE event);
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
+		/**
+		* @brief Wait for itselfs fence value.
+		*/
+		void Wait(HANDLE handle);
+
 		ID3D12Fence1* D3DFence() const noexcept { return fence.Get(); }
 
 	private:
