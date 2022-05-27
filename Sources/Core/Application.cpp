@@ -139,20 +139,28 @@ namespace sy
         logger->info("Creating Application window...");
         windowClass = {
             sizeof(WNDCLASSEX),
-            CS_CLASSDC,
+            CS_OWNDC,
             WindowProc, 0L, 0L,
-            GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
+            GetModuleHandle(NULL), NULL, LoadCursor(NULL, IDC_ARROW), NULL, NULL,
             title.c_str(), NULL};
         RegisterClassEx(&windowClass);
 
+        const auto screenWidth = GetSystemMetrics(SM_CXSCREEN);
+        const auto screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+        const Dimensions resolution{ 1280, 720 };
+
+        auto error = GetLastError();
         auto windowStyle = WS_OVERLAPPEDWINDOW;
-        windowHandle = CreateWindow(
+        windowHandle = CreateWindowEx(
+            NULL,
             windowClass.lpszClassName,
             title.c_str(),
             windowStyle,
-            0, 0, 1280, 720,
+            (screenWidth - resolution.Width)/2, (screenHeight - resolution.Height)/2,
+            resolution.Width, resolution.Height,
             NULL, NULL, windowClass.hInstance, NULL);
-
+        
         ShowWindow(windowHandle, SW_SHOWDEFAULT);
         UpdateWindow(windowHandle);
         logger->info("Application window created.");

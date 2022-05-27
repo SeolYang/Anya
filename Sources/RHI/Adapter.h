@@ -21,6 +21,12 @@ namespace sy
 		inline auto DedicatedVideoMemory() const noexcept { return dedicatedVideoMemory; }
 		inline auto DedicatedSystemMemory() const noexcept { return dedicatedSystemMemory; }
 		inline auto SharedSystemMemory() const noexcept { return sharedSystemMemory; }
+
+		auto Budget() const noexcept { return queriedVideoMemInfo.Budget; }
+		auto CurrentUsage() const noexcept { return queriedVideoMemInfo.CurrentUsage; }
+		auto AvailableForReservation() const noexcept { return queriedVideoMemInfo.AvailableForReservation; }
+		auto CurrentReservation() const noexcept { return queriedVideoMemInfo.CurrentReservation; }
+
 		IDXGIAdapter1* D3DAdapter() const noexcept { return adapter.Get(); }
 
 	private:
@@ -35,6 +41,8 @@ namespace sy
 		size_t dedicatedVideoMemory;
 		size_t dedicatedSystemMemory;
 		size_t sharedSystemMemory;
+
+		DXGI_QUERY_VIDEO_MEMORY_INFO queriedVideoMemInfo;
 
 	};
 }

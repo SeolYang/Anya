@@ -18,7 +18,7 @@ namespace sy
     class Application
     {
     public:
-        Application(std::wstring_view title, int32 argc, wchar_t** argv);
+        Application(std::wstring_view title, int32 argc, wchar_t** argv) noexcept(false);
         virtual ~Application();
 
         Application(const Application&) = delete;

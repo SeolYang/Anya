@@ -32,6 +32,15 @@ namespace sy
 		logger.info("Initializing Renderer...");
 		{
 			device = std::make_unique<Device>(adapterPatcher[0]);
+			logger.info("---------------------- Device infos ----------------------");
+			logger.info("Description                   : {}", adapterPatcher[0].Description());
+			logger.info("DedicatedVideoMemory          : {} MB", (adapterPatcher[0].DedicatedVideoMemory() / (1024Ui64 * 1024Ui64)));
+			logger.info("DedicatedSystemMemory         : {} MB", (adapterPatcher[0].DedicatedSystemMemory() / (1024Ui64 * 1024Ui64)));
+			logger.info("SharedSystemMemory            : {} MB", (adapterPatcher[0].SharedSystemMemory() / (1024Ui64 * 1024Ui64)));
+			logger.info("Budget provided by OS         : {} MB", (adapterPatcher[0].Budget() / (1024Ui64 * 1024Ui64)));
+			logger.info("Available for Reservation     : {} MB", (adapterPatcher[0].AvailableForReservation() / (1024Ui64 * 1024Ui64)));
+			logger.info("----------------------------------------------------------");
+
 			graphicsCmdQueue = std::make_unique<DirectCommandQueue>(*device);
 			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, windowHandle, renderResolution, EBackBufferMode::Double, false);
 

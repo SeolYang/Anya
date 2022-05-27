@@ -26,6 +26,12 @@ namespace sy
 		dedicatedSystemMemory = desc.DedicatedSystemMemory;
 		sharedSystemMemory = desc.SharedSystemMemory;
 
+		ComPtr<IDXGIAdapter4> adapter4;
+		if (SUCCEEDED(_adapter.As(&adapter4)))
+		{
+			adapter4->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &queriedVideoMemInfo);
+		}
+
 		while (adapter->EnumOutputs(idx++, &output) != DXGI_ERROR_NOT_FOUND)
 		{
 			ComPtr<IDXGIOutput6> output6;
