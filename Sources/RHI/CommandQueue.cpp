@@ -1,5 +1,6 @@
 #include <PCH.h>
 #include <RHI/CommandQueue.h>
+#include <RHI/CommandList.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
 #include <Core/Exceptions.h>
@@ -34,6 +35,26 @@ namespace sy
 		fence.IncrementValue();
 		commandQueue.Signal(fence);
 		fence.Wait(fenceEvent);
+	}
+
+	void CommandQueue::ExecuteCommandList(const CommandList& cmdList)
+	{
+		ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.D3DCommandList());
+		queue->ExecuteCommandLists(1, &d3dCmdList);
+	}
+
+	void CommandQueue::ExecuteCommandLists(const std::vector<std::reference_wrapper<const CommandList>>& cmdLists)
+	{
+		std::vector<ID3D12CommandList*> transformed;
+		transformed.resize(cmdLists.size());
+		std::transform(cmdLists.begin(), cmdLists.end(), transformed.begin(),
+			[](const CommandList& cmdList)
+			{
+				ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.D3DCommandList());
+				return d3dCmdList;
+			});
+
+		queue->ExecuteCommandLists((uint32)transformed.size(), transformed.data());
 	}
 
 	void CommandQueue::SetDebugName(const std::wstring_view debugName)

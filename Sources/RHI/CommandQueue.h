@@ -6,6 +6,7 @@ namespace sy
 {
 	class Device;
 	class Fence;
+	class CommandList;
 	class CommandQueue : public RHIObject
 	{
 	public:
@@ -17,6 +18,9 @@ namespace sy
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
 		static void Flush(CommandQueue& commandQueue, Fence& fence, HANDLE fenceEvent);
+
+		void ExecuteCommandList(const CommandList& cmdList);
+		void ExecuteCommandLists(const std::vector <std::reference_wrapper<const CommandList>>& cmdLists);
 
 	protected:
 		CommandQueue(const Device& device, D3D12_COMMAND_LIST_TYPE type);
