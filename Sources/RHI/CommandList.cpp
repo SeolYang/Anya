@@ -41,25 +41,25 @@ namespace sy
     }
 
     DirectCommandList::DirectCommandList(Device& device, DirectCommandAllocator& commandAllocator) :
-        CommandList(device, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator)
+        DirectCommandListBase(device, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator)
     {
         SetDebugName(TEXT("DirectCommandList"));
     }
 
     BundleCommandList::BundleCommandList(Device& device, BundleCommandAllocator& commandAllocator) :
-        CommandList(device, D3D12_COMMAND_LIST_TYPE_BUNDLE, commandAllocator)
+        DirectCommandListBase(device, D3D12_COMMAND_LIST_TYPE_BUNDLE, commandAllocator)
     {
         SetDebugName(TEXT("BundleCommandList"));
     }
 
     ComputeCommandList::ComputeCommandList(Device& device, ComputeCommandAllocator& commandAllocator) :
-        CommandList(device, D3D12_COMMAND_LIST_TYPE_COMPUTE, commandAllocator)
+        ComputeCommandListBase(device, D3D12_COMMAND_LIST_TYPE_COMPUTE, commandAllocator)
     {
         SetDebugName(TEXT("ComputeCommandList"));
     }
 
     CopyCommandList::CopyCommandList(Device& device, CopyCommandAllocator& commandAllocator) :
-        CommandList(device, D3D12_COMMAND_LIST_TYPE_COPY, commandAllocator)
+        CopyCommandListBase(device, D3D12_COMMAND_LIST_TYPE_COPY, commandAllocator)
     {
         SetDebugName(TEXT("CopyCommandList"));
     }
