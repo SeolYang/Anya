@@ -3,6 +3,7 @@
 #include <Core/Exceptions.h>
 #include <Core/Timer.h>
 #include <Core/PerformanceMonitor.h>
+#include <Core/FrameCounter.h>
 #include <Core/EngineModuleMediator.h>
 #include <Render/Renderer.h>
 #include <Framework/Scene.h>
@@ -53,26 +54,36 @@ namespace sy
     {
         try
         {
+            FrameCounter frameCounter;
             while (!bShouldClose)
             {
                 mainTimer->Begin();
-
-                MSG msg;
-                ZeroMemory(&msg, sizeof(msg));
-                while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
                 {
-                    if (msg.message == WM_QUIT)
+                    MSG msg;
+                    ZeroMemory(&msg, sizeof(msg));
+                    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
                     {
-                        bShouldClose = true;
+                        if (msg.message == WM_QUIT)
+                        {
+                            bShouldClose = true;
+                        }
+
+                        TranslateMessage(&msg);
+                        DispatchMessage(&msg);
                     }
 
-                    TranslateMessage(&msg);
-                    DispatchMessage(&msg);
+                    renderer->Render();
                 }
-
-                renderer->Render();
-
                 mainTimer->End();
+
+                // For frame limit
+                //auto end = std::chrono::high_resolution_clock::now() + chrono::duration_cast<chrono::nanoseconds>(chrono::milliseconds(16));
+                //while (std::chrono::high_resolution_clock::now() < end)
+                //{
+                //    std::this_thread::yield();
+                //}
+
+                frameCounter.Update(mainTimer->DeltaTimeNanos());
                 perfMonitor->UpdateAs(TEXT("MainLoopDelta"), mainTimer->DeltaTimeNanos());
             }
         }

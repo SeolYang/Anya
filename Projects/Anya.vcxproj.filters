@@ -1112,6 +1112,9 @@
     <ClInclude Include="..\Sources\Core\PerformanceMonitor.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\Core\FrameCounter.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

@@ -16,12 +16,12 @@ namespace sy
 
         void Begin() noexcept
         {
-            begin = clock.now();
+            begin = chrono::high_resolution_clock::now();
         }
 
         void End() noexcept
         {
-            deltaTime = (clock.now() - begin);
+            deltaTime = (chrono::high_resolution_clock::now() - begin);
         }
 
         uint64 DeltaTimeNanos() const noexcept { return deltaTime.count(); }
@@ -30,9 +30,8 @@ namespace sy
         float32 DeltaTime() const noexcept { return DeltaTimeMillis() / 1000.0f; }
 
     private:
-        chrono::high_resolution_clock clock;
-        chrono::steady_clock::time_point begin;
-        chrono::nanoseconds deltaTime;
+        chrono::steady_clock::time_point begin = chrono::high_resolution_clock::now();
+        chrono::nanoseconds deltaTime = chrono::nanoseconds(0);
 
     };
 }

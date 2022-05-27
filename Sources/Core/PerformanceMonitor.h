@@ -6,6 +6,7 @@ namespace sy
     class PerformanceMonitor
     {
     private:
+        /** https://kyungpyo-kim.github.io/study/thread-safety-of-unordered_map/ */
         using Mutex_t = std::shared_timed_mutex;
         using UpdateLock_t = std::unique_lock<Mutex_t>;
         using ReadLock_t = std::shared_lock<Mutex_t>;
