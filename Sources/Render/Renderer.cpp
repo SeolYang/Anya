@@ -28,7 +28,7 @@ namespace sy
 		{
 			device = std::make_unique<Device>(adapterPatcher[0]);
 			graphicsCommandQueue = std::make_unique<DirectCommandQueue>(*device);
-			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, 2, false);
+			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, EBackBufferMode::Double, false);
 
 			graphicsCommandAllocator = std::make_unique<DirectCommandAllocator>(*device);
 			graphicsCommandList = std::make_unique<DirectCommandList>(*device, *graphicsCommandAllocator);
@@ -42,6 +42,10 @@ namespace sy
 
 	void Renderer::Render()
 	{
-		//swapChain->Present();
+		graphicsCommandAllocator->Reset();
+		graphicsCommandList->Reset();
+
+		{
+		}
 	}
 }

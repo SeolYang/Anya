@@ -10,7 +10,7 @@
 
 namespace sy
 {
-	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, uint8_t backBufferCount, bool bIsPreferHDR) :
+	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, EBackBufferMode backBufferMode, bool bIsPreferHDR) :
 		device(device),
 		queue(graphicsCommandQueue),
 		windowHandle(windowHandle)
@@ -27,7 +27,7 @@ namespace sy
 			.Format = ConvertColorSpaceToColorFormatForBackbuffer(display.ColorSpace(), bIsPreferHDR),
 			.SampleDesc = {.Count = 1, .Quality = 0 },
 			.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
-			.BufferCount = backBufferCount,
+			.BufferCount = utils::ToUnderlyingType(backBufferMode),
 			.Scaling = DXGI_SCALING_STRETCH,
 			.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD,
 			.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH |

@@ -6,6 +6,13 @@
 
 namespace sy
 {
+	enum class EBackBufferMode : uint8_t
+	{
+		None = 1, /* Single */
+		Double,
+		Triple
+	};
+
 	class Device;
 	class Display;
 	class CommandQueue;
@@ -20,7 +27,7 @@ namespace sy
 			const CommandQueue& graphicsCommandQueue,
 			HWND windowHandle,
 			const Dimensions& surfaceDimension,
-			uint8_t backBufferCount,
+			EBackBufferMode backBufferMode,
 			bool bIsPreferHDR);
 
 		void Present();
@@ -28,6 +35,8 @@ namespace sy
 		const std::vector<std::unique_ptr<Texture>>& BackBuffers() const noexcept { return backBuffers; }
 		const std::vector<RTDescriptor>& RTDescriptors() const noexcept { return rtDescriptors; }
 		auto NumBackBuffer() const noexcept { return backBuffers.size(); }
+		uint64 CurrentBackBufferIndex() const { return (uint64)swapChain->GetCurrentBackBufferIndex(); }
+		auto& CurrentBackBufferTexture() const { assert(CurrentBackBufferIndex() < backBuffers.size()); return *backBuffers.at(CurrentBackBufferIndex()); }
 		IDXGISwapChain4* D3DSwapChain() const noexcept { return swapChain.Get(); }
 
 	private:
