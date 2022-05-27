@@ -12,14 +12,15 @@ namespace sy
 	class DescriptorHeap : public RHIObject
 	{
 	public:
-		DescriptorHeap(Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity);
-
 		auto D3DDescriptorHeap() const noexcept { return descriptorHeap.Get(); }
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
 		size_t Capacity() const noexcept { return capacity; }
 		size_t DescriptorSize() const noexcept { return descriptorSize; }
+
+	protected:
+		DescriptorHeap(Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity);
 
 	protected:
 		Device& device;

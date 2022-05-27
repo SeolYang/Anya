@@ -8,11 +8,12 @@ namespace sy
     class CommandAllocator : public RHIObject
     {
     public:
-        CommandAllocator(Device& device, D3D12_COMMAND_LIST_TYPE commandListType);
-        
         virtual void SetDebugName(const std::wstring_view debugName) override;
 
         auto D3DCommandAllocator() const { return commandAllocator.Get(); }
+
+    protected:
+        CommandAllocator(Device& device, D3D12_COMMAND_LIST_TYPE commandListType);
 
     private:
         ComPtr<ID3D12CommandAllocator> commandAllocator;
