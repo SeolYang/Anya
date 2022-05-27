@@ -42,14 +42,21 @@ namespace sy
 	public:
 		enum class DescriptorType : uint8_t
 		{
-			CBV = 0,
-			SRV,
-			UAV,
+			ConstantBuffer = 0,
+			ShaderResource,
+			UnorderedAccess,
 			NumOfTypes
 		};
 
 	public:
 		CBSRUADescriptorHeap(Device& device, const uint32_t cbvCapacity, const uint32_t srvCapacity, const uint32_t uavCapacity);
+
+		/**
+		* @TODO	Implement CB-SR-UA Descriptor Allocations
+		* [0, cb) => CB Descriptors Range => Buffer
+		* [cb, cb+sr) => SR Descriptors Range => Buffer, Texture
+		* [cb+sr, cb+sr+ua) => UA Descriptors Range => Buffer, Texture
+		*/
 
 	private:
 		std::array<uint32_t, utils::ToUnderlyingType(DescriptorType::NumOfTypes)> descriptorCapacities;
