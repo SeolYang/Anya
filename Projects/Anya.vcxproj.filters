@@ -165,6 +165,9 @@
     <ClCompile Include="..\Sources\RHI\CommandList.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1114,6 +1117,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\FrameCounter.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\ResourceBarrier.h">
+      <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

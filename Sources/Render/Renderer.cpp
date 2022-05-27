@@ -5,6 +5,8 @@
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/CommandQueue.h>
+#include <RHI/CommandAllocator.h>
+#include <RHI/CommandList.h>
 #include <RHI/SwapChain.h>
 #include <RHI/DescriptorHeap.h>
 
@@ -23,9 +25,14 @@ namespace sy
 		}
 
 		logger.info("Initializing Renderer...");
-		device = std::make_unique<Device>(adapterPatcher[0]);
-		graphicsCommandQueue = std::make_unique<DirectCommandQueue>(*device);
-		swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, 2, false);
+		{
+			device = std::make_unique<Device>(adapterPatcher[0]);
+			graphicsCommandQueue = std::make_unique<DirectCommandQueue>(*device);
+			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCommandQueue, windowHandle, renderResolution, 2, false);
+
+			graphicsCommandAllocator = std::make_unique<DirectCommandAllocator>(*device);
+			graphicsCommandList = std::make_unique<DirectCommandList>(*device, *graphicsCommandAllocator);
+		}
 		logger.info("Renderer Initialized.");
 	}
 

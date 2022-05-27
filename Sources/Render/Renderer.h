@@ -7,9 +7,17 @@ namespace sy
 {
 	class CommandLineParser;
 	class Device;
+	class SwapChain;
 	class CommandQueue;
 	class DirectCommandQueue;
-	class SwapChain;
+	class DirectCommandList;
+	class DirectCommandAllocator;
+	class CopyCommandQueue;
+	class CopyCommandList;
+	class CopyCommandAllocator;
+	class ComputeCommandQueue;
+	class ComputeCommandList;
+	class ComputeCommandAllocator;
 	class RTDescriptorHeap;
 	class Renderer
 	{
@@ -22,9 +30,12 @@ namespace sy
 	private:
 		AdapterPatcher adapterPatcher;
 		Dimensions renderResolution;
+
 		std::unique_ptr<Device> device;
 		std::unique_ptr<DirectCommandQueue> graphicsCommandQueue;
 		std::unique_ptr<SwapChain> swapChain;
+		std::unique_ptr<DirectCommandAllocator> graphicsCommandAllocator;
+		std::unique_ptr<DirectCommandList> graphicsCommandList;
 
 	};
 }

@@ -2,6 +2,8 @@
 #include <RHI/CommandList.h>
 #include <RHI/Device.h>
 #include <RHI/CommandAllocator.h>
+#include <RHI/RHIResource.h>
+#include <RHI/Texture.h>
 #include <Core/Exceptions.h>
 
 namespace sy
@@ -9,7 +11,9 @@ namespace sy
     CommandList::CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator) :
         commandAllocator(commandAllocator)
     {
-        DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&commandList)));
+        ComPtr<ID3D12GraphicsCommandList> _commandList;
+        DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&_commandList)));
+        DXCall(_commandList.As(&commandList));
         /** Command List is on recording state. So close it at here to make able to call reset later. */
         Close();
         SetDebugName(TEXT("CommandList"));
@@ -62,5 +66,19 @@ namespace sy
         CopyCommandListBase(device, D3D12_COMMAND_LIST_TYPE_COPY, commandAllocator)
     {
         SetDebugName(TEXT("CopyCommandList"));
+    }
+
+    void CopyCommandListBase::CopyResource(const RHIResource& destination, const RHIResource& source)
+    {
+        assert((destination.D3DResource() != nullptr) && (source.D3DResource() != nullptr));
+        D3DCommandList()->CopyResource(destination.D3DResource(), source.D3DResource());
+    }
+
+    void CopyCommandListBase::AppendResourceBarrier(const ResourceBarrier& barrier)
+    {
+    }
+
+    void CopyCommandListBase::AppendResourceBarriers(const std::vector<ResourceBarrier>& barriers)
+    {
     }
 }

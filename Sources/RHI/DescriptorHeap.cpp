@@ -70,7 +70,7 @@ namespace sy
 		rtvHandle.Offset((int32)idx, (uint32)DescriptorSize());
 
 		const auto rtvDesc = RTDescriptorHeap::TextureToRTVDesc(texture, mipLevel);
-		device.D3DDevice()->CreateRenderTargetView(texture.Resource(), &rtvDesc, rtvHandle);
+		device.D3DDevice()->CreateRenderTargetView(texture.D3DResource(), &rtvDesc, rtvHandle);
 
 		return RTDescriptor{ rtvHandle };
 	}

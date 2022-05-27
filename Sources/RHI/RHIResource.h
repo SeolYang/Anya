@@ -11,7 +11,7 @@ namespace sy
 
         virtual void SetDebugName(const std::wstring_view debugName) override;
 
-        ID3D12Resource* Resource() const noexcept { return resource.Get(); }
+        ID3D12Resource* D3DResource() const noexcept { return resource.Get(); }
         const D3D12_RESOURCE_DESC& Description() const noexcept { return resourceDesc; }
 
     private:

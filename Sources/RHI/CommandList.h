@@ -4,12 +4,20 @@
 
 namespace sy
 {
+    /**
+    * https://docs.microsoft.com/en-us/windows/win32/api/d3d12/nn-d3d12-id3d12graphicscommandlist
+    */
+
     class Device;
     class CommandAllocator;
     class DirectCommandAllocator;
     class BundleCommandAllocator;
     class ComputeCommandAllocator;
     class CopyCommandAllocator;
+    class RHIResource;
+    class Texture;
+    class Buffer;
+    class ResourceBarrier;
 
     class CommandList : public RHIObject
     {
@@ -19,13 +27,13 @@ namespace sy
         void Reset();
         void Close();
 
-        ID3D12GraphicsCommandList* D3DCommandList() const noexcept { return commandList.Get(); }
+        ID3D12GraphicsCommandList6* D3DCommandList() const noexcept { return commandList.Get(); }
 
     protected:
         CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator);
 
     private:
-        ComPtr<ID3D12GraphicsCommandList> commandList;
+        ComPtr<ID3D12GraphicsCommandList6> commandList;
         CommandAllocator& commandAllocator;
 
     };
@@ -34,6 +42,9 @@ namespace sy
     {
     public:
         /** Proxy functions for Copy Command List */
+        void CopyResource(const RHIResource& destination, const RHIResource& source);
+        void AppendResourceBarrier(const ResourceBarrier& barrier);
+        void AppendResourceBarriers(const std::vector<ResourceBarrier>& barriers);
 
     protected:
         using CommandList::CommandList;
