@@ -19,6 +19,7 @@ namespace sy
 	class ComputeCommandList;
 	class ComputeCommandAllocator;
 	class RTDescriptorHeap;
+	class Fence;
 	class Renderer
 	{
 	public:
@@ -32,10 +33,12 @@ namespace sy
 		Dimensions renderResolution;
 
 		std::unique_ptr<Device> device;
-		std::unique_ptr<DirectCommandQueue> graphicsCommandQueue;
+		std::unique_ptr<DirectCommandQueue> graphicsCmdQueue;
 		std::unique_ptr<SwapChain> swapChain;
-		std::unique_ptr<DirectCommandAllocator> graphicsCommandAllocator;
-		std::unique_ptr<DirectCommandList> graphicsCommandList;
+		std::unique_ptr<DirectCommandAllocator> graphicsCmdAllocator;
+		std::unique_ptr<DirectCommandList> graphicsCmdList;
+		std::unique_ptr<Fence> fence;
+		HANDLE finishEventHandle;
 
 	};
 }
