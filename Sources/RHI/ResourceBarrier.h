@@ -8,17 +8,21 @@ namespace sy
     class ResourceBarrier : public RHIObject
     {
     public:
-        ResourceBarrier() = default;
+        using Vector_t = std::vector<std::reference_wrapper<const ResourceBarrier>>;
 
+    public:
         auto D3DResourceBarrier() const noexcept { return resourceBarrier; }
         auto Type() const noexcept { return resourceBarrier.Type; }
+
+    protected:
+        ResourceBarrier() = default;
 
     protected:
         D3D12_RESOURCE_BARRIER resourceBarrier{};
 
     };
 
-    inline std::vector<D3D12_RESOURCE_BARRIER> ResourceBarriersToD3D(const std::vector<ResourceBarrier>& barriers)
+    inline std::vector<D3D12_RESOURCE_BARRIER> ResourceBarriersToD3D(const ResourceBarrier::Vector_t& barriers)
     {
         std::vector<D3D12_RESOURCE_BARRIER> temporary;
         temporary.reserve(barriers.size());

@@ -14,6 +14,8 @@ namespace sy
         ID3D12Resource* D3DResource() const noexcept { return resource.Get(); }
         const D3D12_RESOURCE_DESC& Description() const noexcept { return resourceDesc; }
 
+        auto GPUVirtualAddress() const noexcept { return resource->GetGPUVirtualAddress(); }
+
     private:
         ComPtr<ID3D12Resource> resource;
         D3D12_RESOURCE_DESC resourceDesc;

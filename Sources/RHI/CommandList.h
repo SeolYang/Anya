@@ -44,7 +44,7 @@ namespace sy
         /** Proxy functions for Copy Command List */
         void CopyResource(const RHIResource& destination, const RHIResource& source);
         void AppendResourceBarrier(const ResourceBarrier& barrier);
-        void AppendResourceBarriers(const std::vector<ResourceBarrier>& barriers);
+        void AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers);
 
     protected:
         using CommandList::CommandList;

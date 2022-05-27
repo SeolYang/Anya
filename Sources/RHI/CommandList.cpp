@@ -81,7 +81,7 @@ namespace sy
         D3DCommandList()->ResourceBarrier(1, &targetBarrier);
     }
 
-    void CopyCommandListBase::AppendResourceBarriers(const std::vector<ResourceBarrier>& barriers)
+    void CopyCommandListBase::AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers)
     {
         const auto targetBarriers = sy::ResourceBarriersToD3D(barriers);
         D3DCommandList()->ResourceBarrier((uint32)barriers.size(), targetBarriers.data());
