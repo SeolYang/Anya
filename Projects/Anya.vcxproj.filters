@@ -1121,6 +1121,9 @@
     <ClInclude Include="..\Sources\RHI\ResourceBarrier.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\RHI\ClearValue.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

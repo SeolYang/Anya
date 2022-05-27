@@ -106,6 +106,7 @@
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Sources\RHI\Adapter.h" />
     <ClInclude Include="..\Sources\RHI\AdapterPatcher.h" />
+    <ClInclude Include="..\Sources\RHI\ClearValue.h" />
     <ClInclude Include="..\Sources\RHI\CommandAllocator.h" />
     <ClInclude Include="..\Sources\RHI\CommandList.h" />
     <ClInclude Include="..\Sources\RHI\CommandQueue.h" />

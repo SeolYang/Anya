@@ -5,6 +5,7 @@
 #include <RHI/RHIResource.h>
 #include <RHI/Texture.h>
 #include <RHI/ResourceBarrier.h>
+#include <RHI/Descriptor.h>
 #include <Core/Exceptions.h>
 
 namespace sy
@@ -85,5 +86,10 @@ namespace sy
     {
         const auto targetBarriers = sy::ResourceBarriersToD3D(barriers);
         D3DCommandList()->ResourceBarrier((uint32)barriers.size(), targetBarriers.data());
+    }
+
+    void DirectCommandListBase::ClearRenderTarget(const RTDescriptor& rtDescriptor, const DirectX::XMFLOAT4& color)
+    {
+        D3DCommandList()->ClearRenderTargetView(rtDescriptor.CPUHandle(), &color.x, 0, nullptr);
     }
 }

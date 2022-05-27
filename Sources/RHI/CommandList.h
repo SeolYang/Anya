@@ -1,13 +1,13 @@
 #pragma once
 #include <PCH.h>
 #include <RHI/RHI.h>
+#include <RHI/ResourceBarrier.h>
 
 namespace sy
 {
     /**
     * https://docs.microsoft.com/en-us/windows/win32/api/d3d12/nn-d3d12-id3d12graphicscommandlist
     */
-
     class Device;
     class CommandAllocator;
     class DirectCommandAllocator;
@@ -18,6 +18,7 @@ namespace sy
     class Texture;
     class Buffer;
     class ResourceBarrier;
+    class RTDescriptor;
 
     class CommandList : public RHIObject
     {
@@ -65,6 +66,11 @@ namespace sy
     {
     public:
         /** Proxy functions for Direct Command List */
+
+        /**
+        * @brief Clear Render Target.
+        */
+        void ClearRenderTarget(const RTDescriptor& rtDescriptor, const DirectX::XMFLOAT4& color);
 
     protected:
         using ComputeCommandListBase::ComputeCommandListBase;
