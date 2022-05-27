@@ -2,6 +2,7 @@
 #include <RHI/DescriptorHeap.h>
 #include <RHI/Device.h>
 #include <RHI/Texture.h>
+#include <RHI/Sampler.h>
 #include <Core/Exceptions.h>
 
 namespace sy
@@ -59,6 +60,23 @@ namespace sy
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, capacity)
 	{
 		SetDebugName(TEXT("Sampler DescriporHeap"));
+	}
+
+	SamplerDescriptor SamplerDescriptorHeap::Allocate(const size_t idx, const Sampler& sampler)
+	{
+		assert(idx < Capacity());
+
+		auto heap = D3DDescriptorHeap();
+		assert(heap != nullptr);
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE samplerCPUHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
+		samplerCPUHandle = CPUHandleOffset(samplerCPUHandle, idx, DescriptorSize());
+		CD3DX12_GPU_DESCRIPTOR_HANDLE samplerGPUHandle{ heap->GetGPUDescriptorHandleForHeapStart() };
+		samplerGPUHandle = GPUHandleOffset(samplerGPUHandle, idx, DescriptorSize());
+
+		device.D3DDevice()->CreateSampler(&sampler.D3DSampler(), samplerCPUHandle);
+
+		return SamplerDescriptor{ samplerCPUHandle, samplerGPUHandle };
 	}
 
 	DSDescriptorHeap::DSDescriptorHeap(Device& device, const uint32_t capacity) :
