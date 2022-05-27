@@ -37,6 +37,7 @@ namespace sy
 		auto NumBackBuffer() const noexcept { return backBuffers.size(); }
 		uint64 CurrentBackBufferIndex() const { return (uint64)swapChain->GetCurrentBackBufferIndex(); }
 		auto& CurrentBackBufferTexture() const { assert(CurrentBackBufferIndex() < backBuffers.size()); return *backBuffers.at(CurrentBackBufferIndex()); }
+		auto CurrentBackBufferRTV() const { assert(CurrentBackBufferIndex() < rtDescriptors.size()); return rtDescriptors.at(CurrentBackBufferIndex()); }
 		IDXGISwapChain4* D3DSwapChain() const noexcept { return swapChain.Get(); }
 
 	private:
