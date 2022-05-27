@@ -13,6 +13,8 @@ namespace sy
     class Renderer;
     class ComponentArchive;
     class EngineModuleMediator;
+    class Timer;
+    class PerformanceMonitor;
     class Application
     {
     public:
@@ -47,6 +49,8 @@ namespace sy
         std::unique_ptr<EngineModuleMediator> engineModuleMediator;
         std::unique_ptr<Renderer> renderer;
         std::unique_ptr<Scene> scene;
+        std::unique_ptr<Timer> mainTimer;
+        std::unique_ptr<PerformanceMonitor> perfMonitor;
 
     };
 }

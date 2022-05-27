@@ -37,6 +37,7 @@
 #include <utility>
 #include <future>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 
 /** Thirdparty */

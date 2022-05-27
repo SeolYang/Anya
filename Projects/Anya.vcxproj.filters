@@ -1106,6 +1106,12 @@
     <ClInclude Include="..\Sources\RHI\CommandList.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\Core\Timer.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\PerformanceMonitor.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

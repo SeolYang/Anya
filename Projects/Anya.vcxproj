@@ -91,7 +91,9 @@
     <ClInclude Include="..\Sources\Core\EngineModuleMediator.h" />
     <ClInclude Include="..\Sources\Core\EventSystem.h" />
     <ClInclude Include="..\Sources\Core\Exceptions.h" />
+    <ClInclude Include="..\Sources\Core\PerformanceMonitor.h" />
     <ClInclude Include="..\Sources\Core\TaskPool.h" />
+    <ClInclude Include="..\Sources\Core\Timer.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />
     <ClInclude Include="..\Sources\Framework\Scene.h" />
     <ClInclude Include="..\Sources\Math\Dimensions.h" />

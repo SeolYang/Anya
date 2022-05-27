@@ -645,8 +645,8 @@ namespace sy
 		}
 
 		/**
-		* Trying to degragment 'entire' chunk list and chunks(except not fragmented chunk which is full)
-		* It maybe will nullyfies any references, pointers that acquired from Attach and Get methods.
+		* @brief Trying to degragment 'entire' chunk list and chunks(except not fragmented chunk which is full)
+		* @warning It maybe will nullyfies entire references, pointers that acquired from Attach and Get methods.
 		*/
 		void Defragmentation()
 		{
@@ -734,8 +734,8 @@ namespace sy
 		}
 
 		/**
-		* To prevent vector reallocations, always ref chunk list through this method.
-		* Do not reference ChunkList directly when exist possibility to chunkListLUT get modified.
+		* @brief To prevent vector reallocations, always ref chunk list through this method.
+		* @warning Do not reference ChunkList directly when exist possibility to chunkListLUT get modified.
 		*/
 		inline ChunkList& ReferenceChunkList(const size_t idx)
 		{

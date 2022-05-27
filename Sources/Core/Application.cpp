@@ -1,6 +1,8 @@
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
+#include <Core/Timer.h>
+#include <Core/PerformanceMonitor.h>
 #include <Core/EngineModuleMediator.h>
 #include <Render/Renderer.h>
 #include <Framework/Scene.h>
@@ -25,8 +27,10 @@ namespace sy
         title(title),
         cmdLineParser({argc, argv})
     {
+        perfMonitor = std::make_unique<PerformanceMonitor>();
+        mainTimer = std::make_unique<Timer>();
         CreateLogger();
-        engineModuleMediator = std::make_unique<EngineModuleMediator>(*logger, componentArchive);
+        engineModuleMediator = std::make_unique<EngineModuleMediator>(*mainTimer, *perfMonitor, *logger, componentArchive);
         CreateAppWindow();
         renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);
@@ -41,6 +45,8 @@ namespace sy
 
         DestroyAppWindow();
         logger.reset();
+        mainTimer.reset();
+        perfMonitor.reset();
     }
 
     int32 Application::Execute()
@@ -49,6 +55,8 @@ namespace sy
         {
             while (!bShouldClose)
             {
+                mainTimer->Begin();
+
                 MSG msg;
                 ZeroMemory(&msg, sizeof(msg));
                 while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -63,6 +71,9 @@ namespace sy
                 }
 
                 renderer->Render();
+
+                mainTimer->End();
+                perfMonitor->UpdateAs(TEXT("MainLoopDelta"), mainTimer->DeltaTimeNanos());
             }
         }
         catch (Exception exception)
