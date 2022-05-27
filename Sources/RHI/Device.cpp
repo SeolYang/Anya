@@ -59,7 +59,7 @@ namespace sy
 		RHIObject::SetDebugName(debugName);
 		if (device != nullptr)
 		{
-			device->SetName(debugName.data());
+			DXCall(device->SetName(debugName.data()));
 		}
 	}
 }

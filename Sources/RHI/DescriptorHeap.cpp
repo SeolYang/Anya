@@ -30,7 +30,7 @@ namespace sy
 		RHIObject::SetDebugName(debugName);
 		if (descriptorHeap != nullptr)
 		{
-			descriptorHeap->SetName(debugName.data());
+			DXCall(descriptorHeap->SetName(debugName.data()));
 		}
 	}
 	

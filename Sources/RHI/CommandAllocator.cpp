@@ -16,7 +16,7 @@ namespace sy
         RHIObject::SetDebugName(debugName);
         if (commandAllocator != nullptr)
         {
-            commandAllocator->SetName(debugName.data());
+            DXCall(commandAllocator->SetName(debugName.data()));
         }
     }
 

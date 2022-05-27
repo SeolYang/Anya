@@ -10,6 +10,7 @@ namespace sy
         commandAllocator(commandAllocator)
     {
         DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&commandList)));
+        Close();
         SetDebugName(TEXT("CommandList"));
     }
 
@@ -18,7 +19,7 @@ namespace sy
         RHIObject::SetDebugName(debugName);
         if (commandList != nullptr)
         {
-            commandList->SetName(debugName.data());
+            DXCall(commandList->SetName(debugName.data()));
         }
     }
 
@@ -26,7 +27,15 @@ namespace sy
     {
         if (commandList != nullptr)
         {
-            commandList->Reset(commandAllocator.D3DCommandAllocator(), nullptr);
+            DXCall(commandList->Reset(commandAllocator.D3DCommandAllocator(), nullptr));
+        }
+    }
+
+    void CommandList::Close()
+    {
+        if (commandList != nullptr)
+        {
+            DXCall(commandList->Close());
         }
     }
 

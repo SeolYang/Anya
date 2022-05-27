@@ -34,7 +34,7 @@ namespace sy
 		RHIObject::SetDebugName(debugName);
 		if (queue != nullptr)
 		{
-			queue->SetName(debugName.data());
+			DXCall(queue->SetName(debugName.data()));
 		}
 	}
 

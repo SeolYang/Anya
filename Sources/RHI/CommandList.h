@@ -15,7 +15,9 @@ namespace sy
     {
     public:
         virtual void SetDebugName(const std::wstring_view debugName) override;
+
         void Reset();
+        void Close();
 
         ID3D12GraphicsCommandList* D3DCommandList() const noexcept { return commandList.Get(); }
 

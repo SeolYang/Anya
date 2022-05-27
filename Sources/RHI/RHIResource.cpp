@@ -1,5 +1,6 @@
 #include <PCH.h>
 #include <RHI/RHIResource.h>
+#include <Core/Exceptions.h>
 
 namespace sy
 {
@@ -7,5 +8,14 @@ namespace sy
         resource(existingResource),
         resourceDesc(resource->GetDesc())
     {
+    }
+
+    void RHIResource::SetDebugName(const std::wstring_view debugName)
+    {
+        RHIObject::SetDebugName(debugName);
+        if (resource != nullptr)
+        {
+            DXCall(resource->SetName(debugName.data()));
+        }
     }
 }
