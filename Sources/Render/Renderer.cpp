@@ -55,6 +55,8 @@ namespace sy
 
 	Renderer::~Renderer()
 	{
+		CommandQueue::Flush(*graphicsCmdQueue, *fence, finishEventHandle);
+		::CloseHandle(finishEventHandle);
 	}
 
 	void Renderer::Render()
