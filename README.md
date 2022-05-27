@@ -2,10 +2,14 @@
 ## Introduction
 Research driven Direct3D12 Game Engine for study modern rendering techs and to on.
 
-## My Goals
+## Features
 * Entity Component System
+
+## WIP
 * Direct3D 12 based rendering system
 * Render Graph
+
+## My Goals
 * Physically Based Material, Light, Camera
 * Terrain
 * Skeletal Animation
