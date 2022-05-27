@@ -15,14 +15,16 @@ namespace sy
     {
     public:
         virtual void SetDebugName(const std::wstring_view debugName) override;
+        void Reset();
 
-        auto D3DCommandAllocator() const noexcept { return commandList.Get(); }
+        ID3D12GraphicsCommandList* D3DCommandList() const noexcept { return commandList.Get(); }
 
     protected:
         CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator);
 
     private:
-        ComPtr<ID3D12CommandList> commandList;
+        ComPtr<ID3D12GraphicsCommandList> commandList;
+        CommandAllocator& commandAllocator;
 
     };
 

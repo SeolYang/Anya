@@ -67,7 +67,7 @@ namespace sy
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
-		rtvHandle.Offset(idx, DescriptorSize());
+		rtvHandle.Offset((int32)idx, (uint32)DescriptorSize());
 
 		const auto rtvDesc = RTDescriptorHeap::TextureToRTVDesc(texture, mipLevel);
 		device.D3DDevice()->CreateRenderTargetView(texture.Resource(), &rtvDesc, rtvHandle);

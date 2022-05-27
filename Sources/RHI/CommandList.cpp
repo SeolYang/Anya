@@ -6,7 +6,8 @@
 
 namespace sy
 {
-    CommandList::CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator)
+    CommandList::CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator) :
+        commandAllocator(commandAllocator)
     {
         DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&commandList)));
         SetDebugName(TEXT("CommandList"));
@@ -18,6 +19,14 @@ namespace sy
         if (commandList != nullptr)
         {
             commandList->SetName(debugName.data());
+        }
+    }
+
+    void CommandList::Reset()
+    {
+        if (commandList != nullptr)
+        {
+            commandList->Reset(commandAllocator.D3DCommandAllocator(), nullptr);
         }
     }
 

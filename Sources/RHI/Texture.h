@@ -14,10 +14,10 @@ namespace sy
         {
         }
 
-        Dimensions64 Resolution() const
+        Dimensions Resolution() const
         {
             const auto& description = Description();
-            return Dimensions64{ description.Width, description.Height, description.DepthOrArraySize };
+            return Dimensions{ (uint32)description.Width, (uint32)description.Height, (uint32)description.DepthOrArraySize };
         }
 
         uint16 MipLevels() const
