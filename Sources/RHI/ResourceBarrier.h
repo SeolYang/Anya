@@ -9,12 +9,25 @@ namespace sy
     {
     public:
         ResourceBarrier() = default;
+
         auto D3DResourceBarrier() const noexcept { return resourceBarrier; }
+        auto Type() const noexcept { return resourceBarrier.Type; }
 
     protected:
         D3D12_RESOURCE_BARRIER resourceBarrier{};
 
     };
+
+    inline std::vector<D3D12_RESOURCE_BARRIER> ResourceBarriersToD3D(const std::vector<ResourceBarrier>& barriers)
+    {
+        std::vector<D3D12_RESOURCE_BARRIER> temporary;
+        temporary.reserve(barriers.size());
+        std::transform(barriers.begin(), barriers.end(), temporary.begin(), [](const ResourceBarrier& barrier)
+            {
+                return barrier.D3DResourceBarrier();
+            });
+        return temporary;
+    }
 
     class ResourceTransitionBarrier : public ResourceBarrier
     {

@@ -4,6 +4,7 @@
 #include <RHI/CommandAllocator.h>
 #include <RHI/RHIResource.h>
 #include <RHI/Texture.h>
+#include <RHI/ResourceBarrier.h>
 #include <Core/Exceptions.h>
 
 namespace sy
@@ -76,9 +77,13 @@ namespace sy
 
     void CopyCommandListBase::AppendResourceBarrier(const ResourceBarrier& barrier)
     {
+        const auto targetBarrier = barrier.D3DResourceBarrier();
+        D3DCommandList()->ResourceBarrier(1, &targetBarrier);
     }
 
     void CopyCommandListBase::AppendResourceBarriers(const std::vector<ResourceBarrier>& barriers)
     {
+        const auto targetBarriers = sy::ResourceBarriersToD3D(barriers);
+        D3DCommandList()->ResourceBarrier((uint32)barriers.size(), targetBarriers.data());
     }
 }
