@@ -72,17 +72,18 @@ namespace sy
                         DispatchMessage(&msg);
                     }
 
+                    // For frame limit
+                    //auto end = std::chrono::high_resolution_clock::now() + chrono::duration_cast<chrono::nanoseconds>(chrono::milliseconds(16));
+                    //while (std::chrono::high_resolution_clock::now() < end)
+                    //{
+                    //    std::this_thread::yield();
+                    //}
+
                     renderer->Render();
                 }
                 mainTimer->End();
 
-                // For frame limit
-                //auto end = std::chrono::high_resolution_clock::now() + chrono::duration_cast<chrono::nanoseconds>(chrono::milliseconds(16));
-                //while (std::chrono::high_resolution_clock::now() < end)
-                //{
-                //    std::this_thread::yield();
-                //}
-
+ 
                 frameCounter.Update(mainTimer->DeltaTimeNanos());
                 perfMonitor->UpdateAs(TEXT("MainLoopDelta"), mainTimer->DeltaTimeNanos());
             }

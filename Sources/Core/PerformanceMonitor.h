@@ -40,7 +40,7 @@ namespace sy
 
         float64 QueryDouble(const std::wstring_view key) const
         {
-            return QueryMillis(key) / 1000.0;
+            return QueryNanos(key) * 1e-09;
         }
 
         float32 Query(const std::wstring_view key) const

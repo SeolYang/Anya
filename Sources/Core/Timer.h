@@ -26,8 +26,8 @@ namespace sy
 
         uint64 DeltaTimeNanos() const noexcept { return deltaTime.count(); }
         uint64 DeltaTimeMillis() const noexcept { return chrono::duration_cast<chrono::milliseconds>(deltaTime).count(); }
-        float64 DeltaTimeDouble() const noexcept { return DeltaTimeMillis() / 1000.0; }
-        float32 DeltaTime() const noexcept { return DeltaTimeMillis() / 1000.0f; }
+        float64 DeltaTimeDouble() const noexcept { return DeltaTimeNanos() * 1e-09; }
+        float32 DeltaTime() const noexcept { return static_cast<float>(DeltaTimeDouble()); }
 
     private:
         chrono::steady_clock::time_point begin = chrono::high_resolution_clock::now();
