@@ -32,7 +32,7 @@ namespace sy
 		if (CompletedValue() < Value())
 		{
 			SetEventOnCompletion(Value(), handle);
-			::WaitForSingleObject(handle, duration.count());
+			::WaitForSingleObject(handle, (DWORD)duration.count());
 		}
 	}
 }

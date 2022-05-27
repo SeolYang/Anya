@@ -168,6 +168,9 @@
     <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Sampler.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1122,6 +1125,9 @@
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\ClearValue.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Sampler.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -37,6 +37,7 @@
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp" />
     <ClCompile Include="..\Sources\RHI\RHIResource.cpp" />
+    <ClCompile Include="..\Sources\RHI\Sampler.cpp" />
     <ClCompile Include="..\Sources\RHI\SwapChain.cpp" />
     <ClCompile Include="..\Sources\RHI\Texture.cpp" />
     <ClCompile Include="..\Sources\RHI\Viewport.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="..\Sources\RHI\ResourceBarrier.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\RHIResource.h" />
+    <ClInclude Include="..\Sources\RHI\Sampler.h" />
     <ClInclude Include="..\Sources\RHI\SwapChain.h" />
     <ClInclude Include="..\Sources\RHI\Texture.h" />
     <ClInclude Include="..\Sources\RHI\Viewport.h" />
