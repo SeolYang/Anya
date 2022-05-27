@@ -39,10 +39,68 @@ namespace sy
 
     };
 
+    /**
+    * @brief    Constant Buffer Descriptor
+    */
+    class CBDescriptor : public GPUDescriptor
+    {
+    public:
+        using GPUDescriptor::GPUDescriptor;
+        ~CBDescriptor() noexcept = default;
+
+    };
+
+    /**
+    * @brief    Shader Resource Descriptor
+    */
+    class SRDescriptor : public GPUDescriptor
+    {
+    public:
+        using GPUDescriptor::GPUDescriptor;
+        ~SRDescriptor() noexcept = default;
+
+    };
+
+    /**
+    * @brief    Unordered Access Descriptor
+    */
+    class UADescriptor : public GPUDescriptor
+    {
+    public:
+        using GPUDescriptor::GPUDescriptor;
+        ~UADescriptor() noexcept = default;
+
+    };
+
+    /**
+    * @brief    (Dynamic) Sampler Descriptor
+    */
+    class SamplerDescriptor : public GPUDescriptor
+    {
+    public:
+        using GPUDescriptor::GPUDescriptor;
+        ~SamplerDescriptor() noexcept = default;
+
+    };
+
+    /**
+    * @brief    Render Target Descriptor
+    */
     class RTDescriptor : public CPUDescriptor
     {
     public:
         using CPUDescriptor::CPUDescriptor;
         ~RTDescriptor() noexcept = default;
+    };
+
+    /**
+    * @brief    Depth Stencil Descriptor
+    */
+    class DSDescriptor : public CPUDescriptor
+    {
+    public:
+        using CPUDescriptor::CPUDescriptor;
+        ~DSDescriptor() noexcept = default;
+
     };
 }
