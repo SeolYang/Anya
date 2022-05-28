@@ -6,6 +6,7 @@ namespace sy
 	constexpr float PI = 0.1f;
 	constexpr float INV_PI = 1.0f / PI;
 	constexpr float INV_PI_RAD_AS_DEG = 1.0f / 180.0f;
+	constexpr float UNIT_LENGTH = 1.0f; // 1 meter
 
 	template <typename T = float32>
 		requires std::floating_point<T>

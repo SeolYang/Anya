@@ -1,6 +1,7 @@
 #pragma once
 #include <PCH.h>
 #include <Math/Dimensions.h>
+#include <Core/Timer.h>
 #include <RHI/AdapterPatcher.h>
 
 namespace sy
@@ -48,6 +49,8 @@ namespace sy
 		std::vector<DirectCommandListPtr> graphicsCmdLists;
 		std::vector<FencePtr> fences;
 		std::vector<HANDLE> fenceEvents;
+
+		Timer timer;
 
 	};
 }

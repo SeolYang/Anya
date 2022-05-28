@@ -22,6 +22,8 @@ namespace sy
 		renderResolution({ 1280, 720 })
 	{
 		Logger& logger = EngineModuleMediator::LoggerModule();
+		logger.info("D3D Major: {} Minor: {}", D3D12_MAJOR_VERSION, D3D12_MINOR_VERSION);
+
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
 			logger.info("Trying to enable DX12 debug layer...");
@@ -59,6 +61,7 @@ namespace sy
 
 		}
 		logger.info("Renderer Initialized.");
+		timer.Begin();
 	}
 
 	Renderer::~Renderer()
@@ -76,6 +79,8 @@ namespace sy
 
 	void Renderer::Render()
 	{
+		timer.End();
+		
 		const auto currentBackbufferIdx = swapChain->CurrentBackBufferIndex();
 
 		auto& graphicsCmdAllocator = *graphicsCmdAllocators[currentBackbufferIdx];
@@ -88,7 +93,7 @@ namespace sy
 			ResourceTransitionBarrier barrier{ backBuffer, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET };
 			graphicsCmdList.AppendResourceBarrier(barrier);
 
-			ClearValue clearVal{ backBuffer.Format(), DirectX::XMFLOAT4(0.4f, 0.6f, 0.9f, 1.0f)};
+			ClearValue clearVal{ backBuffer.Format(), DirectX::XMFLOAT4(0.4f*std::sin(timer.DeltaTime()), 0.6f*std::cos(timer.DeltaTime()), 0.9f, 1.0f)};
 			graphicsCmdList.ClearRenderTarget(swapChain->CurrentBackBufferRTV(), clearVal.Color);
 		}
 
@@ -106,5 +111,6 @@ namespace sy
 			graphicsCmdQueue->Signal(fence);
 			fence.Wait(fenceEvents[currentBackbufferIdx]);
 		}
+
 	}
 }

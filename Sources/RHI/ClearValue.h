@@ -9,7 +9,7 @@ namespace sy
 		ClearValue(DXGI_FORMAT format, DirectX::XMFLOAT4 color = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), float depth = 1.0f, uint8_t stencil = 0) :
 			Format(format),
 			Color(color),
-			Depth(depth),
+			Depth(std::clamp(depth, D3D12_MIN_DEPTH, D3D12_MAX_DEPTH)),
 			Stencil(stencil)
 		{
 		}
