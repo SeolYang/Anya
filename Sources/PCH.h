@@ -53,7 +53,7 @@
 #include <dxgi1_6.h>
 
 #pragma warning(push)
-#pragma warning(disable:26812)
+#pragma warning(disable:26812 26495 6387 6386 26110)
 #include <D3D12MemoryAllocator/D3D12MemAlloc.h>
 #pragma warning(pop)
 
