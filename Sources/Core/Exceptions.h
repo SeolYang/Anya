@@ -35,8 +35,8 @@ namespace sy
     {
     public:
         Exception() = default;
-        Exception(const std::wstring& exceptionMessage) :
-            message(exceptionMessage)
+        Exception(const std::wstring& exceptionMessage, const size_t line, const std::wstring_view file) :
+            message(std::format(TEXT("{}\nsrc: {}\nline: {}"), exceptionMessage, file, line))
         {
         }
 
@@ -60,8 +60,8 @@ namespace sy
     class DXException : public Exception
     {
     public:
-        DXException(HRESULT hr) : 
-            Exception(GetDXErrorMessage(hr)),
+        DXException(HRESULT hr, const size_t line, const std::wstring_view file) :
+            Exception(GetDXErrorMessage(hr), line, file),
             errorCode(hr)
         {
         }
@@ -77,13 +77,20 @@ namespace sy
     };
 
     /** @TODO: Select one beetween Assert and Exception(or includes more information in debug mode) */
-    extern void DXCall(HRESULT hr);
+
+    inline void _DXCall(HRESULT hr, const size_t line, const std::wstring file)
+    {
+        if (FAILED(hr))
+        {
+            throw DXException(hr, line, file);
+        }
+    }
 
     class Win32Exception : public Exception
     {
     public:
-        Win32Exception(DWORD messageID) :
-            Exception(GetWin32Message(messageID)),
+        Win32Exception(DWORD messageID, const size_t line, const std::wstring_view file) :
+            Exception(GetWin32Message(messageID), line, file),
             messageID(messageID)
         {
         }
@@ -98,6 +105,15 @@ namespace sy
 
     };
 
-    extern void Win32Call(BOOL result);
+    inline void _Win32Call(BOOL result, const size_t line, const std::wstring file)
+    {
+        if (result == 0)
+        {
+            throw Win32Exception(GetLastError(), line, file);
+        }
+    }
+
+#define DXCall(hr) _DXCall(hr, __LINE__, TEXT(__FILE__))
+#define Win32Call(result) _Win32Call(result, __LINE__, TEXT(__FILE__))
 
 }
