@@ -3,22 +3,17 @@
 #include <RHI/Adapter.h>
 #include <RHI/DebugLayer.h>
 #include <Core/Exceptions.h>
-#include <Core/EngineModuleMediator.h>
 
 namespace sy
 {
 	Device::Device(const Adapter& adapter)
 	{
-		Logger& logger = EngineModuleMediator::LoggerModule();
-		logger.info("Creating RHI Device...");
-
 		/** https://docs.microsoft.com/en-us/windows/win32/direct3d12/hardware-feature-levels */
 		D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_2;
 		DXCall(D3D12CreateDevice(adapter.D3DAdapter(), featureLevel, IID_PPV_ARGS(&device)));
 
 #if (defined(DEBUG) || defined(_DEBUG)) && !FORCE_DISABLE_DEBUG_LAYER
 		/* https://www.3dgep.com/learning-directx-12-1/ */
-		logger.info("Acquiring Info Queue from Device...");
 		if (SUCCEEDED(device.As(&infoQueue)))
 		{
 			infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
@@ -43,24 +38,10 @@ namespace sy
 			infoQueueFilter.DenyList.pSeverityList = denySeverities;
 			infoQueueFilter.DenyList.pIDList = denyMessages;
 			DXCall(infoQueue->PushStorageFilter(&infoQueueFilter));
-			logger.info("Acquired Info Queue from Device.");
-		}
-		else
-		{
-			logger.warn("Failed to acquired Info Queue from Device.");
 		}
 #endif
 
 		SetDebugName(TEXT("Device"));
-
-		if (device)
-		{
-			logger.info("RHI Device created.");
-		}
-		else
-		{
-			logger.error("Failed to create D3D Device.");
-		}
 	}
 
 	void Device::SetDebugName(const std::wstring_view debugName)

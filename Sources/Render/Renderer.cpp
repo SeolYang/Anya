@@ -33,7 +33,9 @@ namespace sy
 
 		logger.info("Initializing Renderer...");
 		{
+			logger.info("Creating Device...");
 			device = std::make_unique<Device>(adapterPatcher[0]);
+			logger.info("Device Created.");
 			logger.info("---------------------- Adapter infos ----------------------");
 			logger.info("Description                   : {}", adapterPatcher[0].Description());
 			logger.info("DedicatedVideoMemory          : {} MB", (adapterPatcher[0].DedicatedVideoMemory() / (1024Ui64 * 1024Ui64)));
@@ -43,10 +45,13 @@ namespace sy
 			logger.info("Available for Reservation     : {} MB", (adapterPatcher[0].AvailableForReservation() / (1024Ui64 * 1024Ui64)));
 			logger.info("-----------------------------------------------------------");
 
-			logger.info("Create Graphics Cmd Queue...");
+			logger.info("Creating Graphics Cmd Queue...");
 			graphicsCmdQueue = std::make_unique<DirectCommandQueue>(*device);
-			logger.info("Create Swapchain...");
+			logger.info("Graphics Cmd Queue Created.");
+
+			logger.info("Creating Swapchain...");
 			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, windowHandle, renderResolution, EBackBufferMode::Double, false);
+			logger.info("Swapchain Created.");
 
 			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
 			graphicsCmdLists.reserve(swapChain->NumBackBuffer());
@@ -55,12 +60,9 @@ namespace sy
 
 			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
 			{
-				logger.info("Initialize Cmd Allocator {}", idx);
 				graphicsCmdAllocators.emplace_back(std::make_unique<DirectCommandAllocator>(*device));
-				logger.info("Initialize Cmd List {}", idx);
 				graphicsCmdLists.emplace_back(std::make_unique<DirectCommandList>(*device, *graphicsCmdAllocators[idx]));
 
-				logger.info("Initialize Fence {}", idx);
 				fences.emplace_back(std::make_unique<Fence>(*device));
 				fenceEvents.emplace_back(CreateEventHandle());
 			}
