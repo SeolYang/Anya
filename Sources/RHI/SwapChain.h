@@ -16,6 +16,8 @@ namespace sy
 	class Device;
 	class Display;
 	class CommandQueue;
+	class DirectCommandListBase;
+	class CopyCommandListBase;
 	class RTDescriptorHeap;
 	class Texture;
 	class SwapChain : public RHIObject
@@ -31,6 +33,10 @@ namespace sy
 			bool bIsPreferHDR);
 
 		void Present();
+
+		void BeginFrame(CopyCommandListBase& cmdList);
+		void EndFrame(CopyCommandListBase& cmdList);
+		void Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color);
 
 		const std::vector<std::unique_ptr<Texture>>& BackBuffers() const noexcept { return backBuffers; }
 		const std::vector<RTDescriptor>& RTDescriptors() const noexcept { return rtDescriptors; }

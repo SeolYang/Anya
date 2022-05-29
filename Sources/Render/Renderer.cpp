@@ -90,17 +90,16 @@ namespace sy
 
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
-			ResourceTransitionBarrier barrier{ backBuffer, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET };
-			graphicsCmdList.AppendResourceBarrier(barrier);
+			swapChain->BeginFrame(graphicsCmdList);
 
-			ClearValue clearVal{ backBuffer.Format(), DirectX::XMFLOAT4(0.4f*std::sin(timer.DeltaTime()), 0.6f*std::cos(timer.DeltaTime()), 0.9f, 1.0f)};
-			graphicsCmdList.ClearRenderTarget(swapChain->CurrentBackBufferRTV(), clearVal.Color);
+			ClearValue clearVal{ backBuffer.Format(), };
+			auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
+			swapChain->Clear(graphicsCmdList, clearColor);
 		}
 
 		auto& fence = *fences[currentBackbufferIdx];
 		{
-			ResourceTransitionBarrier barrier{ backBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
-			graphicsCmdList.AppendResourceBarrier(barrier);
+			swapChain->EndFrame(graphicsCmdList);
 			graphicsCmdList.Close();
 
 			graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);

@@ -2,10 +2,12 @@
 #include <RHI/SwapChain.h>
 #include <RHI/Display.h>
 #include <RHI/CommandQueue.h>
+#include <RHI/CommandList.h>
 #include <RHI/DescriptorHeap.h>
 #include <RHI/Descriptor.h>
 #include <RHI/Texture.h>
 #include <RHI/Device.h>
+#include <RHI/ResourceBarrier.h>
 #include <Core/Exceptions.h>
 
 namespace sy
@@ -43,6 +45,23 @@ namespace sy
 	void SwapChain::Present()
 	{
 		swapChain->Present(0, 0);
+	}
+
+	void SwapChain::BeginFrame(CopyCommandListBase& cmdList)
+	{
+		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
+		cmdList.AppendResourceBarrier(barrier);
+	}
+
+	void SwapChain::EndFrame(CopyCommandListBase& cmdList)
+	{
+		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
+		cmdList.AppendResourceBarrier(barrier);
+	}
+
+	void SwapChain::Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color)
+	{
+		cmdList.ClearRenderTarget(CurrentBackBufferRTV(), color);
 	}
 
 	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc)
