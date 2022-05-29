@@ -91,33 +91,30 @@ namespace sy
 
 		auto& graphicsCmdAllocator = *graphicsCmdAllocators[currentBackbufferIdx];
 		auto& graphicsCmdList = *graphicsCmdLists[currentBackbufferIdx];
-
-		PIXMarker marker{ graphicsCmdList, "Render" };
+		auto& fence = *fences[currentBackbufferIdx];
 
 		graphicsCmdAllocator.Reset();
 		graphicsCmdList.Reset();
 
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
+			PIXMarker marker{ graphicsCmdList, "Render" };
 			swapChain->BeginFrame(graphicsCmdList);
 
 			ClearValue clearVal{ backBuffer.Format(), };
 			auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
 			swapChain->Clear(graphicsCmdList, clearColor);
-		}
 
-		auto& fence = *fences[currentBackbufferIdx];
-		{
 			swapChain->EndFrame(graphicsCmdList);
-			graphicsCmdList.Close();
-
-			graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
-
-			swapChain->Present();
-
-			fence.IncrementValue();
-			graphicsCmdQueue->Signal(fence);
-			fence.Wait(fenceEvents[currentBackbufferIdx]);
 		}
+
+		graphicsCmdList.Close();
+		graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
+
+		swapChain->Present();
+
+		fence.IncrementValue();
+		graphicsCmdQueue->Signal(fence);
+		fence.Wait(fenceEvents[currentBackbufferIdx]);
 	}
 }

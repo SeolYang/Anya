@@ -98,11 +98,6 @@ namespace sy
 
     };
 
-    inline void Win32Call(DWORD messageID)
-    {
-        if (messageID == 0)
-        {
-            throw Win32Exception(messageID);
-        }
-    }
+    extern void Win32Call(BOOL result);
+
 }
