@@ -77,13 +77,7 @@ namespace sy
     };
 
     /** @TODO: Select one beetween Assert and Exception(or includes more information in debug mode) */
-    inline void DXCall(HRESULT hr)
-    {
-        if (FAILED(hr))
-        {
-            throw DXException(hr);
-        }
-    }
+    extern void DXCall(HRESULT hr);
 
     class Win32Exception : public Exception
     {

@@ -35,6 +35,7 @@
     <ClCompile Include="..\Sources\RHI\Device.cpp" />
     <ClCompile Include="..\Sources\RHI\Display.cpp" />
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
+    <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp" />
     <ClCompile Include="..\Sources\RHI\RHIResource.cpp" />
     <ClCompile Include="..\Sources\RHI\Sampler.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
+    <ClInclude Include="..\Sources\RHI\PIXMarker.h" />
     <ClInclude Include="..\Sources\RHI\ResourceBarrier.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\RHIResource.h" />
@@ -402,6 +404,10 @@
     <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\stream.hpp" />
     <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\traits.hpp" />
     <ClInclude Include="..\Thirdparty\taskflow\includes\taskflow\utility\uuid.hpp" />
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\pix3.h" />
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\pix3_win.h" />
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\PIXEvents.h" />
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\PIXEventsCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl" />
@@ -463,7 +469,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -471,11 +477,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Thirdparty\assimp\libs;$(SolutionDir)..\Thirdparty\optick\libs</AdditionalLibraryDirectories>
-      <AdditionalDependencies>dxguid.lib;d3d12.lib;dxcompiler.lib;dxgi.lib;assimp_d.lib;OptickCore_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Thirdparty\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxguid.lib;d3d12.lib;dxcompiler.lib;dxgi.lib;assimp.lib;OptickCore.lib;WinPixEventRuntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)Resources" "$(TargetDir)Resources" /e /d /r /i /y</Command>
+      <Command>xcopy "$(ProjectDir)Resources" "$(TargetDir)Resources" /e /d /r /i /y
+xcopy "$(ProjectDir)..\Thirdparty\bin\$(Configuration)" "$(TargetDir)" /e /d /r /i /y</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copy resources and bin to build directory</Message>
@@ -490,7 +497,7 @@
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -500,11 +507,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Thirdparty\assimp\libs;$(SolutionDir)..\Thirdparty\optick\libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Thirdparty\lib\$(Configuration)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxguid.lib;d3d12.lib;dxcompiler.lib;dxgi.lib;assimp.lib;OptickCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)Resources" "$(TargetDir)Resources" /e /d /r /i /y</Command>
+      <Command>xcopy "$(ProjectDir)Resources" "$(TargetDir)Resources" /e /d /r /i /y
+xcopy "$(ProjectDir)..\Thirdparty\bin\$(Configuration)" "$(TargetDir)" /e /d /r /i /y
+</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copy resources and bin to build directory</Message>

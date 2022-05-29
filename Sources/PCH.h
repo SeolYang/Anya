@@ -100,6 +100,13 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #pragma warning(pop)
 
+// WinPixEventRuntime
+/** https://devblogs.microsoft.com/pix/winpixeventruntime */
+#define USE_PIX
+#ifdef USE_PIX
+#include <WinPixEventRuntime/pix3.h>
+#endif
+
 namespace sy
 {
     namespace fs = std::filesystem;

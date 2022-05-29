@@ -58,6 +58,9 @@
     <Filter Include="Sources\Framework">
       <UniqueIdentifier>{8fc9c471-c1ad-4eb2-baaf-04d809b74b9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Thirdparty\WinPixEventRuntime">
+      <UniqueIdentifier>{53f475c5-b0b3-4e0b-89a5-0e1843762c87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -169,6 +172,9 @@
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\Sampler.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\PIXMarker.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1128,6 +1134,21 @@
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\Sampler.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\pix3.h">
+      <Filter>Sources\Thirdparty\WinPixEventRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\pix3_win.h">
+      <Filter>Sources\Thirdparty\WinPixEventRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\PIXEvents.h">
+      <Filter>Sources\Thirdparty\WinPixEventRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\PIXEventsCommon.h">
+      <Filter>Sources\Thirdparty\WinPixEventRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\PIXMarker.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>

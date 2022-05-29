@@ -3,7 +3,7 @@
 #include <Core/Utility.h>
 
 /** Not thread safe ECS */
-#define SY_ECS_THREAD_SAFE 0
+#define SY_ECS_THREAD_SAFE false
 
 namespace sy
 {
@@ -392,7 +392,7 @@ namespace sy
 	using Archetype = std::set<ComponentID>;
 
 	/**
-	* @brief	ComponentArchive itself guarantee thread-safety. But component which stored inside of it is not a thread-safe.
+	* @brief	ComponentArchive itself guarantee thread-safety when SY_ECS_THREAD_SAFE is true. But component which stored inside of it is not a thread-safe.
 	*/
 	class ComponentArchive
 	{

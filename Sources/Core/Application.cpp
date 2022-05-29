@@ -28,13 +28,6 @@ namespace sy
         title(title),
         cmdLineParser({argc, argv})
     {
-        perfMonitor = std::make_unique<PerformanceMonitor>();
-        mainTimer = std::make_unique<Timer>();
-        CreateLogger();
-        engineModuleMediator = std::make_unique<EngineModuleMediator>(*mainTimer, *perfMonitor, *logger, componentArchive);
-        CreateAppWindow();
-        renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
-        LoadScene(EDefaultScenes::Basic);
     }
 
     Application::~Application()
@@ -54,6 +47,8 @@ namespace sy
     {
         try
         {
+            Initialize();
+
             FrameCounter frameCounter;
             while (!bShouldClose)
             {
@@ -82,14 +77,14 @@ namespace sy
                     renderer->Render();
                 }
                 mainTimer->End();
-
  
                 frameCounter.Update(mainTimer->DeltaTimeNanos());
                 perfMonitor->UpdateAs(TEXT("MainLoopDelta"), mainTimer->DeltaTimeNanos());
             }
         }
-        catch (Exception exception)
+        catch (Exception& exception)
         {
+            logger->error(utils::WStringToAnsi(exception.GetMessageW()));
             exception.ShowErrorMessageBox();
             return -1;
         }
@@ -114,6 +109,17 @@ namespace sy
         }
 
         scene->Init();
+    }
+
+    void Application::Initialize()
+    {
+        perfMonitor = std::make_unique<PerformanceMonitor>();
+        mainTimer = std::make_unique<Timer>();
+        CreateLogger();
+        engineModuleMediator = std::make_unique<EngineModuleMediator>(*mainTimer, *perfMonitor, *logger, componentArchive);
+        CreateAppWindow();
+        renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
+        LoadScene(EDefaultScenes::Basic);
     }
 
     void Application::CreateLogger()

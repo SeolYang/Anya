@@ -33,6 +33,7 @@ namespace sy
         void LoadScene(const EDefaultScenes defaultScene);
 
     private:
+        void Initialize();
         void CreateLogger();
         void CreateAppWindow();
         void DestroyAppWindow();

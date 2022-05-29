@@ -13,9 +13,7 @@ namespace sy
     CommandList::CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator) :
         commandAllocator(commandAllocator)
     {
-        ComPtr<ID3D12GraphicsCommandList> _commandList;
-        DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&_commandList)));
-        DXCall(_commandList.As(&commandList));
+        DXCall(device.D3DDevice()->CreateCommandList(device.NodeMask(), type, commandAllocator.D3DCommandAllocator(), nullptr, IID_PPV_ARGS(&commandList)));
         /** Command List is on recording state. So close it at here to make able to call reset later. */
         Close();
         SetDebugName(TEXT("CommandList"));

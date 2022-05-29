@@ -12,6 +12,7 @@ namespace sy
 		Logger& logger = EngineModuleMediator::LoggerModule();
 		logger.info("Creating RHI Device...");
 
+		/** https://docs.microsoft.com/en-us/windows/win32/direct3d12/hardware-feature-levels */
 		D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_2;
 		DXCall(D3D12CreateDevice(adapter.D3DAdapter(), featureLevel, IID_PPV_ARGS(&device)));
 
@@ -51,7 +52,15 @@ namespace sy
 #endif
 
 		SetDebugName(TEXT("Device"));
-		logger.info("RHI Device created.");
+
+		if (device)
+		{
+			logger.info("RHI Device created.");
+		}
+		else
+		{
+			logger.error("Failed to create D3D Device.");
+		}
 	}
 
 	void Device::SetDebugName(const std::wstring_view debugName)

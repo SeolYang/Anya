@@ -22,7 +22,7 @@ namespace sy
 		factoryFlags = DXGI_CREATE_FACTORY_DEBUG;
 #endif
 		DXCall(CreateDXGIFactory2(factoryFlags, IID_PPV_ARGS(&dxgiFactory)));
-
+		
 		DXGI_SWAP_CHAIN_DESC1 desc{
 			.Width = surfaceDimension.Width,
 			.Height = surfaceDimension.Height,

@@ -1,6 +1,5 @@
 #pragma once
 #include <PCH.h>
-#include <Core/Exceptions.h>
 
 namespace sy::utils
 {

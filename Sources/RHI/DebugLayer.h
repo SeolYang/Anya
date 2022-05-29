@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <Core/Exceptions.h>
 
-#define FORCE_DISABLE_DEBUG_LAYER 1
+#define FORCE_DISABLE_DEBUG_LAYER 0
 
 namespace sy
 {
