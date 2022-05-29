@@ -2,6 +2,8 @@
 #include <PCH.h>
 #include <Core/Utility.h>
 
+/** Multi thread based ECS */
+
 namespace sy
 {
 	struct Component
@@ -140,9 +142,7 @@ namespace sy
 			return (*this);
 		}
 
-		/**
-		* @brief Return index of allocation
-		*/
+		/** Return index of allocation */
 		size_t Allocate()
 		{
 			assert(!IsFull());
@@ -151,9 +151,7 @@ namespace sy
 			return alloc;
 		}
 
-		/** 
-		* @brief Return moved allocation, only if return 0 when numOfAllocation is 1
-		*/
+		/** Return moved allocation, only if return 0 when numOfAllocation is 1 */
 		void Deallocate(size_t at)
 		{
 			assert(at < MaxNumOfAllocations());
@@ -245,10 +243,7 @@ namespace sy
 			return (*this);
 		}
 
-		/**
-		* @brief	Create new allocation from free chunk.
-		* @warn		It doesn't call any constructor. 
-		*/
+		/** It doesn't call anyof constructor. */
 		Allocation Create()
 		{
 			assert(sizeOfData > 0);
@@ -268,10 +263,7 @@ namespace sy
 			};
 		}
 
-		/**
-		* @brief	Destroy allocation.
-		* @warn		It doesn't call any destructor.
-		*/
+		/** It doesn't call anyof destructor. */
 		void Destroy(const Allocation allocation)
 		{
 			assert(!allocation.IsFailedToAllocate());
@@ -397,6 +389,10 @@ namespace sy
 	};
 
 	using Archetype = std::set<ComponentID>;
+
+	/**
+	* @brief	ComponentArchive itself guarantee thread-safety. But component which stored inside of it is not a thread-safe.
+	*/
 	class ComponentArchive
 	{
 	public:
@@ -436,20 +432,22 @@ namespace sy
 			T* operator->() { return archive.Get<T>(entity); }
 			const T* operator->() const { return archive.Get<T>(entity); }
 
-			operator bool() const { return IsValid(); }
-			constexpr operator ComponentID() const noexcept { return QueryComponentID<T>(); }
-
 			T& Reference() { return *archive.Get<T>(entity); }
 			const T& Reference() const { return *archive.Get<T>(entity); }
 
 			Entity Owner() const noexcept { return entity; }
 			bool IsValid() const noexcept { return archive.Contains<T>(entity); }
+			constexpr ComponentID ID() const noexcept { return QueryComponentID<T>(); }
 
 		private:
 			const ComponentArchive& archive;
 			const Entity entity;
 
 		};
+
+		using Mutex_t = std::shared_timed_mutex;
+		using WriteLock_t = std::unique_lock<Mutex_t>;
+		using ReadOnlyLock_t = std::shared_lock<Mutex_t>;
 
 	public:
 		ComponentArchive(const ComponentArchive&) = delete;
@@ -502,6 +500,7 @@ namespace sy
 
 		bool Contains(const Entity entity, const ComponentID componentID) const
 		{
+			ReadOnlyLock_t lock{ mutex };
 			const auto foundArchetypeItr = archetypeLUT.find(entity);
 			if (foundArchetypeItr != archetypeLUT.end())
 			{
@@ -518,21 +517,9 @@ namespace sy
 			return Contains(entity, QueryComponentID<T>());
 		}
 
-		bool HasArchetypeChunkList(const Archetype& archetype) const
-		{
-			for (const auto& chunkListPair : chunkListLUT)
-			{
-				if (chunkListPair.first == archetype)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		bool IsSameArchetype(const Entity lhs, const Entity rhs) const
 		{
+			ReadOnlyLock_t lock{ mutex };
 			const auto lhsItr = archetypeLUT.find(lhs);
 			const auto rhsItr = archetypeLUT.find(rhs);
 			if (lhsItr != archetypeLUT.end() && rhsItr != archetypeLUT.end())
@@ -548,6 +535,7 @@ namespace sy
 
 		Archetype QueryArchetype(const Entity entity) const
 		{
+			ReadOnlyLock_t lock{ mutex };
 			if (utils::HasKey(archetypeLUT, entity))
 			{
 				return ReferenceArchetype(archetypeLUT.find(entity)->second.ArchetypeIndex);
@@ -557,10 +545,11 @@ namespace sy
 		}
 
 		/** Return nullptr, if component is already exist or failed to attach. */
-		Component* Attach(const Entity entity, const ComponentID componentID, const bool bCallDefaultConstructor = true)
+		bool Attach(const Entity entity, const ComponentID componentID, const bool bCallDefaultConstructor = true)
 		{
+			WriteLock_t lock{ mutex };
 			Component* result = nullptr;
-			if (!Contains(entity, componentID))
+			if (!ContainsUnsafe(entity, componentID))
 			{
 				if (!utils::HasKey(archetypeLUT, entity))
 				{
@@ -585,37 +574,70 @@ namespace sy
 				archetypeData.ArchetypeIndex = newChunkListIdx;
 
 				result = static_cast<Component*>(ReferenceChunkList(newChunkListIdx).AddressOf(newAllocation, componentID));
-				if (bCallDefaultConstructor)
+				if (result != nullptr && bCallDefaultConstructor)
 				{
 					const DynamicComponentData& dynamicComponentData = dynamicComponentDataLUT[componentID];
 					dynamicComponentData.DefaultConstructor(result);
 				}
-
-				return result;
 			}
 
-			return nullptr;
+			return result != nullptr;
 		}
 
 		template <ComponentType T, typename... Args>
-		T* Attach(const Entity entity, Args&&... args)
+		bool Attach(const Entity entity, Args&&... args)
 		{
 			constexpr bool bShoudCallDefaultConstructor = (sizeof...(Args) == 0);
-			Component* result = Attach(entity, QueryComponentID<T>(), bShoudCallDefaultConstructor);
-			if (result != nullptr)
+			constexpr ComponentID componentID = QueryComponentID<T>();
+			Component* result = nullptr;
+
+			WriteLock_t lock{ mutex };
+			if (!ContainsUnsafe(entity, componentID))
 			{
-				if (!bShoudCallDefaultConstructor)
+				if (!utils::HasKey(archetypeLUT, entity))
 				{
-					return new (result) T(std::forward<Args>(args)...);
+					archetypeLUT[entity] = ArchetypeData();
+				}
+
+				ArchetypeData& archetypeData = archetypeLUT[entity];
+				Archetype archetype = ReferenceArchetype(archetypeData.ArchetypeIndex);
+				archetype.insert(componentID);
+
+				const auto newChunkListIdx = FindOrCreateChunkList(archetype);
+				const ChunkList::Allocation newAllocation = ReferenceChunkList(newChunkListIdx).Create();
+				if (!newAllocation.IsFailedToAllocate() && !ReferenceArchetype(archetypeData.ArchetypeIndex).empty())
+				{
+					const auto oldChunkListIdx = FindOrCreateChunkList(ReferenceArchetype(archetypeData.ArchetypeIndex));
+					ChunkList::MoveData(
+						ReferenceChunkList(oldChunkListIdx), archetypeLUT[entity].Allocation,
+						ReferenceChunkList(newChunkListIdx), newAllocation);
+				}
+
+				archetypeData.Allocation = newAllocation;
+				archetypeData.ArchetypeIndex = newChunkListIdx;
+
+				result = static_cast<Component*>(ReferenceChunkList(newChunkListIdx).AddressOf(newAllocation, componentID));
+				if (result != nullptr)
+				{
+					if (bShoudCallDefaultConstructor)
+					{
+						const DynamicComponentData& dynamicComponentData = dynamicComponentDataLUT[componentID];
+						dynamicComponentData.DefaultConstructor(result);
+					}
+					else
+					{
+						new (result) T(std::forward<Args>(args)...);
+					}
 				}
 			}
 
-			return reinterpret_cast<T*>(result);
+			return result != nullptr;
 		}
 
 		void Detach(const Entity entity, const ComponentID componentID)
 		{
-			if (Contains(entity, componentID))
+			WriteLock_t lock{ mutex };
+			if (ContainsUnsafe(entity, componentID))
 			{
 				ArchetypeData& archetypeData = archetypeLUT[entity];
 				Archetype archetype = ReferenceArchetype(archetypeData.ArchetypeIndex);
@@ -652,10 +674,34 @@ namespace sy
 			Detach(entity, QueryComponentID<T>());
 		}
 
+		/**
+		* @brief	Return Deferred Access Handle Object.
+		*/
 		template <ComponentType T>
 		ComponentHandle<T> GetHandle(const Entity entity) const noexcept
 		{
 			return ComponentHandle<T>(*this, entity);
+		}
+
+		Component* Get(const Entity entity, const ComponentID componentID) const
+		{
+			ReadOnlyLock_t lock{ mutex };
+			if (ContainsUnsafe(entity, componentID))
+			{
+				const auto& archetypeData = archetypeLUT.find(entity)->second;
+				const Archetype& archetype = ReferenceArchetype(archetypeData.ArchetypeIndex);
+				const ChunkList::Allocation& allocation = archetypeData.Allocation;
+				for (size_t idx = 1; idx < chunkListLUT.size(); ++idx) // Except null archetype
+				{
+					if (archetypeData.ArchetypeIndex == idx)
+					{
+						const auto& chunkList = chunkListLUT.at(idx).second;
+						return static_cast<Component*>(chunkList.AddressOf(allocation, componentID));
+					}
+				}
+			}
+
+			return nullptr;
 		}
 
 		template <ComponentType T>
@@ -666,6 +712,7 @@ namespace sy
 
 		void Destroy(const Entity entity)
 		{
+			WriteLock_t lock(mutex);
 			if (utils::HasKey(archetypeLUT, entity))
 			{
 				const auto& archetypeData = archetypeLUT[entity];
@@ -689,11 +736,12 @@ namespace sy
 		}
 
 		/**
-		* @brief Trying to degragment 'entire' chunk list and chunks(except not fragmented chunk which is full)
-		* @warning It maybe will nullyfies entire references, pointers that acquired from Attach and Get methods.
+		* Trying to degragment 'entire' chunk list and chunks(except not fragmented chunk which is full)
+		* It maybe will nullyfies any references, pointers that acquired from Attach and Get methods.
 		*/
 		void Defragmentation()
 		{
+			WriteLock_t lock(mutex);
 			for (auto& archetypeLUTPair : archetypeLUT)
 			{
 				const Entity entity = archetypeLUTPair.first;
@@ -727,6 +775,7 @@ namespace sy
 				Defragmentation();
 			}
 
+			WriteLock_t lock(mutex);
 			chunkListLUT.shrink_to_fit();
 
 			size_t reduced = 0;
@@ -777,9 +826,21 @@ namespace sy
 			return idx;
 		}
 
+		bool ContainsUnsafe(const Entity entity, const ComponentID componentID) const
+		{
+			const auto foundArchetypeItr = archetypeLUT.find(entity);
+			if (foundArchetypeItr != archetypeLUT.end())
+			{
+				const auto& foundArchetypeData = (foundArchetypeItr->second);
+				return utils::HasKey(ReferenceArchetype(foundArchetypeData.ArchetypeIndex), componentID);
+			}
+
+			return false;
+		}
+
 		/**
-		* @brief To prevent vector reallocations, always ref chunk list through this method.
-		* @warning Do not reference ChunkList directly when exist possibility to chunkListLUT get modified.
+		* To prevent vector reallocations, always ref chunk list through this method.
+		* Do not reference ChunkList directly when exist possibility to chunkListLUT get modified.
 		*/
 		inline ChunkList& ReferenceChunkList(const size_t idx)
 		{
@@ -801,35 +862,19 @@ namespace sy
 			return res;
 		}
 
-		Component* Get(const Entity entity, const ComponentID componentID) const
-		{
-			if (Contains(entity, componentID))
-			{
-				const auto& archetypeData = archetypeLUT.find(entity)->second;
-				const Archetype& archetype = ReferenceArchetype(archetypeData.ArchetypeIndex);
-				const ChunkList::Allocation& allocation = archetypeData.Allocation;
-				for (size_t idx = 1; idx < chunkListLUT.size(); ++idx) // Except null archetype
-				{
-					if (archetypeData.ArchetypeIndex == idx)
-					{
-						const auto& chunkList = chunkListLUT.at(idx).second;
-						return static_cast<Component*>(chunkList.AddressOf(allocation, componentID));
-					}
-				}
-			}
-
-			return nullptr;
-		}
-
 	private:
 		static inline std::unique_ptr<ComponentArchive> instance;
 		static inline std::once_flag instanceCreationOnceFlag;
 		static inline std::once_flag instanceDestructionOnceFlag;
+		mutable Mutex_t mutex;
 		robin_hood::unordered_flat_map<ComponentID, DynamicComponentData> dynamicComponentDataLUT;
 		robin_hood::unordered_flat_map<Entity, ArchetypeData> archetypeLUT;
 		std::vector<std::pair<Archetype, ChunkList>> chunkListLUT;
 
 	};
+
+	template <ComponentType T>
+	using ComponentHandle = ComponentArchive::ComponentHandle<T>;
 
 	namespace Filter
 	{
