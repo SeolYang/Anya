@@ -14,6 +14,8 @@ namespace sy
         {
         }
 
+        /** @TODO   Load Texture from external file. */
+
         Dimensions Resolution() const
         {
             const auto& description = Description();

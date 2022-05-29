@@ -56,6 +56,39 @@ namespace sy
 		SetDebugName(TEXT("CB_SR_UA DescriporHeap"));
 	}
 
+	size_t CBSRUADescriptorHeap::IndexOf(const EDescriptorType type, const size_t idx) const noexcept
+	{
+		assert(type == EDescriptorType::NumOfTypes && "Invalid DescriptorType");
+		assert(idx < descriptorCapacities[utils::ToUnderlyingType(type)] && "Out of Range");
+
+		size_t actualIdx = idx;
+		switch (type)
+		{
+		case EDescriptorType::ShaderResource:
+			actualIdx += descriptorCapacities.at(0);
+			break;
+
+		case EDescriptorType::UnorderedAccess:
+			actualIdx += descriptorCapacities.at(0) + descriptorCapacities.at(1);
+			break;
+		}
+
+		return actualIdx;
+	}
+
+	std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> CBSRUADescriptorHeap::OffsetOf(const EDescriptorType type, const size_t idx) const
+	{
+		const size_t actualIdx = IndexOf(type, idx);
+		assert(actualIdx < Capacity() && "Out of Range");
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle{ D3DDescriptorHeap()->GetCPUDescriptorHandleForHeapStart() };
+		cpuHandle.Offset((int32)actualIdx, (uint32)DescriptorSize());
+		CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle{ D3DDescriptorHeap()->GetGPUDescriptorHandleForHeapStart() };
+		gpuHandle.Offset((int32)actualIdx, (uint32)DescriptorSize());
+
+		return std::make_pair(cpuHandle, gpuHandle);
+	}
+
 	SamplerDescriptorHeap::SamplerDescriptorHeap(Device& device, const uint32_t capacity) :
 		DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, capacity)
 	{
@@ -122,7 +155,7 @@ namespace sy
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
-		dsvHandle = CPUHandleOffset(dsvHandle, idx, DescriptorSize());
+		dsvHandle.Offset((int32)idx, (uint32)DescriptorSize());
 
 		const auto dsvDesc = TextureToDSVDesc(texture);
 		device.D3DDevice()->CreateDepthStencilView(texture.D3DResource(), &dsvDesc, dsvHandle);
@@ -205,7 +238,7 @@ namespace sy
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
-		rtvHandle = CPUHandleOffset(rtvHandle, idx, DescriptorSize());
+		rtvHandle.Offset((int32)idx, (uint32)DescriptorSize());
 
 		const auto rtvDesc = TextureToRTVDesc(texture, mipLevel);
 		device.D3DDevice()->CreateRenderTargetView(texture.D3DResource(), &rtvDesc, rtvHandle);

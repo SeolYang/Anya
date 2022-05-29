@@ -40,7 +40,7 @@ namespace sy
 	class CBSRUADescriptorHeap : public DescriptorHeap
 	{
 	public:
-		enum class DescriptorType : uint8_t
+		enum class EDescriptorType : uint8_t
 		{
 			ConstantBuffer = 0,
 			ShaderResource,
@@ -59,7 +59,11 @@ namespace sy
 		*/
 
 	private:
-		std::array<uint32_t, utils::ToUnderlyingType(DescriptorType::NumOfTypes)> descriptorCapacities;
+		size_t IndexOf(const EDescriptorType type, const size_t idx) const noexcept;
+		std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> OffsetOf(const EDescriptorType type, const size_t idx) const;
+
+	private:
+		std::array<uint32_t, utils::ToUnderlyingType(EDescriptorType::NumOfTypes)> descriptorCapacities;
 
 	};
 
