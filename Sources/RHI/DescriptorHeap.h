@@ -4,7 +4,7 @@
 #include <RHI/Descriptor.h>
 #include <Core/Utility.h>
 
-namespace sy
+namespace sy::RHI
 {
 	class Device;
 	class Texture;

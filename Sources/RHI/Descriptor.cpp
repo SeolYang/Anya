@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <RHI/Descriptor.h>
 
-namespace sy
+namespace sy::RHI
 {
     CPUDescriptor::~CPUDescriptor() noexcept
     {

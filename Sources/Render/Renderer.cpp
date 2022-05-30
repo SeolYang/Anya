@@ -5,7 +5,7 @@
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
-#include <RHI/RHIResource.h>
+#include <RHI/Resource.h>
 #include <RHI/Texture.h>
 #include <RHI/CommandQueue.h>
 #include <RHI/CommandAllocator.h>
@@ -27,14 +27,14 @@ namespace sy
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
 			logger.info("Trying to enable DX12 debug layer...");
-			DebugLayer::Enable();
+			RHI::DebugLayer::Enable();
 			logger.info("DX12 debug layer enabled.");
 		}
 
 		logger.info("Initializing Renderer...");
 		{
 			logger.info("Creating Device...");
-			device = std::make_unique<Device>(adapterPatcher[0]);
+			device = std::make_unique<RHI::Device>(adapterPatcher[0]);
 			logger.info("Device Created.");
 			logger.info("---------------------- Adapter infos ----------------------");
 			logger.info("Description                   : {}", adapterPatcher[0].Description());
@@ -46,11 +46,11 @@ namespace sy
 			logger.info("-----------------------------------------------------------");
 
 			logger.info("Creating Graphics Cmd Queue...");
-			graphicsCmdQueue = std::make_unique<DirectCommandQueue>(*device);
+			graphicsCmdQueue = std::make_unique<RHI::DirectCommandQueue>(*device);
 			logger.info("Graphics Cmd Queue Created.");
 
 			logger.info("Creating Swapchain...");
-			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, windowHandle, renderResolution, EBackBufferMode::Double, false);
+			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, windowHandle, renderResolution, RHI::EBackBufferMode::Double, false);
 			logger.info("Swapchain Created.");
 
 			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
@@ -60,11 +60,11 @@ namespace sy
 
 			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
 			{
-				graphicsCmdAllocators.emplace_back(std::make_unique<DirectCommandAllocator>(*device));
-				graphicsCmdLists.emplace_back(std::make_unique<DirectCommandList>(*device, *graphicsCmdAllocators[idx]));
+				graphicsCmdAllocators.emplace_back(std::make_unique<RHI::DirectCommandAllocator>(*device));
+				graphicsCmdLists.emplace_back(std::make_unique<RHI::DirectCommandList>(*device, *graphicsCmdAllocators[idx]));
 
-				fences.emplace_back(std::make_unique<Fence>(*device));
-				fenceEvents.emplace_back(CreateEventHandle());
+				fences.emplace_back(std::make_unique<RHI::Fence>(*device));
+				fenceEvents.emplace_back(RHI::CreateEventHandle());
 			}
 
 		}
@@ -76,7 +76,7 @@ namespace sy
 	{
 		for (size_t idx = 0; idx < fences.size(); ++idx)
 		{
-			CommandQueue::Flush(*graphicsCmdQueue, *fences[idx], fenceEvents[idx]);
+			RHI::CommandQueue::Flush(*graphicsCmdQueue, *fences[idx], fenceEvents[idx]);
 		}
 
 		for (auto handle : fenceEvents)
@@ -100,10 +100,10 @@ namespace sy
 
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
-			PIXMarker marker{ graphicsCmdList, "Render" };
+			RHI::PIXMarker marker{ graphicsCmdList, "Render" };
 			swapChain->BeginFrame(graphicsCmdList);
 
-			ClearValue clearVal{ backBuffer.Format(), };
+			RHI::ClearValue clearVal{ backBuffer.Format(), };
 			auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
 			swapChain->Clear(graphicsCmdList, clearColor);
 

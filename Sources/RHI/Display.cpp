@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <RHI/Display.h>
 
-namespace sy
+namespace sy::RHI
 {
 
 	Display::Display(const DXGI_OUTPUT_DESC1& output) noexcept :

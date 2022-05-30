@@ -4,7 +4,7 @@
 #include <RHI/Descriptor.h>
 #include <Math/Dimensions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	enum class EBackBufferMode : uint8_t
 	{

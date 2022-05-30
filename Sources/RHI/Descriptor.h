@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 
-namespace sy
+namespace sy::RHI
 {
     /* https://www.geeksforgeeks.org/pure-virtual-destructor-c/ */
     class CPUDescriptor

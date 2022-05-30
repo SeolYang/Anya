@@ -3,7 +3,7 @@
 #include <RHI/RHI.h>
 #include <RHI/ResourceBarrier.h>
 
-namespace sy
+namespace sy::RHI
 {
     /**
     * https://docs.microsoft.com/en-us/windows/win32/api/d3d12/nn-d3d12-id3d12graphicscommandlist
@@ -15,7 +15,7 @@ namespace sy
     class BundleCommandAllocator;
     class ComputeCommandAllocator;
     class CopyCommandAllocator;
-    class RHIResource;
+    class Resource;
     class Texture;
     class Buffer;
     class ResourceBarrier;
@@ -44,7 +44,7 @@ namespace sy
     {
     public:
         /** Proxy functions for Copy Command List */
-        void CopyResource(const RHIResource& destination, const RHIResource& source);
+        void CopyResource(const Resource& destination, const Resource& source);
         void AppendResourceBarrier(const ResourceBarrier& barrier);
         void AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers);
 

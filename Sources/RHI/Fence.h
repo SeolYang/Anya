@@ -3,7 +3,7 @@
 #include <RHI/RHI.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	class Device;
 	inline HANDLE CreateEventHandle()

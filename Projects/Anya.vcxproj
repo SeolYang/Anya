@@ -37,7 +37,7 @@
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp" />
-    <ClCompile Include="..\Sources\RHI\RHIResource.cpp" />
+    <ClCompile Include="..\Sources\RHI\Resource.cpp" />
     <ClCompile Include="..\Sources\RHI\Sampler.cpp" />
     <ClCompile Include="..\Sources\RHI\SwapChain.cpp" />
     <ClCompile Include="..\Sources\RHI\Texture.cpp" />
@@ -96,6 +96,7 @@
     <ClInclude Include="..\Sources\Core\Exceptions.h" />
     <ClInclude Include="..\Sources\Core\FrameCounter.h" />
     <ClInclude Include="..\Sources\Core\PerformanceMonitor.h" />
+    <ClInclude Include="..\Sources\Core\Pool.h" />
     <ClInclude Include="..\Sources\Core\TaskPool.h" />
     <ClInclude Include="..\Sources\Core\Timer.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />
@@ -121,7 +122,7 @@
     <ClInclude Include="..\Sources\RHI\PIXMarker.h" />
     <ClInclude Include="..\Sources\RHI\ResourceBarrier.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />
-    <ClInclude Include="..\Sources\RHI\RHIResource.h" />
+    <ClInclude Include="..\Sources\RHI\Resource.h" />
     <ClInclude Include="..\Sources\RHI\Sampler.h" />
     <ClInclude Include="..\Sources\RHI\SwapChain.h" />
     <ClInclude Include="..\Sources\RHI\Texture.h" />

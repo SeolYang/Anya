@@ -156,7 +156,7 @@
     <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\RHIResource.cpp">
+    <ClCompile Include="..\Sources\RHI\Resource.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\Texture.cpp">
@@ -1106,7 +1106,7 @@
     <ClInclude Include="..\Sources\RHI\CommandAllocator.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\RHIResource.h">
+    <ClInclude Include="..\Sources\RHI\Resource.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\Descriptor.h">
@@ -1150,6 +1150,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\PIXMarker.h">
       <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\Pool.h">
+      <Filter>Sources\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

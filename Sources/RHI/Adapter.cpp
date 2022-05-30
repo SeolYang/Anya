@@ -2,7 +2,7 @@
 #include <RHI/Adapter.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	Adapter::Adapter(const ComPtr<IDXGIAdapter1>& _adapter) :
 		adapter(_adapter)

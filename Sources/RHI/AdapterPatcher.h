@@ -5,6 +5,10 @@
 namespace sy
 {
 	class CommandLineParser;
+}
+
+namespace sy::RHI
+{
 	class AdapterPatcher
 	{
 	public:

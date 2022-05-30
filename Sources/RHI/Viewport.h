@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 
-namespace sy
+namespace sy::RHI
 {
 	class Viewport : public RHIObject
 	{

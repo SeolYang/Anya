@@ -2,15 +2,15 @@
 #include <PCH.h>
 #include <Math/Dimensions.h>
 #include <RHI/RHI.h>
-#include <RHI/RHIResource.h>
+#include <RHI/Resource.h>
 
-namespace sy
+namespace sy::RHI
 {
-    class Texture : public RHIResource
+    class Texture : public Resource
     {
     public:
         Texture(const ComPtr<ID3D12Resource>& existingResource) :
-            RHIResource(existingResource)
+            Resource(existingResource)
         {
         }
 

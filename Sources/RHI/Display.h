@@ -3,7 +3,7 @@
 #include <Math/Math.h>
 #include <RHI/RHI.h>
 
-namespace sy
+namespace sy::RHI
 {
 	/**
 	* DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709 => REC709

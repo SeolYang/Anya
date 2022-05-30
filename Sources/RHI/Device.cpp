@@ -4,7 +4,7 @@
 #include <RHI/DebugLayer.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	Device::Device(const Adapter& adapter)
 	{

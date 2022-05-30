@@ -3,7 +3,7 @@
 #include <RHI/RHI.h>
 #include <RHI/Display.h>
 
-namespace sy
+namespace sy::RHI
 {
 	class Adapter : public RHIObject
 	{

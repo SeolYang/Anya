@@ -2,7 +2,7 @@
 #include <RHI/PIXMarker.h>
 #include <RHI/CommandList.h>
 
-namespace sy
+namespace sy::RHI
 {
     PIXMarker::PIXMarker(CommandList& cmdList, const std::wstring_view message) :
         cmdList(cmdList)

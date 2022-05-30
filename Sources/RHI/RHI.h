@@ -1,7 +1,7 @@
 #pragma once
 #include <PCH.h>
 
-namespace sy
+namespace sy::RHI
 {
     class RHIObject
     {

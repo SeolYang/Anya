@@ -2,9 +2,9 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 
-namespace sy
+namespace sy::RHI
 {
-    class RHIResource;
+    class Resource;
     class ResourceBarrier : public RHIObject
     {
     public:
@@ -37,7 +37,7 @@ namespace sy
     {
     public:
         ResourceTransitionBarrier(
-            const RHIResource& resource,
+            const Resource& resource,
             D3D12_RESOURCE_STATES stateBefore, D3D12_RESOURCE_STATES stateAfter,
             uint32 subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES);
 
@@ -47,33 +47,33 @@ namespace sy
         const auto& TargetResource() const noexcept { return resource; }
 
     private:
-        const RHIResource& resource;
+        const Resource& resource;
 
     };
 
     class ResourceAliasingBarrier : public ResourceBarrier
     {
     public:
-        ResourceAliasingBarrier(const RHIResource& resourceBefore, const RHIResource& resourceAfter);
+        ResourceAliasingBarrier(const Resource& resourceBefore, const Resource& resourceAfter);
 
         const auto& ResourceBefore() const noexcept { return resourceBefore; }
         const auto& ResourceAfter() const noexcept { return resourceAfter; }
 
     private:
-        const RHIResource& resourceBefore;
-        const RHIResource& resourceAfter;
+        const Resource& resourceBefore;
+        const Resource& resourceAfter;
 
     };
 
     class ResourceUAVBarrier : public ResourceBarrier
     {
     public:
-        ResourceUAVBarrier(const RHIResource& resource);
+        ResourceUAVBarrier(const Resource& resource);
 
         const auto& TargetResource() const noexcept { return resource; }
 
     private:
-        const RHIResource& resource;
+        const Resource& resource;
 
     };
 }

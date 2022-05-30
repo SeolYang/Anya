@@ -2,13 +2,13 @@
 #include <RHI/CommandList.h>
 #include <RHI/Device.h>
 #include <RHI/CommandAllocator.h>
-#include <RHI/RHIResource.h>
+#include <RHI/Resource.h>
 #include <RHI/Texture.h>
 #include <RHI/ResourceBarrier.h>
 #include <RHI/Descriptor.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
     CommandList::CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator) :
         commandAllocator(commandAllocator)
@@ -68,7 +68,7 @@ namespace sy
         SetDebugName(TEXT("CopyCommandList"));
     }
 
-    void CopyCommandListBase::CopyResource(const RHIResource& destination, const RHIResource& source)
+    void CopyCommandListBase::CopyResource(const Resource& destination, const Resource& source)
     {
         assert((destination.D3DResource() != nullptr) && (source.D3DResource() != nullptr));
         D3DCommandList()->CopyResource(destination.D3DResource(), source.D3DResource());
@@ -82,7 +82,7 @@ namespace sy
 
     void CopyCommandListBase::AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers)
     {
-        const auto targetBarriers = sy::ResourceBarriersToD3D(barriers);
+        const auto targetBarriers = ResourceBarriersToD3D(barriers);
         D3DCommandList()->ResourceBarrier((uint32)barriers.size(), targetBarriers.data());
     }
 

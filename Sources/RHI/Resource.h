@@ -2,12 +2,12 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 
-namespace sy
+namespace sy::RHI
 {
-    class RHIResource : public RHIObject
+    class Resource : public RHIObject
     {
     public:
-        RHIResource(const ComPtr<ID3D12Resource>& existingResource);
+        Resource(const ComPtr<ID3D12Resource>& existingResource);
 
         virtual void SetDebugName(const std::wstring_view debugName) override;
 
@@ -20,7 +20,7 @@ namespace sy
         /**
         * @TODO Implement Resource initialization through D3D12MA(commited) & pre-allocated heap(placed resource).
         */
-        //RHIResource(D3D12MA::Allocator& allocator, D3D12_RESOURCE_DESC resourceDesc);
+        //Resource(D3D12MA::Allocator& allocator, D3D12_RESOURCE_DESC resourceDesc);
 
     private:
         ComPtr<ID3D12Resource> resource;

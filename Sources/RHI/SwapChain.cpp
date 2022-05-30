@@ -10,7 +10,7 @@
 #include <RHI/ResourceBarrier.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, EBackBufferMode backBufferMode, bool bIsPreferHDR) :
 		device(device),

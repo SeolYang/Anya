@@ -104,7 +104,10 @@
 /** https://devblogs.microsoft.com/pix/winpixeventruntime */
 #define USE_PIX
 #ifdef USE_PIX
+#pragma warning(push)
+#pragma warning(disable:6101)
 #include <WinPixEventRuntime/pix3.h>
+#pragma warning(pop)
 #endif
 
 namespace sy

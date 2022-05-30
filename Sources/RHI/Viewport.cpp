@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <RHI/Viewport.h>
 
-namespace sy
+namespace sy::RHI
 {
 	Viewport::Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth) :
 		topLeftX(topLeftX),

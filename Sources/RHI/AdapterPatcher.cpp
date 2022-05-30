@@ -3,7 +3,7 @@
 #include <Core/CommandLineParser.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	AdapterPatcher::AdapterPatcher(const CommandLineParser& commandLineParser)
 	{

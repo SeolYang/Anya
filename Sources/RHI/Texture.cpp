@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <RHI/Texture.h>
 
-namespace sy
+namespace sy::RHI
 {
 
 }

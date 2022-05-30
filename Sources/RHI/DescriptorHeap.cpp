@@ -5,7 +5,7 @@
 #include <RHI/Sampler.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	CD3DX12_CPU_DESCRIPTOR_HANDLE CPUHandleOffset(CD3DX12_CPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
 	{

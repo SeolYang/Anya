@@ -5,7 +5,7 @@
 #include <RHI/Fence.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	CommandQueue::CommandQueue(const Device& device, D3D12_COMMAND_LIST_TYPE type)
 	{

@@ -3,7 +3,7 @@
 #include <RHI/Device.h>
 #include <Core/Exceptions.h>
 
-namespace sy
+namespace sy::RHI
 {
 	Fence::Fence(const Device& device, uint64_t initialValue) :
 		value(initialValue)
