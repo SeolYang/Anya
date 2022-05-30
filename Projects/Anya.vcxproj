@@ -98,6 +98,7 @@
     <ClInclude Include="..\Sources\Core\PerformanceMonitor.h" />
     <ClInclude Include="..\Sources\Core\Pool.h" />
     <ClInclude Include="..\Sources\Core\TaskPool.h" />
+    <ClInclude Include="..\Sources\Core\ThreadSafeQueue.h" />
     <ClInclude Include="..\Sources\Core\Timer.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />
     <ClInclude Include="..\Sources\Framework\Scene.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
+    <ClInclude Include="..\Sources\RHI\StandardRootSignature.h" />
     <ClInclude Include="..\Sources\RHI\PIXMarker.h" />
     <ClInclude Include="..\Sources\RHI\ResourceBarrier.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />

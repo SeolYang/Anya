@@ -55,34 +55,25 @@ namespace sy
 
 			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
 			graphicsCmdLists.reserve(swapChain->NumBackBuffer());
-			fences.reserve(swapChain->NumBackBuffer());
-			fenceEvents.reserve(swapChain->NumBackBuffer());
+
+			fence = std::make_unique<RHI::Fence>(*device);
+			fenceEvent = RHI::CreateEventHandle();
 
 			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
 			{
 				graphicsCmdAllocators.emplace_back(std::make_unique<RHI::DirectCommandAllocator>(*device));
 				graphicsCmdLists.emplace_back(std::make_unique<RHI::DirectCommandList>(*device, *graphicsCmdAllocators[idx]));
-
-				fences.emplace_back(std::make_unique<RHI::Fence>(*device));
-				fenceEvents.emplace_back(RHI::CreateEventHandle());
 			}
-
 		}
+
 		logger.info("Renderer Initialized.");
 		timer.Begin();
 	}
 
 	Renderer::~Renderer()
 	{
-		for (size_t idx = 0; idx < fences.size(); ++idx)
-		{
-			RHI::CommandQueue::Flush(*graphicsCmdQueue, *fences[idx], fenceEvents[idx]);
-		}
-
-		for (auto handle : fenceEvents)
-		{
-			::CloseHandle(handle);
-		}
+		RHI::CommandQueue::Flush(*graphicsCmdQueue, *fence, fenceEvent);
+		::CloseHandle(fenceEvent);
 	}
 
 	void Renderer::Render()
@@ -93,11 +84,9 @@ namespace sy
 
 		auto& graphicsCmdAllocator = *graphicsCmdAllocators[currentBackbufferIdx];
 		auto& graphicsCmdList = *graphicsCmdLists[currentBackbufferIdx];
-		auto& fence = *fences[currentBackbufferIdx];
 
 		graphicsCmdAllocator.Reset();
 		graphicsCmdList.Reset();
-
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
 			RHI::PIXMarker marker{ graphicsCmdList, "Render" };
@@ -109,14 +98,12 @@ namespace sy
 
 			swapChain->EndFrame(graphicsCmdList);
 		}
-
 		graphicsCmdList.Close();
+
 		graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
-
 		swapChain->Present();
-
-		fence.IncrementValue();
-		graphicsCmdQueue->Signal(fence);
-		fence.Wait(fenceEvents[currentBackbufferIdx]);
+		fence->IncrementValue();
+		graphicsCmdQueue->Signal(*fence);
+		fence->Wait(fenceEvent);
 	}
 }

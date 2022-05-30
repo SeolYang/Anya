@@ -47,14 +47,13 @@ namespace sy::RHI
 		IDXGISwapChain4* D3DSwapChain() const noexcept { return swapChain.Get(); }
 
 	private:
-		void ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc);
+		void ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const CommandQueue& cmdQueue);
 		void ConstructRTV(const size_t bufferCount);
 
 	private:
 		Device& device;
 		ComPtr<IDXGIFactory7> dxgiFactory;
 		ComPtr<IDXGISwapChain4> swapChain;
-		const CommandQueue& queue;
 		HWND windowHandle;
 		std::vector<std::unique_ptr<Texture>> backBuffers;
 		std::vector<RTDescriptor> rtDescriptors;

@@ -5,6 +5,8 @@
 namespace sy::RHI
 {
     class Device;
+    /** Command list can executed immediately after it has been excuted on CMD Queue. */
+    /** But, Command allocator can't be reusable until commands stored in the cmd allocator have finished executing on the cmd queue. */
     class CommandAllocator : public RHIObject
     {
     public:

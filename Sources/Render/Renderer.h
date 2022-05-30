@@ -51,8 +51,8 @@ namespace sy
 		std::unique_ptr<RHI::SwapChain> swapChain;
 		std::vector<DirectCommandAllocatorPtr> graphicsCmdAllocators;
 		std::vector<DirectCommandListPtr> graphicsCmdLists;
-		std::vector<FencePtr> fences;
-		std::vector<HANDLE> fenceEvents;
+		FencePtr fence;
+		HANDLE fenceEvent;
 
 		Timer timer;
 

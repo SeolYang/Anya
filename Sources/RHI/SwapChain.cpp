@@ -14,7 +14,6 @@ namespace sy::RHI
 {
 	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, EBackBufferMode backBufferMode, bool bIsPreferHDR) :
 		device(device),
-		queue(graphicsCommandQueue),
 		windowHandle(windowHandle)
 	{
 		uint32_t factoryFlags = 0;
@@ -36,7 +35,7 @@ namespace sy::RHI
 					(CheckFeatureSupport::PresentAllowTearing() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : (UINT)0)
 		};
 
-		ConstructSwapChain(desc);
+		ConstructSwapChain(desc, graphicsCommandQueue);
 		ConstructRTV(desc.BufferCount);
 		swapChain->SetColorSpace1(display.ColorSpace());
 		SetDebugName(TEXT("SwapChain"));
@@ -64,10 +63,10 @@ namespace sy::RHI
 		cmdList.ClearRenderTarget(CurrentBackBufferRTV(), color);
 	}
 
-	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc)
+	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const CommandQueue& cmdQueue)
 	{
 		ComPtr<IDXGISwapChain1> _swapChain;
-		DXCall(dxgiFactory->CreateSwapChainForHwnd(queue.D3DCommandQueue(), windowHandle, &desc, nullptr, nullptr, &_swapChain));
+		DXCall(dxgiFactory->CreateSwapChainForHwnd(cmdQueue.D3DCommandQueue(), windowHandle, &desc, nullptr, nullptr, &_swapChain));
 		/** Disable ALT+ENTER Full screen toggle */
 		DXCall(dxgiFactory->MakeWindowAssociation(windowHandle, DXGI_MWA_NO_ALT_ENTER));
 		DXCall(_swapChain.As(&swapChain));

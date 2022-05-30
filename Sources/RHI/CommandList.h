@@ -32,11 +32,11 @@ namespace sy::RHI
         ID3D12GraphicsCommandList6* D3DCommandList() const noexcept { return commandList.Get(); }
 
     protected:
-        CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, CommandAllocator& commandAllocator);
+        CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, const CommandAllocator& cmdAllocator);
 
     private:
         ComPtr<ID3D12GraphicsCommandList6> commandList;
-        CommandAllocator& commandAllocator;
+        const CommandAllocator& cmdAllocator;
 
     };
 
@@ -84,7 +84,7 @@ namespace sy::RHI
     class DirectCommandList : public DirectCommandListBase
     {
     public:
-        DirectCommandList(Device& device, DirectCommandAllocator& commandAllocator);
+        DirectCommandList(Device& device, const DirectCommandAllocator& commandAllocator);
 
     };
 
@@ -94,7 +94,7 @@ namespace sy::RHI
     class BundleCommandList : public DirectCommandListBase
     {
     public:
-        BundleCommandList(Device& device, BundleCommandAllocator& commandAllocator);
+        BundleCommandList(Device& device, const BundleCommandAllocator& commandAllocator);
 
     };
 
@@ -104,14 +104,14 @@ namespace sy::RHI
     class ComputeCommandList : public ComputeCommandListBase
     {
     public:
-        ComputeCommandList(Device& device, ComputeCommandAllocator& commandAllocator);
+        ComputeCommandList(Device& device, const ComputeCommandAllocator& commandAllocator);
 
     };
 
     class CopyCommandList : public CopyCommandListBase
     {
     public:
-        CopyCommandList(Device& device, CopyCommandAllocator& commandAllocator);
+        CopyCommandList(Device& device, const CopyCommandAllocator& commandAllocator);
 
     };
 }

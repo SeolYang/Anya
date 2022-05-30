@@ -20,7 +20,7 @@ namespace sy
             size_t Offset;
         };
 
-        using Slot = SlotType<SlotDataType>;
+        using Slot_t = SlotType<SlotDataType>;
 
         Pool(const size_t sizePerSlot = sizeof(SlotDataType), const size_t numOfGrowSlots = 64) :
             sizePerSlot(sizePerSlot),
@@ -29,14 +29,14 @@ namespace sy
         {
         }
 
-        Slot Allocate()
+        Slot_t Allocate()
         {
             if (freeSlots.empty())
             {
                 Grow();
             }
 
-            Slot slot = std::move(freeSlots.front());
+            Slot_t slot = std::move(freeSlots.front());
             freeSlots.pop();
             return slot;
         }
@@ -57,7 +57,7 @@ namespace sy
         }
 
     private:
-        std::queue<Slot> freeSlots;
+        std::queue<Slot_t> freeSlots;
         const size_t sizePerSlot;
         const size_t numOfGrowSlots;
         size_t allocatedSize;

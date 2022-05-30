@@ -57,9 +57,9 @@ namespace sy::RHI
 		* [cb, cb+sr) => SR Descriptors Range => Buffer, Texture
 		* [cb+sr, cb+sr+ua) => UA Descriptors Range => Buffer, Texture
 		*/
+		size_t IndexOf(const EDescriptorType type, const size_t idx) const noexcept;
 
 	private:
-		size_t IndexOf(const EDescriptorType type, const size_t idx) const noexcept;
 		std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> OffsetOf(const EDescriptorType type, const size_t idx) const;
 
 	private:

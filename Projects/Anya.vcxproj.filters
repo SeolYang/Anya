@@ -1154,6 +1154,12 @@
     <ClInclude Include="..\Sources\Core\Pool.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\RHI\StandardRootSignature.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\ThreadSafeQueue.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

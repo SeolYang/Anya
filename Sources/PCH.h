@@ -135,4 +135,8 @@ namespace sy
 
     template <typename T>
     using OptionalRef = std::optional<std::reference_wrapper<T>>;
+
+    using Mutex = std::shared_timed_mutex;
+    using ReadWriteLock = std::unique_lock<Mutex>;
+    using ReadOnlyLock = std::shared_lock<Mutex>;
 }
