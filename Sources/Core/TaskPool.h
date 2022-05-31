@@ -13,8 +13,9 @@ namespace sy
             threads.reserve(hardwareConcurrency);
             for (size_t idx = 0; idx < hardwareConcurrency; ++idx)
             {
-                threads.emplace_back([this]()
+                threads.emplace_back([this, idx]()
                     {
+                        tidx = idx;
                         while (true)
                         {
                             std::function<void()> task;
@@ -111,6 +112,16 @@ namespace sy
 
         size_t ThreadsCount() const { return threads.size(); }
 
+        static size_t ThreadIndex()
+        {
+            return tidx;
+        }
+
+        static bool IsWorkerThread()
+        {
+            return tidx != std::numeric_limits<size_t>::max();
+        }
+
     private:
         bool bForceExist;
         std::vector<std::thread> threads;
@@ -118,6 +129,8 @@ namespace sy
         std::vector<std::function<void()>> deferredTasks;
         std::condition_variable cv;
         std::mutex mutex;
+
+        static inline thread_local size_t tidx = std::numeric_limits<size_t>::max();
 
     };
 }
