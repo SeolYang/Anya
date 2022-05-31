@@ -9,10 +9,11 @@ namespace sy
         Basic, /* Empty Scene */
     };
 
+    class TaskPool;
     class Scene;
     class Renderer;
     class ComponentArchive;
-    class EngineModuleMediator;
+    class EngineCore;
     class Timer;
     class PerformanceMonitor;
     class Application
@@ -45,13 +46,15 @@ namespace sy
         std::wstring title;
 
         CommandLineParser cmdLineParser;
+        std::unique_ptr<TaskPool> taskPool;
         std::unique_ptr<spdlog::logger> logger;
-        ComponentArchive& componentArchive;
-        std::unique_ptr<EngineModuleMediator> engineModuleMediator;
-        std::unique_ptr<Renderer> renderer;
-        std::unique_ptr<Scene> scene;
         std::unique_ptr<Timer> mainTimer;
         std::unique_ptr<PerformanceMonitor> perfMonitor;
+        ComponentArchive& componentArchive;
+        std::unique_ptr<EngineCore> engineModuleMediator;
+        std::unique_ptr<Renderer> renderer;
+        std::unique_ptr<Scene> scene;
+
 
     };
 }

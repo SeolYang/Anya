@@ -1,4 +1,5 @@
 #include <PCH.h>
+#include <Core/EngineCoreMediator.h>
 #include <Framework/Scene.h>
 #include <Components/HierarchyComponent.h>
 #include <Components/TagComponents.h>
@@ -36,8 +37,22 @@ namespace sy
         componentArchive.Attach<HierarchyComponent>(newEntity, parent);
         componentArchive.Attach<TransformComponent>(newEntity);
 
-        Logger& logger = EngineModuleMediator::LoggerModule();
+        Logger& logger = EngineCore::EngineLogger();
         logger.info("Scene Entity %d created in scene.", utils::ToUnderlyingType(newEntity));
         return newEntity;
+    }
+
+    void Scene::Init()
+    {
+        Logger& logger = EngineCore::EngineLogger();
+        logger.info("Initializing Scene...");
+        if (Init_Internal())
+        {
+            logger.info("Scene Initialized.");
+        }
+        else
+        {
+            logger.error("Failed to initialize Scene.");
+        }
     }
 }

@@ -5,25 +5,19 @@ namespace sy
 {
     class PerformanceMonitor
     {
-    private:
-        /** https://kyungpyo-kim.github.io/study/thread-safety-of-unordered_map/ */
-        using Mutex_t = std::shared_timed_mutex;
-        using UpdateLock_t = std::unique_lock<Mutex_t>;
-        using ReadLock_t = std::shared_lock<Mutex_t>;
-
     public:
         PerformanceMonitor() noexcept = default;
         ~PerformanceMonitor() noexcept = default;
 
         void UpdateAs(const std::wstring_view key, const uint64 nanos)
         {
-            UpdateLock_t lock{mutex};
+            ReadWriteLock lock{mutex};
             monitor[key.data()] = nanos;
         }
 
         uint64 QueryNanos(const std::wstring_view key) const
         {
-            ReadLock_t lock{ mutex };
+            ReadOnlyLock lock{ mutex };
             auto found = monitor.find(key.data());
             if (found != monitor.end())
             {
@@ -49,7 +43,8 @@ namespace sy
         }
 
     private:
-        mutable Mutex_t mutex;
+        /** https://kyungpyo-kim.github.io/study/thread-safety-of-unordered_map/ */
+        mutable Mutex mutex;
         robin_hood::unordered_map<std::wstring, uint64> monitor;
 
     };

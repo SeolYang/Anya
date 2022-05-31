@@ -1,10 +1,11 @@
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
+#include <Core/TaskPool.h>
 #include <Core/Timer.h>
 #include <Core/PerformanceMonitor.h>
 #include <Core/FrameCounter.h>
-#include <Core/EngineModuleMediator.h>
+#include <Core/EngineCoreMediator.h>
 #include <Render/Renderer.h>
 #include <Framework/Scene.h>
 #include <Math/Math.h>
@@ -113,13 +114,15 @@ namespace sy
 
     void Application::Initialize()
     {
-        perfMonitor = std::make_unique<PerformanceMonitor>();
-        mainTimer = std::make_unique<Timer>();
+        taskPool = std::make_unique<TaskPool>();
         CreateLogger();
-        engineModuleMediator = std::make_unique<EngineModuleMediator>(*mainTimer, *perfMonitor, *logger, componentArchive);
+        mainTimer = std::make_unique<Timer>();
+        perfMonitor = std::make_unique<PerformanceMonitor>();
+        engineModuleMediator = std::make_unique<EngineCore>(*taskPool, *mainTimer, *perfMonitor, *logger, componentArchive);
         CreateAppWindow();
         renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);
+
     }
 
     void Application::CreateLogger()
@@ -136,7 +139,7 @@ namespace sy
         const auto sinksInitList = { 
             std::static_pointer_cast<spdlog::sinks::sink>(consoleSink),
             std::static_pointer_cast<spdlog::sinks::sink>(fileSink) };
-        logger = std::make_unique<spdlog::logger>("Anya", sinksInitList);
+        logger = std::make_unique<spdlog::logger>("Core", sinksInitList);
         logger->info("Logger Initialized.");
     }
 

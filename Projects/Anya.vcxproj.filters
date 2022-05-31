@@ -1100,7 +1100,7 @@
     <ClInclude Include="..\Sources\RHI\RHI.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Core\EngineModuleMediator.h">
+    <ClInclude Include="..\Sources\Core\EngineCoreMediator.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\CommandAllocator.h">
@@ -1158,6 +1158,9 @@
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Core\ThreadSafeQueue.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Core\RingBuffer.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
 #include <PCH.h>
 #include <Core/ECS.h>
-#include <Core/EngineModuleMediator.h>
 
 namespace sy
 {
@@ -20,19 +19,7 @@ namespace sy
         Entity CreateCamera();
         Entity CreateSky(ESkyType);
 
-        void Init()
-        { 
-            Logger& logger = EngineModuleMediator::LoggerModule();
-            logger.info("Initializing Scene...");
-            if (Init_Internal())
-            {
-                logger.info("Scene Initialized.");
-            }
-            else
-            {
-                logger.error("Failed to initialize Scene.");
-            }
-        }
+        void Init();
 
         const std::vector<Entity>& Entities() const noexcept { return entities; }
 

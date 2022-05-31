@@ -91,12 +91,13 @@
     <ClInclude Include="..\Sources\Core\CommandLineParser.h" />
     <ClInclude Include="..\Sources\Core\DXErr.h" />
     <ClInclude Include="..\Sources\Core\ECS.h" />
-    <ClInclude Include="..\Sources\Core\EngineModuleMediator.h" />
+    <ClInclude Include="..\Sources\Core\EngineCoreMediator.h" />
     <ClInclude Include="..\Sources\Core\EventSystem.h" />
     <ClInclude Include="..\Sources\Core\Exceptions.h" />
     <ClInclude Include="..\Sources\Core\FrameCounter.h" />
     <ClInclude Include="..\Sources\Core\PerformanceMonitor.h" />
     <ClInclude Include="..\Sources\Core\Pool.h" />
+    <ClInclude Include="..\Sources\Core\RingBuffer.h" />
     <ClInclude Include="..\Sources\Core\TaskPool.h" />
     <ClInclude Include="..\Sources\Core\ThreadSafeQueue.h" />
     <ClInclude Include="..\Sources\Core\Timer.h" />

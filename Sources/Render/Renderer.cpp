@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <Render/Renderer.h>
 #include <Core/CommandLineParser.h>
-#include <Core/EngineModuleMediator.h>
+#include <Core/EngineCoreMediator.h>
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
@@ -22,7 +22,7 @@ namespace sy
 		adapterPatcher(commandLineParser),
 		renderResolution({ 1280, 720 })
 	{
-		Logger& logger = EngineModuleMediator::LoggerModule();
+		Logger& logger = EngineCore::EngineLogger();
 
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
