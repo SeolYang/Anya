@@ -80,7 +80,7 @@ namespace sy::RHI
             [this, slot](const decltype(descriptor)* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
-                    .Pool = &dsDescriptorPool,
+                    .Pool = &rtDescriptorPool,
                     .Slot = slot
                     });
 
@@ -94,5 +94,7 @@ namespace sy::RHI
         {
             dealloc.Pool->Deallocate(dealloc.Slot);
         }
+
+        pendingDeallocations[frameIndex].clear();
     }
 }

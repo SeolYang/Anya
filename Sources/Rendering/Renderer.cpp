@@ -11,7 +11,7 @@
 #include <RHI/CommandAllocator.h>
 #include <RHI/CommandList.h>
 #include <RHI/ResourceBarrier.h>
-#include <RHI/SwapChain.h>
+#include <RHI/DescriptorPool.h>
 #include <RHI/DescriptorHeap.h>
 #include <RHI/ClearValue.h>
 #include <RHI/PIXMarker.h>
@@ -49,14 +49,18 @@ namespace sy
 			graphicsCmdQueue = std::make_unique<RHI::DirectCommandQueue>(*device);
 			logger.info("Graphics Cmd Queue Created.");
 
+			logger.info("Creating Descriptor Pool...");
+			descriptorPool = std::make_unique<RHI::DescriptorPool>(*device, SimultaneousFrames);
+			logger.info("Descriptor Pool Created.");
+
 			logger.info("Creating Swapchain...");
-			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, windowHandle, renderResolution, RHI::EBackBufferMode::Double, false);
+			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
 			logger.info("Swapchain Created.");
 
 			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
 			graphicsCmdLists.reserve(swapChain->NumBackBuffer());
 
-			fence = std::make_unique<RHI::Fence>(*device);
+			frameFence = std::make_unique<RHI::Fence>(*device);
 			fenceEvent = RHI::CreateEventHandle();
 
 			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
@@ -66,27 +70,31 @@ namespace sy
 			}
 		}
 
+		frameFence->IncrementValue();
+		NotifyFrameBegin(frameFence->Value());
+
 		logger.info("Renderer Initialized.");
-		timer.Begin();
 	}
 
 	Renderer::~Renderer()
 	{
-		RHI::CommandQueue::Flush(*graphicsCmdQueue, *fence, fenceEvent);
+		RHI::CommandQueue::Flush(*graphicsCmdQueue, *frameFence, fenceEvent);
 		::CloseHandle(fenceEvent);
 	}
 
 	void Renderer::Render()
 	{
-		timer.End();
-		
 		const auto currentBackbufferIdx = swapChain->CurrentBackBufferIndex();
 
 		auto& graphicsCmdAllocator = *graphicsCmdAllocators[currentBackbufferIdx];
 		auto& graphicsCmdList = *graphicsCmdLists[currentBackbufferIdx];
+		
+		frameFence->IncrementValue();
+		NotifyFrameBegin(frameFence->Value());
 
 		graphicsCmdAllocator.Reset();
 		graphicsCmdList.Reset();
+
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
 			RHI::PIXMarker marker{ graphicsCmdList, "Render" };
@@ -99,11 +107,25 @@ namespace sy
 			swapChain->EndFrame(graphicsCmdList);
 		}
 		graphicsCmdList.Close();
-
 		graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
+
 		swapChain->Present();
-		fence->IncrementValue();
-		graphicsCmdQueue->Signal(*fence);
-		fence->Wait(fenceEvent);
+
+		graphicsCmdQueue->Signal(*frameFence);
+		frameFence->Wait(fenceEvent);
+
+		NotifyFrameEnd(frameFence->CompletedValue());
+	}
+
+	void Renderer::NotifyFrameBegin(uint64 frameNumber)
+	{
+		timer.Begin();
+		descriptorPool->BeginFrame(frameNumber);
+	}
+
+	void Renderer::NotifyFrameEnd(uint64 completedFrameNumber)
+	{
+		descriptorPool->EndFrame(completedFrameNumber);
+		timer.End();
 	}
 }

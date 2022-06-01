@@ -12,8 +12,9 @@
 
 namespace sy::RHI
 {
-	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, HWND windowHandle, const Dimensions& surfaceDimension, EBackBufferMode backBufferMode, bool bIsPreferHDR) :
+	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, DescriptorPool& descriptorPool, HWND windowHandle, const Dimensions& surfaceDimension, EBackBufferMode backBufferMode, bool bIsPreferHDR) :
 		device(device),
+		descriptorPool(descriptorPool),
 		windowHandle(windowHandle)
 	{
 		uint32_t factoryFlags = 0;
@@ -36,7 +37,6 @@ namespace sy::RHI
 		};
 
 		ConstructSwapChain(desc, graphicsCommandQueue);
-		ConstructRTV(desc.BufferCount);
 		swapChain->SetColorSpace1(display.ColorSpace());
 		SetDebugName(TEXT("SwapChain"));
 	}
@@ -48,6 +48,11 @@ namespace sy::RHI
 
 	void SwapChain::BeginFrame(CopyCommandListBase& cmdList)
 	{
+		for (auto& backBufferTexture : backBuffers)
+		{
+			rtDescriptors.emplace_back(std::move(descriptorPool.AllocateRenderTargetDescriptor(*backBufferTexture, 0)));
+		}
+
 		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
 		cmdList.AppendResourceBarrier(barrier);
 	}
@@ -56,6 +61,8 @@ namespace sy::RHI
 	{
 		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
 		cmdList.AppendResourceBarrier(barrier);
+
+		rtDescriptors.clear();
 	}
 
 	void SwapChain::Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color)
@@ -70,25 +77,14 @@ namespace sy::RHI
 		/** Disable ALT+ENTER Full screen toggle */
 		DXCall(dxgiFactory->MakeWindowAssociation(windowHandle, DXGI_MWA_NO_ALT_ENTER));
 		DXCall(_swapChain.As(&swapChain));
-	}
 
-	void SwapChain::ConstructRTV(const size_t bufferCount)
-	{
 		std::vector<ComPtr<ID3D12Resource>> backBufferResources;
-		backBuffers.resize(bufferCount);
-		backBufferResources.resize(bufferCount);
-		for (uint32 idx = 0; idx < bufferCount; ++idx)
+		backBuffers.resize(desc.BufferCount);
+		backBufferResources.resize(desc.BufferCount);
+		for (uint32 idx = 0; idx < desc.BufferCount; ++idx)
 		{
 			DXCall(swapChain->GetBuffer(idx, IID_PPV_ARGS(&backBufferResources[idx])));
 			backBuffers[idx] = std::make_unique<Texture>(backBufferResources.at(idx));
-		}
-
-		backBuffersDescriptorHeap = std::make_unique<RTDescriptorHeap>(device, static_cast<uint32_t>(NumBackBuffer()));
-		rtDescriptors.reserve(bufferCount);
-
-		for (uint32 idx = 0; idx < bufferCount; ++idx)
-		{
-			rtDescriptors.emplace_back(backBuffersDescriptorHeap->Allocate(idx, *backBuffers.at(idx)));
 		}
 	}
 }

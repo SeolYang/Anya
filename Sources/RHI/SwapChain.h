@@ -2,6 +2,7 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 #include <RHI/Descriptor.h>
+#include <RHI/DescriptorPool.h>
 #include <Math/Dimensions.h>
 
 namespace sy::RHI
@@ -17,6 +18,7 @@ namespace sy::RHI
 	class Display;
 	class CommandQueue;
 	class DirectCommandListBase;
+	class DescriptorPool;
 	class CopyCommandListBase;
 	class RTDescriptorHeap;
 	class Texture;
@@ -27,6 +29,7 @@ namespace sy::RHI
 			Device& device,
 			const Display& display,
 			const CommandQueue& graphicsCommandQueue,
+			DescriptorPool& descriptorPool,
 			HWND windowHandle,
 			const Dimensions& surfaceDimension,
 			EBackBufferMode backBufferMode,
@@ -39,25 +42,23 @@ namespace sy::RHI
 		void Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color);
 
 		const std::vector<std::unique_ptr<Texture>>& BackBuffers() const noexcept { return backBuffers; }
-		const std::vector<RTDescriptor>& RTDescriptors() const noexcept { return rtDescriptors; }
 		auto NumBackBuffer() const noexcept { return backBuffers.size(); }
 		uint64 CurrentBackBufferIndex() const { return (uint64)swapChain->GetCurrentBackBufferIndex(); }
 		auto& CurrentBackBufferTexture() const { assert(CurrentBackBufferIndex() < backBuffers.size()); return *backBuffers.at(CurrentBackBufferIndex()); }
-		auto CurrentBackBufferRTV() const { assert(CurrentBackBufferIndex() < rtDescriptors.size()); return rtDescriptors.at(CurrentBackBufferIndex()); }
+		auto CurrentBackBufferRTV() const { assert(CurrentBackBufferIndex() < rtDescriptors.size()); return *rtDescriptors.at(CurrentBackBufferIndex()); }
 		IDXGISwapChain4* D3DSwapChain() const noexcept { return swapChain.Get(); }
 
 	private:
 		void ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const CommandQueue& cmdQueue);
-		void ConstructRTV(const size_t bufferCount);
 
 	private:
 		Device& device;
+		DescriptorPool& descriptorPool;
 		ComPtr<IDXGIFactory7> dxgiFactory;
 		ComPtr<IDXGISwapChain4> swapChain;
 		HWND windowHandle;
 		std::vector<std::unique_ptr<Texture>> backBuffers;
-		std::vector<RTDescriptor> rtDescriptors;
-		std::unique_ptr<RTDescriptorHeap> backBuffersDescriptorHeap;
+		std::vector<DescriptorPool::RTDescriptorPtr> rtDescriptors;
 
 	};
 }

@@ -3,6 +3,7 @@
 #include <Math/Dimensions.h>
 #include <Core/Timer.h>
 #include <RHI/AdapterPatcher.h>
+#include <RHI/SwapChain.h>
 
 namespace sy
 {
@@ -24,6 +25,7 @@ namespace sy
 		class ComputeCommandList;
 		class RTDescriptorHeap;
 		class Fence;
+		class DescriptorPool;
 	}
 
 	class Renderer
@@ -42,17 +44,23 @@ namespace sy
 		~Renderer();
 
 		void Render();
+		void NotifyFrameBegin(uint64 frameNumber);
+		void NotifyFrameEnd(uint64 completedFrameNumber);
 
 	private:
 		RHI::AdapterPatcher adapterPatcher;
 		Dimensions renderResolution;
 
+		constexpr static RHI::EBackBufferMode BackBufferingMode = RHI::EBackBufferMode::Double;
+		constexpr static size_t SimultaneousFrames = utils::ToUnderlyingType(BackBufferingMode);
+
 		std::unique_ptr<RHI::Device> device;
 		std::unique_ptr<RHI::DirectCommandQueue> graphicsCmdQueue;
+		std::unique_ptr<RHI::DescriptorPool> descriptorPool;
 		std::unique_ptr<RHI::SwapChain> swapChain;
 		std::vector<DirectCommandAllocatorPtr> graphicsCmdAllocators;
 		std::vector<DirectCommandListPtr> graphicsCmdLists;
-		FencePtr fence;
+		FencePtr frameFence;
 		HANDLE fenceEvent;
 
 		Timer timer;
