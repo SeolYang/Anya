@@ -3,6 +3,13 @@
 
 namespace sy::RHI
 {
+    /** 
+    * @brief    Default alignment for resources.
+    *           = 64 KB (for Default Buffer and Texture Resource)
+    *           https://asawicki.info/news_1726_secrets_of_direct3d_12_resource_alignment 
+    */
+    constexpr size_t GPU_DEFAULT_RESOURCE_ALIGNMENT = 65536;
+
     class RHIObject
     {
     public:

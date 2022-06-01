@@ -30,6 +30,25 @@ namespace sy::RHI
 
         DynamicAllocation Allocate(const size_t sizeInBytes);
 
+        void FinishCurrentFrame(const uint64 currentFrameFenceValue)
+        {
+            ringBuffer.FinishCurrentFrame(currentFrameFenceValue);
+        }
+
+        void ReleaseCompletedFrame(const uint64 completedFenceValue)
+        {
+            ringBuffer.ReleaseCompletedFrame(completedFenceValue);
+        }
+
+        void SetReleaseCompletedFrameCallback(const RingBuffer::ReleaseCompletedFrameCallback& callback)
+        {
+            ringBuffer.SetReleaseCompletedFrameCallback(callback);
+        }
+
+        size_t MaxSize() const noexcept { return ringBuffer.MaxSize(); }
+        bool IsFull() const noexcept { return ringBuffer.IsFull(); }
+        bool IsEmpty() const noexcept { return ringBuffer.IsEmpty(); }
+
         virtual void SetDebugName(const std::wstring_view debugName) override;
 
     private:

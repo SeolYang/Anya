@@ -35,6 +35,7 @@
     <ClCompile Include="..\Sources\RHI\DescriptorHeap.cpp" />
     <ClCompile Include="..\Sources\RHI\Device.cpp" />
     <ClCompile Include="..\Sources\RHI\Display.cpp" />
+    <ClCompile Include="..\Sources\RHI\DynamicUploadHeap.cpp" />
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
     <ClCompile Include="..\Sources\RHI\GPURingBuffer.cpp" />
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="..\Sources\RHI\DescriptorHeap.h" />
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
+    <ClInclude Include="..\Sources\RHI\DynamicUploadHeap.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
     <ClInclude Include="..\Sources\RHI\GPURingBuffer.h" />
     <ClInclude Include="..\Sources\RHI\StandardRootSignature.h" />
