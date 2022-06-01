@@ -180,6 +180,9 @@
     <ClCompile Include="..\Sources\Core\RingBuffer.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\GPURingBuffer.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1165,6 +1168,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\RingBuffer.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\GPURingBuffer.h">
+      <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
