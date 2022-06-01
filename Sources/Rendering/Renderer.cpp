@@ -74,6 +74,7 @@ namespace sy
 		NotifyFrameBegin(frameFence->Value());
 
 		logger.info("Renderer Initialized.");
+		timer.Begin();
 	}
 
 	Renderer::~Renderer()
@@ -119,7 +120,6 @@ namespace sy
 
 	void Renderer::NotifyFrameBegin(uint64 frameNumber)
 	{
-		timer.Begin();
 		descriptorPool->BeginFrame(frameNumber);
 	}
 

@@ -40,51 +40,45 @@ namespace sy::RHI
     DescriptorPool::SamplerDescriptorPtr DescriptorPool::AllocateSamplerDescriptor(const Sampler& sampler)
     {
         auto slot = samplerDescriptorPool.Allocate();
-        auto descriptor = samplerDescriptorHeap.Allocate(slot.Offset, sampler);
+        samplerDescriptorHandleCache[slot.Offset] = samplerDescriptorHeap.Allocate(slot.Offset, sampler);
 
-        return SamplerDescriptorPtr(new decltype(descriptor){ descriptor },
-            [this, slot](const decltype(descriptor)* rawPtr)
+        return SamplerDescriptorPtr(&samplerDescriptorHandleCache[slot.Offset],
+            [this, slot](const decltype(samplerDescriptorHandleCache.data()) rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &samplerDescriptorPool,
                     .Slot = slot
                     });
-
-                delete rawPtr;
             });
     }
 
     DescriptorPool::DSDescriptorPtr DescriptorPool::AllocateDepthStencilDescriptor(const Texture& texture)
     {
         auto slot = dsDescriptorPool.Allocate();
-        auto descriptor = dsDescriptorHeap.Allocate(slot.Offset, texture);
+        dsDescriptorHandleCache[slot.Offset] = dsDescriptorHeap.Allocate(slot.Offset, texture);
 
-        return DSDescriptorPtr(new decltype(descriptor){ descriptor },
-            [this, slot](const decltype(descriptor)* rawPtr)
+        return DSDescriptorPtr(&dsDescriptorHandleCache[slot.Offset],
+            [this, slot](const decltype(dsDescriptorHandleCache.data()) rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &dsDescriptorPool,
                     .Slot = slot
                     });
-
-                delete rawPtr;
             });
     }
 
     DescriptorPool::RTDescriptorPtr DescriptorPool::AllocateRenderTargetDescriptor(const Texture& texture, const uint16 mipLevel)
     {
-        auto slot = rtDescriptorPool.Allocate();
-        auto descriptor = rtDescriptorHeap.Allocate(slot.Offset, texture, mipLevel);
+        auto slot = dsDescriptorPool.Allocate();
+        rtDescriptorHandleCache[slot.Offset] = rtDescriptorHeap.Allocate(slot.Offset, texture, mipLevel);
 
-        return RTDescriptorPtr(new decltype(descriptor){ descriptor },
-            [this, slot](const decltype(descriptor)* rawPtr)
+        return RTDescriptorPtr(&rtDescriptorHandleCache[slot.Offset],
+            [this, slot](const decltype(rtDescriptorHandleCache.data()) rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &rtDescriptorPool,
                     .Slot = slot
                     });
-
-                delete rawPtr;
             });
     }
 

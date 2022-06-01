@@ -67,5 +67,12 @@ namespace sy::RHI
 
         std::vector<std::vector<Deallocation>> pendingDeallocations;
 
+        std::array<CBDescriptor, MaxNumOfCBDescriptors> cbDescriptorHandleCache;
+        std::array<SRDescriptor, MaxNumOfSRDescriptors> srDescriptorHandleCache;
+        std::array<UADescriptor, MaxNumOfUADescriptors> uaDescriptorHandleCache;
+        std::array<SamplerDescriptor, MaxNumOfSamplerDescriptors> samplerDescriptorHandleCache;
+        std::array<RTDescriptor, MaxNumOfRTDescriptors> rtDescriptorHandleCache;
+        std::array<DSDescriptor, MaxNumOfDSDescriptors> dsDescriptorHandleCache;
+
     };
 }

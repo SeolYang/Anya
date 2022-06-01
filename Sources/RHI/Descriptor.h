@@ -13,12 +13,17 @@ namespace sy::RHI
         {
         }
 
+        CPUDescriptor() noexcept :
+            cpuHandle(D3D12_CPU_DESCRIPTOR_HANDLE())
+        {
+        }
+
         virtual ~CPUDescriptor() noexcept = 0;
 
         const D3D12_CPU_DESCRIPTOR_HANDLE& CPUHandle() const noexcept { return cpuHandle; }
         const auto& CPUAddress() const noexcept { return cpuHandle.ptr; }
 
-    private:
+    protected:
         D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle;
 
     };
@@ -32,6 +37,10 @@ namespace sy::RHI
         GPUDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle) noexcept :
             CPUDescriptor(cpuHandle),
             gpuHandle(gpuHandle)
+        {
+        }
+
+        GPUDescriptor() noexcept : GPUDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE(), D3D12_GPU_DESCRIPTOR_HANDLE())
         {
         }
 
@@ -97,6 +106,7 @@ namespace sy::RHI
     public:
         using CPUDescriptor::CPUDescriptor;
         ~RTDescriptor() noexcept = default;
+
     };
 
     /**

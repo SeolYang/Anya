@@ -37,6 +37,7 @@ namespace sy::RHI
 		};
 
 		ConstructSwapChain(desc, graphicsCommandQueue);
+		rtDescriptors.resize(backBuffers.size());
 		swapChain->SetColorSpace1(display.ColorSpace());
 		SetDebugName(TEXT("SwapChain"));
 	}
@@ -48,10 +49,7 @@ namespace sy::RHI
 
 	void SwapChain::BeginFrame(CopyCommandListBase& cmdList)
 	{
-		for (auto& backBufferTexture : backBuffers)
-		{
-			rtDescriptors.emplace_back(std::move(descriptorPool.AllocateRenderTargetDescriptor(*backBufferTexture, 0)));
-		}
+		rtDescriptors[CurrentBackBufferIndex()] = std::move(descriptorPool.AllocateRenderTargetDescriptor(CurrentBackBufferTexture(), 0));
 
 		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
 		cmdList.AppendResourceBarrier(barrier);
@@ -62,7 +60,7 @@ namespace sy::RHI
 		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
 		cmdList.AppendResourceBarrier(barrier);
 
-		rtDescriptors.clear();
+		rtDescriptors[CurrentBackBufferIndex()].reset();
 	}
 
 	void SwapChain::Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color)
