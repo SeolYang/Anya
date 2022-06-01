@@ -206,6 +206,17 @@ namespace sy::utils
         hash += hash << 15;
         return hash;
     }
+
+    inline size_t AlignForwardAdjustment(const size_t offset, size_t alignment) noexcept
+    {
+        const size_t adjustment = alignment - (offset & (alignment - 1));
+        if (adjustment == alignment)
+        {
+            return 0;
+        }
+
+        return adjustment;
+    }
 }
 
 #define COMPILE_TIME_CRC32_STR(x) (anya::utils::_internal::CRC32<sizeof(x) - 2>(x) ^ 0xFFFFFFFF)
