@@ -177,6 +177,9 @@
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Core\RingBuffer.cpp">
+      <Filter>Sources\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
