@@ -23,6 +23,9 @@ namespace sy::RHI
 
     };
 
+    template <typename T>
+    concept DescriptorType = std::is_base_of_v<CPUDescriptor, T>;
+
     class GPUDescriptor : public CPUDescriptor
     {
     public:
@@ -38,6 +41,9 @@ namespace sy::RHI
         D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
 
     };
+
+    template <typename T>
+    concept GPUDescriptorType = std::is_base_of_v<GPUDescriptor, T>;
 
     /**
     * @brief    Constant Buffer Descriptor

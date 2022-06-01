@@ -6,7 +6,7 @@
 #include <Core/PerformanceMonitor.h>
 #include <Core/FrameCounter.h>
 #include <Core/EngineCoreMediator.h>
-#include <Render/Renderer.h>
+#include <Rendering/Renderer.h>
 #include <Framework/Scene.h>
 #include <Math/Math.h>
 

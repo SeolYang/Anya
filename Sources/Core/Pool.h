@@ -22,7 +22,7 @@ namespace sy
 
         using Slot_t = SlotType<SlotDataType>;
 
-        Pool(const size_t sizePerSlot = sizeof(SlotDataType), const size_t numOfGrowSlots = 64) :
+        Pool(const size_t sizePerSlot, const size_t numOfGrowSlots = 64) :
             sizePerSlot(sizePerSlot),
             numOfGrowSlots(numOfGrowSlots),
             allocatedSize(0)
@@ -41,9 +41,9 @@ namespace sy
             return slot;
         }
 
-        void Deallocate(Slot&& slot)
+        void Deallocate(const Slot_t& slot)
         {
-            freeSlots.emplace(std::move(slot));
+            freeSlots.emplace(slot);
         }
 
     private:
@@ -51,7 +51,7 @@ namespace sy
         {
             for (size_t idx = 0; idx < numOfGrowSlots; ++idx)
             {
-                freeSlots.emplace(Slot{allocatedSize});
+                freeSlots.emplace(Slot_t{allocatedSize});
                 allocatedSize += sizePerSlot;
             }
         }

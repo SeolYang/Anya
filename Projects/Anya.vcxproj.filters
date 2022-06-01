@@ -52,14 +52,14 @@
     <Filter Include="Sources\RHI">
       <UniqueIdentifier>{9e3e2154-8880-46d2-bc85-a83fcc6eda77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Render">
-      <UniqueIdentifier>{d10de36f-1a09-4754-88eb-32c4a596863b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Framework">
       <UniqueIdentifier>{8fc9c471-c1ad-4eb2-baaf-04d809b74b9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Thirdparty\WinPixEventRuntime">
       <UniqueIdentifier>{53f475c5-b0b3-4e0b-89a5-0e1843762c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Rendering">
+      <UniqueIdentifier>{d10de36f-1a09-4754-88eb-32c4a596863b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +147,6 @@
     <ClCompile Include="..\Sources\Core\DXErr.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Render\Renderer.cpp">
-      <Filter>Sources\Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\Framework\Scene.cpp">
       <Filter>Sources\Framework</Filter>
     </ClCompile>
@@ -185,6 +182,15 @@
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\DynamicUploadHeap.cpp">
       <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\CommandListPool.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\DescriptorPool.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\Renderer.cpp">
+      <Filter>Sources\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1100,9 +1106,6 @@
     <ClInclude Include="..\Sources\Math\Dimensions.h">
       <Filter>Sources\Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Render\Renderer.h">
-      <Filter>Sources\Render</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\Framework\Scene.h">
       <Filter>Sources\Framework</Filter>
     </ClInclude>
@@ -1177,6 +1180,15 @@
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\DynamicUploadHeap.h">
       <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\CommandListPool.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\DescriptorPool.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\Renderer.h">
+      <Filter>Sources\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

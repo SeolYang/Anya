@@ -25,14 +25,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Sources\Render\Renderer.cpp" />
+    <ClCompile Include="..\Sources\Rendering\Renderer.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandList.cpp" />
+    <ClCompile Include="..\Sources\RHI\CommandListPool.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandQueue.cpp" />
     <ClCompile Include="..\Sources\RHI\Descriptor.cpp" />
     <ClCompile Include="..\Sources\RHI\DescriptorHeap.cpp" />
+    <ClCompile Include="..\Sources\RHI\DescriptorPool.cpp" />
     <ClCompile Include="..\Sources\RHI\Device.cpp" />
     <ClCompile Include="..\Sources\RHI\Display.cpp" />
     <ClCompile Include="..\Sources\RHI\DynamicUploadHeap.cpp" />
@@ -109,7 +111,7 @@
     <ClInclude Include="..\Sources\Math\Dimensions.h" />
     <ClInclude Include="..\Sources\Math\Math.h" />
     <ClInclude Include="..\Sources\PCH.h" />
-    <ClInclude Include="..\Sources\Render\Renderer.h" />
+    <ClInclude Include="..\Sources\Rendering\Renderer.h" />
     <ClInclude Include="..\Sources\Resources\Resource.h" />
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Sources\RHI\Adapter.h" />
@@ -117,10 +119,12 @@
     <ClInclude Include="..\Sources\RHI\ClearValue.h" />
     <ClInclude Include="..\Sources\RHI\CommandAllocator.h" />
     <ClInclude Include="..\Sources\RHI\CommandList.h" />
+    <ClInclude Include="..\Sources\RHI\CommandListPool.h" />
     <ClInclude Include="..\Sources\RHI\CommandQueue.h" />
     <ClInclude Include="..\Sources\RHI\DebugLayer.h" />
     <ClInclude Include="..\Sources\RHI\Descriptor.h" />
     <ClInclude Include="..\Sources\RHI\DescriptorHeap.h" />
+    <ClInclude Include="..\Sources\RHI\DescriptorPool.h" />
     <ClInclude Include="..\Sources\RHI\Device.h" />
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\DynamicUploadHeap.h" />

@@ -26,16 +26,17 @@ namespace sy
 		class Fence;
 	}
 
-	using DirectCommandAllocatorPtr = std::unique_ptr<RHI::DirectCommandAllocator>;
-	using ComputeCommandAllocatorPtr = std::unique_ptr<RHI::ComputeCommandAllocator>;
-	using CopyCommandAllocatorPtr = std::unique_ptr<RHI::CopyCommandAllocator>;
-	using DirectCommandListPtr = std::unique_ptr<RHI::DirectCommandList>;
-	using ComputeCommandListPtr = std::unique_ptr<RHI::ComputeCommandList>;
-	using CopyCommandListPtr = std::unique_ptr<RHI::CopyCommandList>;
-	using FencePtr = std::unique_ptr<RHI::Fence>;
-
 	class Renderer
 	{
+	public:
+		using DirectCommandAllocatorPtr = std::unique_ptr<RHI::DirectCommandAllocator>;
+		using ComputeCommandAllocatorPtr = std::unique_ptr<RHI::ComputeCommandAllocator>;
+		using CopyCommandAllocatorPtr = std::unique_ptr<RHI::CopyCommandAllocator>;
+		using DirectCommandListPtr = std::unique_ptr<RHI::DirectCommandList>;
+		using ComputeCommandListPtr = std::unique_ptr<RHI::ComputeCommandList>;
+		using CopyCommandListPtr = std::unique_ptr<RHI::CopyCommandList>;
+		using FencePtr = std::unique_ptr<RHI::Fence>;
+
 	public:
 		Renderer(HWND windowHandle, const CommandLineParser& commandLineParser);
 		~Renderer();
