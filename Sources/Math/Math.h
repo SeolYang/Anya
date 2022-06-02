@@ -10,21 +10,21 @@ namespace sy
 
 	template <typename T = float32>
 		requires std::floating_point<T>
-	inline static float RadToDeg(T rad)
+    static float RadToDeg(T rad)
 	{
 		return rad * 180.0f * INV_PI;
 	}
 
 	template <typename T = float32>
 		requires std::floating_point<T>
-	inline float DegToRad(T deg)
+    float DegToRad(T deg)
 	{
 		return deg * INV_PI_RAD_AS_DEG * PI;
 	}
 
 	template <typename T = float32>
 		requires std::floating_point<T>
-	inline float Lerp(T a, T b, T t)
+    float Lerp(T a, T b, T t)
 	{
 		return a + (t * (b - a));
 	}

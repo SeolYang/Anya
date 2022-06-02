@@ -28,6 +28,12 @@ namespace sy
             }
         }
 
+        Resource(const Resource&) = delete;
+        Resource(Resource&&) = delete;
+        
+        Resource& operator=(const Resource&) = delete;
+        Resource& operator=(Resource&&) = delete;
+
         /** 
         * Load is not thread-safe it self.
         * It must be called by single thread.
@@ -36,7 +42,7 @@ namespace sy
         { 
             if (!bIsLoaded)
             {
-                if (Load_Internal())
+                if (LoadInternal())
                 {
                     bIsLoaded.store(true);
                     return true;
@@ -47,14 +53,14 @@ namespace sy
         }
 
         /**
-        * Unload is not thread-safe it self.
+        * Unload is not thread-safe itself.
         * It must be called by single thread.
         */
-        void Unload() 
+        void Unload()
         {
             if (bIsLoaded)
             {
-                Unload_Internal();
+                UnloadInternal();
                 bIsLoaded = false;
             }
         }
@@ -65,8 +71,8 @@ namespace sy
         bool IsReadyToUse() const noexcept { return bIsLoaded; }
 
     protected:
-        virtual bool Load_Internal() = 0;
-        virtual void Unload_Internal() = 0;
+        virtual bool LoadInternal() = 0;
+        virtual void UnloadInternal() = 0;
 
     private:
         std::atomic_bool bIsLoaded;

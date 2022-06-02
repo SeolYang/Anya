@@ -3,6 +3,7 @@
 
 namespace sy::utils
 {
+    /************************ Traits ************************/
     namespace traits_impl
     {
         template <typename T>
@@ -72,34 +73,7 @@ namespace sy::utils
     template <typename TupleT>
     constexpr bool is_tuple_contains_other_tuple_v = is_tuple_contains_other_tuple<TupleT>::value;
 
-    template <typename T, typename Key>
-    bool HasKey(const T& data, const Key& key) noexcept
-    {
-        return data.find(key) != data.end();
-    }
-
-    /** Effective Modern C++ Items 10 */
-    template <typename E>
-    constexpr auto ToUnderlyingType(E enumerator) noexcept
-    {
-        return static_cast<std::underlying_type_t<E>>(enumerator);
-    }
-
-    template <size_t BufferSize = 512>
-    inline std::wstring AnsiToWString(std::string_view ansiString)
-    {
-        std::array<wchar_t, BufferSize> buffer;
-        Win32Call(MultiByteToWideChar(CP_ACP, 0, ansiString.data(), -1, buffer.data(), BufferSize));
-        return std::wstring(buffer.data());
-    }
-
-    template <size_t BufferSize = 512>
-    inline std::string WStringToAnsi(std::wstring_view wideString)
-    {
-        std::array<char, BufferSize> buffer;
-        Win32Call(WideCharToMultiByte(CP_ACP, 0, wideString.data(), -1, buffer.data(), BufferSize, NULL, NULL));
-        return std::string(buffer.data());
-    }
+    /************************ Hash Functions ************************/
 
     namespace _internal
     {
@@ -163,6 +137,8 @@ namespace sy::utils
         return 0xFFFFFFFF;
     }
 
+#define COMPILE_TIME_CRC32_STR(x) (anya::utils::_internal::CRC32<sizeof(x) - 2>(x) ^ 0xFFFFFFFF)
+
     /**
     * ELF Hash function
     * https://www.partow.net/programming/hashfunctions/index.html#StringHashing
@@ -207,6 +183,31 @@ namespace sy::utils
         return hash;
     }
 
+    /************************ ConvertTo Functions ************************/
+    /** Effective Modern C++ Items 10 */
+    template <typename E>
+    constexpr auto ToUnderlyingType(E enumerator) noexcept
+    {
+        return static_cast<std::underlying_type_t<E>>(enumerator);
+    }
+
+    template <size_t BufferSize = 512>
+    std::wstring AnsiToWString(std::string_view ansiString)
+    {
+        std::array<wchar_t, BufferSize> buffer;
+        Win32Call(MultiByteToWideChar(CP_ACP, 0, ansiString.data(), -1, buffer.data(), BufferSize));
+        return std::wstring(buffer.data());
+    }
+
+    template <size_t BufferSize = 512>
+    std::string WStringToAnsi(std::wstring_view wideString)
+    {
+        std::array<char, BufferSize> buffer;
+        Win32Call(WideCharToMultiByte(CP_ACP, 0, wideString.data(), -1, buffer.data(), BufferSize, NULL, NULL));
+        return std::string(buffer.data());
+    }
+
+    /************************ Memory ************************/
     inline size_t AlignForwardAdjustment(const size_t offset, size_t alignment) noexcept
     {
         const size_t adjustment = alignment - (offset & (alignment - 1));
@@ -217,6 +218,5 @@ namespace sy::utils
 
         return adjustment;
     }
-}
 
-#define COMPILE_TIME_CRC32_STR(x) (anya::utils::_internal::CRC32<sizeof(x) - 2>(x) ^ 0xFFFFFFFF)
+}

@@ -24,7 +24,7 @@ namespace sy
         const std::vector<Entity>& Entities() const noexcept { return entities; }
 
     protected:
-        virtual bool Init_Internal() { return true; };
+        virtual bool InitInternal() { return true; };
 
     private:
         ComponentArchive& componentArchive;

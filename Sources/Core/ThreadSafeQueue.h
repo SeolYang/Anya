@@ -10,26 +10,26 @@ namespace sy
         ThreadSafeQueue() noexcept = default;
         ThreadSafeQueue(const ThreadSafeQueue& rhs) noexcept
         {
-            std::unique_lock<std::mutex> lock(mutex);
+            ReadWriteLock lock{ mutex };
             queue = rhs.queue;
         }
 
         ThreadSafeQueue& operator=(const ThreadSafeQueue& rhs) noexcept
         {
-            ReadWriteLock lock(mutex);
+            ReadWriteLock lock{ mutex };
             queue = rhs.queue;
             return (*this);
         }
 
         void Push(T&& value)
         {
-            ReadWriteLock lock(mutex);
+            ReadWriteLock lock{ mutex };
             queue.push(std::forward<T>(value));
         }
 
         [[nodiscard]] bool TryPop(T& result)
         {
-            ReadWriteLock lock(mutex);
+            ReadWriteLock lock{ mutex };
             if (queue.empty())
             {
                 return false;
@@ -42,18 +42,18 @@ namespace sy
 
         [[nodiscard]] bool IsEmpty() const
         {
-            ReadOnlyLock lock(mutex);
+            ReadOnlyLock lock{ mutex };
             return queue.empty();
         }
 
         [[nodiscard]] size_t Size() const
         {
-            ReadOnlyLock lock(mutex);
+            ReadOnlyLock lock{ mutex };
             return queue.size();
         }
 
     private:
-        Mutex mutex;
+        mutable Mutex mutex;
         std::queue<T> queue;
 
     };

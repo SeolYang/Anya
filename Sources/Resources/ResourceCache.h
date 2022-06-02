@@ -10,16 +10,17 @@ namespace sy
         ResourceCache() = default;
         ~ResourceCache() = default;
         ResourceCache(const ResourceCache&) = delete;
-        ResourceCache(ResourceCache&&) = default;
+        ResourceCache(ResourceCache&&) = delete;
 
         ResourceCache& operator=(const ResourceCache&) = delete;
-        ResourceCache& operator=(ResourceCache&&) = default;
+        ResourceCache& operator=(ResourceCache&&) = delete;
 
         template <ResourceType T>
         bool Register(std::weak_ptr<T> resource)
         {
             if (!resource.expired() && !Contains(resource))
             {
+                auto shared = resource->lock();
                 cache[shared->Path()] = shared;
                 return true;
             }
@@ -27,7 +28,7 @@ namespace sy
             return false;
         }
 
-        bool Contains(const fs::path& path) const noexcept 
+        [[nodiscard]] bool Contains(const fs::path& path) const noexcept 
         {
             return cache.find(path) != cache.cend(); 
         }

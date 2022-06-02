@@ -13,12 +13,12 @@ namespace sy
 		{
 		}
 
-		inline bool operator==(const DimensionsType& rhs) const
+	    bool operator==(const DimensionsType& rhs) const
 		{
 			return (Width == rhs.Width) && (Height == rhs.Height) && (Depth == rhs.Depth);
 		}
 
-		inline bool operator!=(const DimensionsType& rhs) const
+	    bool operator!=(const DimensionsType& rhs) const
 		{
 			return (Width != rhs.Width) || (Height != rhs.Height) || (Depth != rhs.Depth);
 		}

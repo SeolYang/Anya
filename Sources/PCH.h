@@ -116,6 +116,7 @@ namespace sy
     namespace fs = std::filesystem;
     namespace chrono = std::chrono;
     namespace ranges = std::ranges;
+    namespace views = std::views;
 
     using uint8 = uint8_t;
     using uint16 = uint16_t;

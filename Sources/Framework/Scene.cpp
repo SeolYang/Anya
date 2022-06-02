@@ -33,7 +33,7 @@ namespace sy
         assert(parent == INVALID_ENTITY_HANDLE || 
             (componentArchive.Contains<HierarchyComponent>(parent) && componentArchive.Contains<TransformComponent>(parent)));
 
-        Entity newEntity = GenerateEntity();
+        const Entity newEntity = GenerateEntity();
         componentArchive.Attach<HierarchyComponent>(newEntity, parent);
         componentArchive.Attach<TransformComponent>(newEntity);
 
@@ -46,7 +46,7 @@ namespace sy
     {
         Logger& logger = EngineCore::EngineLogger();
         logger.info("Initializing Scene...");
-        if (Init_Internal())
+        if (InitInternal())
         {
             logger.info("Scene Initialized.");
         }

@@ -66,7 +66,7 @@ namespace sy
         {
         }
 
-        HRESULT GetErrorCode() const noexcept
+        [[nodiscard]] HRESULT GetErrorCode() const noexcept
         {
             return errorCode;
         }
@@ -76,9 +76,9 @@ namespace sy
 
     };
 
-    /** @TODO: Select one beetween Assert and Exception(or includes more information in debug mode) */
+    /** @TODO: Select one between Assert and Exception(or includes more information in debug mode) */
 
-    inline void _DXCall(HRESULT hr, const size_t line, const std::wstring file)
+    inline void DXCallInternal(HRESULT hr, const size_t line, const std::wstring file)
     {
         if (FAILED(hr))
         {
@@ -105,15 +105,15 @@ namespace sy
 
     };
 
-    inline void _Win32Call(BOOL result, const size_t line, const std::wstring file)
+    inline void Win32CallInternal(HRESULT result, const size_t line, const std::wstring file)
     {
-        if (result == 0)
+        if (FAILED(result))
         {
             throw Win32Exception(GetLastError(), line, file);
         }
     }
 
-#define DXCall(hr) _DXCall(hr, __LINE__, TEXT(__FILE__))
-#define Win32Call(result) _Win32Call(result, __LINE__, TEXT(__FILE__))
+#define DXCall(hr) DXCallInternal(hr, __LINE__, TEXT(__FILE__))
+#define Win32Call(result) Win32CallInternal(result, __LINE__, TEXT(__FILE__))
 
 }

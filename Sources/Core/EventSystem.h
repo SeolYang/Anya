@@ -8,7 +8,7 @@ namespace sy
 	constexpr EventID INVALID_EVENT_ID = static_cast<EventID>(0);
 
 	/**
-	* @brief	Thread-safe Callback Contrainer (Subscribed Callbacks itself is not a thread safe.)
+	* @brief	Thread-safe Callback Container (Subscribed Callbacks itself is not a thread safe.)
 	*/
 	template <typename... EventParams>
 	class EventSystem : public std::enable_shared_from_this<EventSystem<EventParams...>>
@@ -55,15 +55,15 @@ namespace sy
 				}
 			}
 
-			EventID ID() const noexcept { return id; }
-			bool IsAvailable() const noexcept { return !parentSystem.expired() && bIsSubscribed && parentSystem.lock()->Contains(id); }
+			[[nodiscard]] EventID ID() const noexcept { return id; }
+			[[nodiscard]] bool IsAvailable() const noexcept { return !parentSystem.expired() && bIsSubscribed && parentSystem.lock()->Contains(id); }
 			std::weak_ptr<EventSystem> ParentSystem() const noexcept { return parentSystem; }
 
 		private:
 			Event(EventID id, std::weak_ptr<EventSystem> parentSystem) :
+				bIsSubscribed(true),
 				id(id),
-				parentSystem(parentSystem),
-				bIsSubscribed(true)
+				parentSystem(parentSystem)
 			{
 			}
 
@@ -88,7 +88,7 @@ namespace sy
 		}
 
 		/**
-		* @brief Becareful with lambda which captured the (this) pointer in object.
+		* @brief Be careful with lambda which captured the (this) pointer in object.
 		*/
 		Event Subscribe(Callback e)
 		{
@@ -100,10 +100,10 @@ namespace sy
 			return Event{ static_cast<EventID>(id), this->shared_from_this() };
 		}
 
-		bool Contains(EventID eventID) const noexcept
+		[[nodiscard]] bool Contains(EventID eventID) const noexcept
 		{
 			ReadOnlyLock lock{ mutex };
-			return lut.find(eventID) != lut.end();
+			return lut.contains(eventID);
 		}
 
 		void Notify(EventParams&&... params)

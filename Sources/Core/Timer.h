@@ -7,6 +7,7 @@ namespace sy
     {
     public:
         Timer() noexcept = default;
+        ~Timer() = default;
 
         Timer(const Timer&) = default;
         Timer(Timer&&) noexcept = default;
