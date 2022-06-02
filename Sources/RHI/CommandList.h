@@ -40,6 +40,9 @@ namespace sy::RHI
 
     };
 
+    template <typename T>
+    concept CommandListType = std::derived_from<T, CommandList>;
+
     class CopyCommandListBase : public CommandList
     {
     public:

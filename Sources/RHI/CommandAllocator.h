@@ -24,6 +24,9 @@ namespace sy::RHI
 
     };
 
+    template <typename T>
+    concept CommandAllocatorType = std::derived_from<T, CommandAllocator>;
+
     class DirectCommandAllocator : public CommandAllocator
     {
     public:
