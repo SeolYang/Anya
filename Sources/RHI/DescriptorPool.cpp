@@ -38,13 +38,17 @@ namespace sy::RHI
         frameIndexTracker.ReleaseCompletedFrame(frameNumber);
     }
 
-    DescriptorPool::SamplerDescriptorPtr DescriptorPool::AllocateSamplerDescriptor(const Sampler& sampler)
+    DescriptorPool::SamplerDescAllocPtr DescriptorPool::AllocateSamplerDescriptor(const Sampler& sampler)
     {
-        auto slot = samplerDescriptorPool.Allocate();
-        samplerDescriptorHandleCache[slot.Offset] = samplerDescriptorHeap.Allocate(slot.Offset, sampler);
+        const auto slot = samplerDescriptorPool.Allocate();
+        samplerDescAllocCache[slot.Offset] =
+            Allocation<SamplerDescriptor>{
+                .Descriptor = samplerDescriptorHeap.Allocate(slot.Offset, sampler),
+                .Index = static_cast<uint32>(slot.Offset)
+        };
 
-        return SamplerDescriptorPtr(&samplerDescriptorHandleCache[slot.Offset],
-            [this, slot](const SamplerDescriptor* rawPtr)
+        return SamplerDescAllocPtr(&samplerDescAllocCache[slot.Offset],
+            [this, slot](const auto* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &samplerDescriptorPool,
@@ -53,13 +57,17 @@ namespace sy::RHI
             });
     }
 
-    DescriptorPool::DSDescriptorPtr DescriptorPool::AllocateDepthStencilDescriptor(const Texture& texture)
+    DescriptorPool::DSDescAllocPtr DescriptorPool::AllocateDepthStencilDescriptor(const Texture& texture)
     {
-        auto slot = dsDescriptorPool.Allocate();
-        dsDescriptorHandleCache[slot.Offset] = dsDescriptorHeap.Allocate(slot.Offset, texture);
+        const auto slot = dsDescriptorPool.Allocate();
+        dsDescAllocCache[slot.Offset] =
+            Allocation<DSDescriptor>{
+                .Descriptor = dsDescriptorHeap.Allocate(slot.Offset, texture),
+                .Index = static_cast<uint32>(slot.Offset)
+        };
 
-        return DSDescriptorPtr(&dsDescriptorHandleCache[slot.Offset],
-            [this, slot](const DSDescriptor* rawPtr)
+        return DSDescAllocPtr(&dsDescAllocCache[slot.Offset],
+            [this, slot](const auto* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &dsDescriptorPool,
@@ -68,13 +76,17 @@ namespace sy::RHI
             });
     }
 
-    DescriptorPool::RTDescriptorPtr DescriptorPool::AllocateRenderTargetDescriptor(const Texture& texture, const uint16 mipLevel)
+    DescriptorPool::RTDescAllocPtr DescriptorPool::AllocateRenderTargetDescriptor(const Texture& texture, const uint16 mipLevel)
     {
-        auto slot = rtDescriptorPool.Allocate();
-        rtDescriptorHandleCache[slot.Offset] = rtDescriptorHeap.Allocate(slot.Offset, texture, mipLevel);
+        const auto slot = rtDescriptorPool.Allocate();
+        rtDescAllocCache[slot.Offset] =
+            Allocation<RTDescriptor>{
+                .Descriptor = rtDescriptorHeap.Allocate(slot.Offset, texture, mipLevel),
+                .Index = static_cast<uint32>(slot.Offset)
+        };
 
-        return RTDescriptorPtr(&rtDescriptorHandleCache[slot.Offset],
-            [this, slot](const RTDescriptor* rawPtr)
+        return RTDescAllocPtr(&rtDescAllocCache[slot.Offset],
+            [this, slot](const auto* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &rtDescriptorPool,

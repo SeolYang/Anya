@@ -65,7 +65,7 @@ namespace sy::RHI
 
 	void SwapChain::Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color)
 	{
-		cmdList.ClearRenderTarget(CurrentBackBufferRTV(), color);
+		cmdList.ClearRenderTarget(CurrentBackBufferRTV().Descriptor, color);
 	}
 
 	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const CommandQueue& cmdQueue)

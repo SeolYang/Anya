@@ -116,7 +116,6 @@ namespace sy
 		graphicsCmdQueue->Signal(*frameFence);
 		frameFence->WaitForSimultaneousFramesCompletion();
 
-
 		NotifyFrameEnd(frameFence->CompletedValue());
 		NextFrame();
 	}

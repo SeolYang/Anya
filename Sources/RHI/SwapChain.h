@@ -1,7 +1,6 @@
 #pragma once
 #include <PCH.h>
 #include <RHI/RHI.h>
-#include <RHI/Descriptor.h>
 #include <RHI/DescriptorPool.h>
 #include <Math/Dimensions.h>
 
@@ -58,7 +57,7 @@ namespace sy::RHI
 		ComPtr<IDXGISwapChain4> swapChain;
 		HWND windowHandle;
 		std::vector<std::unique_ptr<Texture>> backBuffers;
-		std::vector<DescriptorPool::RTDescriptorPtr> rtDescriptors;
+		std::vector<DescriptorPool::RTDescAllocPtr> rtDescriptors;
 
 	};
 }
