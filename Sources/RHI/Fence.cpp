@@ -28,7 +28,7 @@ namespace sy::RHI
 
 	void Fence::Wait(HANDLE handle)
 	{
-		std::chrono::milliseconds duration = std::chrono::milliseconds::max();
+		constexpr std::chrono::milliseconds duration = std::chrono::milliseconds::max();
 		if (CompletedValue() < Value())
 		{
 			SetEventOnCompletion(Value(), handle);

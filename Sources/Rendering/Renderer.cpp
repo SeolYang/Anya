@@ -5,6 +5,7 @@
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
+#include <RHI/FrameFence.h>
 #include <RHI/Resource.h>
 #include <RHI/Texture.h>
 #include <RHI/CommandQueue.h>
@@ -13,6 +14,7 @@
 #include <RHI/ResourceBarrier.h>
 #include <RHI/DescriptorPool.h>
 #include <RHI/DescriptorHeap.h>
+#include <RHI/DynamicUploadHeap.h>
 #include <RHI/ClearValue.h>
 #include <RHI/PIXMarker.h>
 
@@ -53,6 +55,10 @@ namespace sy
 			descriptorPool = std::make_unique<RHI::DescriptorPool>(*device, SimultaneousFrames);
 			logger.info("Descriptor Pool Created.");
 
+			logger.info("Creating Dynamic Upload Heap...");
+			dynamicUploadHeap = std::make_unique<RHI::DynamicUploadHeap>(*device, SimultaneousFrames, InitialDynamicUploadHeapSizeInBytes, true);
+			logger.info(" Dynamic Upload Heap Created.");
+
 			logger.info("Creating Swapchain...");
 			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
 			logger.info("Swapchain Created.");
@@ -60,8 +66,7 @@ namespace sy
 			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
 			graphicsCmdLists.reserve(swapChain->NumBackBuffer());
 
-			frameFence = std::make_unique<RHI::Fence>(*device);
-			fenceEvent = RHI::CreateEventHandle();
+			frameFence = std::make_unique<RHI::FrameFence>(*device, SimultaneousFrames);
 
 			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
 			{
@@ -79,8 +84,7 @@ namespace sy
 
 	Renderer::~Renderer()
 	{
-		RHI::CommandQueue::Flush(*graphicsCmdQueue, *frameFence, fenceEvent);
-		::CloseHandle(fenceEvent);
+		RHI::CommandQueue::Flush(*graphicsCmdQueue, *frameFence);
 	}
 
 	void Renderer::Render()
@@ -102,30 +106,33 @@ namespace sy
 			swapChain->BeginFrame(graphicsCmdList);
 
 			RHI::ClearValue clearVal{ backBuffer.Format(), };
-			auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
+			const auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
 			swapChain->Clear(graphicsCmdList, clearColor);
 
 			swapChain->EndFrame(graphicsCmdList);
 		}
+
 		graphicsCmdList.Close();
 		graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
 
 		swapChain->Present();
 
 		graphicsCmdQueue->Signal(*frameFence);
-		frameFence->Wait(fenceEvent);
+		frameFence->WaitForSimultaneousFramesCompletion();
 
 		NotifyFrameEnd(frameFence->CompletedValue());
 	}
 
 	void Renderer::NotifyFrameBegin(uint64 frameNumber)
 	{
+		dynamicUploadHeap->BeginFrame(frameNumber);
 		descriptorPool->BeginFrame(frameNumber);
 	}
 
 	void Renderer::NotifyFrameEnd(uint64 completedFrameNumber)
 	{
 		descriptorPool->EndFrame(completedFrameNumber);
+		dynamicUploadHeap->EndFrame(completedFrameNumber);
 		timer.End();
 	}
 }

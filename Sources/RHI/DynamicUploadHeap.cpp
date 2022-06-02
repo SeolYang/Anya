@@ -4,9 +4,10 @@
 
 namespace sy::RHI
 {
-    DynamicUploadHeap::DynamicUploadHeap(const Device& device, const size_t initSize, const bool bIsCPUAccessible) :
+    DynamicUploadHeap::DynamicUploadHeap(const Device& device, size_t simultaneousFramesInFlight, size_t initSize, bool bIsCPUAccessible) :
         device(device),
-        bIsCPUAccessible(bIsCPUAccessible)
+        bIsCPUAccessible(bIsCPUAccessible),
+        frameTrackerRingBuffer(simultaneousFramesInFlight)
     {
         gpuRingBuffers.emplace_back(device, initSize, bIsCPUAccessible);
     }
@@ -33,14 +34,21 @@ namespace sy::RHI
         return newAlloc;
     }
 
-    void DynamicUploadHeap::FinishFrame(const uint64 fenceValue, const uint64 lastCompletedFenceValue)
+    void DynamicUploadHeap::BeginFrame(uint64 frameNumber)
+    {
+        for (auto& gpuRingBuffer : gpuRingBuffers)
+        {
+            gpuRingBuffer.FinishCurrentFrame(frameNumber);
+        }
+    }
+
+    void DynamicUploadHeap::EndFrame(const uint64 lastCompletedFrameNumber)
     {
         size_t numBuffersToDelete = 0;
         for (size_t idx = 0; idx < gpuRingBuffers.size(); ++idx)
         {
             auto& gpuRingBuffer = gpuRingBuffers[idx];
-            gpuRingBuffer.FinishCurrentFrame(fenceValue);
-            gpuRingBuffer.ReleaseCompletedFrame(lastCompletedFenceValue);
+            gpuRingBuffer.ReleaseCompletedFrame(lastCompletedFrameNumber);
             if (numBuffersToDelete == idx && idx < gpuRingBuffers.size() - 1 && gpuRingBuffer.IsEmpty())
             {
                 ++numBuffersToDelete;

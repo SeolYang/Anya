@@ -39,6 +39,7 @@
     <ClCompile Include="..\Sources\RHI\Display.cpp" />
     <ClCompile Include="..\Sources\RHI\DynamicUploadHeap.cpp" />
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
+    <ClCompile Include="..\Sources\RHI\FrameFence.cpp" />
     <ClCompile Include="..\Sources\RHI\GPURingBuffer.cpp" />
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="..\Sources\RHI\Display.h" />
     <ClInclude Include="..\Sources\RHI\DynamicUploadHeap.h" />
     <ClInclude Include="..\Sources\RHI\Fence.h" />
+    <ClInclude Include="..\Sources\RHI\FrameFence.h" />
     <ClInclude Include="..\Sources\RHI\GPURingBuffer.h" />
     <ClInclude Include="..\Sources\RHI\StandardRootSignature.h" />
     <ClInclude Include="..\Sources\RHI\PIXMarker.h" />

@@ -17,7 +17,7 @@ namespace sy::RHI
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
-		static void Flush(CommandQueue& commandQueue, Fence& fence, HANDLE fenceEvent);
+		static void Flush(CommandQueue& commandQueue, Fence& fence);
 
 		void ExecuteCommandList(const CommandList& cmdList);
 		void ExecuteCommandLists(const std::vector <std::reference_wrapper<const CommandList>>& cmdLists);

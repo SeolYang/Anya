@@ -192,6 +192,9 @@
     <ClCompile Include="..\Sources\Rendering\Renderer.cpp">
       <Filter>Sources\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\RHI\FrameFence.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h">
@@ -1189,6 +1192,9 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Rendering\Renderer.h">
       <Filter>Sources\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\FrameFence.h">
+      <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

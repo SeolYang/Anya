@@ -30,11 +30,13 @@ namespace sy::RHI
 		DXCall(queue->Wait(fence.D3DFence(), fence.Value()));
 	}
 
-	void CommandQueue::Flush(CommandQueue& commandQueue, Fence& fence, HANDLE fenceEvent)
+	void CommandQueue::Flush(CommandQueue& commandQueue, Fence& fence)
 	{
+		const HANDLE flushFenceEvent = RHI::CreateEventHandle();
 		fence.IncrementValue();
 		commandQueue.Signal(fence);
-		fence.Wait(fenceEvent);
+		fence.Wait(flushFenceEvent);
+		::CloseHandle(flushFenceEvent);
 	}
 
 	void CommandQueue::ExecuteCommandList(const CommandList& cmdList)

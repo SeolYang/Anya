@@ -4,11 +4,7 @@
 namespace sy
 {
     RingBuffer::RingBuffer(size_t maxSizeOfBuffer) noexcept :
-        head(0),
-        tail(0),
-        maxSize(maxSizeOfBuffer),
-        usedSize(0),
-        currentFrameSize(0)
+        maxSize(maxSizeOfBuffer)
     {
     }
 
@@ -56,7 +52,7 @@ namespace sy
                 else if (allocSize <= head)
                 {
                     offset = 0;
-                    size_t actualAllocSize = (maxSize - tail) + allocSize;
+                    const size_t actualAllocSize = (maxSize - tail) + allocSize;
                     usedSize += actualAllocSize;
                     currentFrameSize += actualAllocSize;
                     tail = allocSize;
