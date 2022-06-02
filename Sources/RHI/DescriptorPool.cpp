@@ -17,7 +17,8 @@ namespace sy::RHI
         rtDescriptorHeap{ device, MaxNumOfRTDescriptors },
         dsDescriptorHeap{ device, MaxNumOfDSDescriptors }
     {
-        frameIndexTracker.SetReleaseCompletedFrameCallback([this](const RingBuffer::FrameTailAttribs& frameAttribs)
+        frameIndexTracker.SetReleaseCompletedFrameCallback(
+            [this](const RingBuffer::FrameTailAttribs& frameAttribs)
             {
                 const auto frameIndex = frameAttribs.TailOfFrame - frameAttribs.SizeOfFrame;
                 ExecutePendingDeallocations(frameIndex);
@@ -43,7 +44,7 @@ namespace sy::RHI
         samplerDescriptorHandleCache[slot.Offset] = samplerDescriptorHeap.Allocate(slot.Offset, sampler);
 
         return SamplerDescriptorPtr(&samplerDescriptorHandleCache[slot.Offset],
-            [this, slot](const decltype(samplerDescriptorHandleCache.data()) rawPtr)
+            [this, slot](const SamplerDescriptor* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &samplerDescriptorPool,
@@ -58,7 +59,7 @@ namespace sy::RHI
         dsDescriptorHandleCache[slot.Offset] = dsDescriptorHeap.Allocate(slot.Offset, texture);
 
         return DSDescriptorPtr(&dsDescriptorHandleCache[slot.Offset],
-            [this, slot](const decltype(dsDescriptorHandleCache.data()) rawPtr)
+            [this, slot](const DSDescriptor* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &dsDescriptorPool,
@@ -69,11 +70,11 @@ namespace sy::RHI
 
     DescriptorPool::RTDescriptorPtr DescriptorPool::AllocateRenderTargetDescriptor(const Texture& texture, const uint16 mipLevel)
     {
-        auto slot = dsDescriptorPool.Allocate();
+        auto slot = rtDescriptorPool.Allocate();
         rtDescriptorHandleCache[slot.Offset] = rtDescriptorHeap.Allocate(slot.Offset, texture, mipLevel);
 
         return RTDescriptorPtr(&rtDescriptorHandleCache[slot.Offset],
-            [this, slot](const decltype(rtDescriptorHandleCache.data()) rawPtr)
+            [this, slot](const RTDescriptor* rawPtr)
             {
                 pendingDeallocations[currentFrameIndex].emplace_back(Deallocation{
                     .Pool = &rtDescriptorPool,
