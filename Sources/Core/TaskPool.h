@@ -11,11 +11,13 @@ namespace sy
         {
             const auto hardwareConcurrency = std::thread::hardware_concurrency() - 1;
             threads.reserve(hardwareConcurrency);
+
+            tidx = 0; /** Index 0 for main thread. */
             for (size_t idx = 0; idx < hardwareConcurrency; ++idx)
             {
                 threads.emplace_back([this, idx]()
                     {
-                        tidx = idx;
+                        tidx = idx + 1;
                         while (true)
                         {
                             std::function<void()> task;
@@ -110,7 +112,7 @@ namespace sy
             }
         }
 
-        [[nodiscard]] size_t ThreadsCount() const { return threads.size(); }
+        [[nodiscard]] size_t NumOfWorkerThreads() const { return threads.size(); }
 
         [[nodiscard]] static size_t ThreadIndex()
         {
