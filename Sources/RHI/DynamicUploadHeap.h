@@ -22,14 +22,18 @@ namespace sy::RHI
         */
         GPURingBuffer::DynamicAllocation Allocate(const size_t sizeInBytes, const size_t resourceAlignment = GPU_DEFAULT_RESOURCE_ALIGNMENT);
         void BeginFrame(uint64 frameNumber);
-        void EndFrame(const uint64 lastCompletedFrameNumber);
+        void EndFrame(uint64 frameNumber);
+
+    private:
+        void CleanUpRedundantBuffers(size_t frameIndex);
 
     private:
         const Device& device;
         const bool bIsCPUAccessible;
-        std::vector<GPURingBuffer> gpuRingBuffers;
+        std::vector<std::vector<GPURingBuffer>> pendingGPURingBuffers;
 
-        RingBuffer frameTrackerRingBuffer;
+        RingBuffer frameIndexTracker;
+        size_t currentFrameIndex;
 
     };
 }

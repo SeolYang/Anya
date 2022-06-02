@@ -65,6 +65,7 @@ namespace sy
 		std::vector<DirectCommandListPtr> graphicsCmdLists;
 		std::unique_ptr<RHI::FrameFence> frameFence;
 
+		/** Temporary Members for test */
 		Timer timer;
 
 	};
