@@ -495,7 +495,7 @@ namespace sy
 			};
 		}
 
-		bool Contains(const Entity entity, const ComponentID componentID) const
+		[[nodiscard]] bool Contains(const Entity entity, const ComponentID componentID) const
 		{
 #if SY_ECS_THREAD_SAFE
 			ReadOnlyLock_t lock{ mutex };
@@ -511,12 +511,12 @@ namespace sy
 		}
 
 		template <typename T>
-		bool Contains(const Entity entity) const
+		[[nodiscard]] bool Contains(const Entity entity) const
 		{
 			return Contains(entity, QueryComponentID<T>());
 		}
 
-		bool IsSameArchetype(const Entity lhs, const Entity rhs) const
+		[[nodiscard]] bool IsSameArchetype(const Entity lhs, const Entity rhs) const
 		{
 #if SY_ECS_THREAD_SAFE
 			ReadOnlyLock_t lock{ mutex };
@@ -534,7 +534,7 @@ namespace sy
 			return lhsItr == rhsItr;
 		}
 
-		Archetype QueryArchetype(const Entity entity) const
+		[[nodiscard]] Archetype QueryArchetype(const Entity entity) const
 		{
 #if SY_ECS_THREAD_SAFE
 			ReadOnlyLock_t lock{ mutex };
@@ -687,12 +687,12 @@ namespace sy
 		* @brief	Return Deferred Access Handle Object.
 		*/
 		template <ComponentType T>
-		ComponentHandle<T> GetHandle(const Entity entity) const noexcept
+		[[nodiscard]] ComponentHandle<T> GetHandle(const Entity entity) const noexcept
 		{
 			return ComponentHandle<T>(*this, entity);
 		}
 
-		Component* Get(const Entity entity, const ComponentID componentID) const
+		[[nodiscard]] Component* Get(const Entity entity, const ComponentID componentID) const
 		{
 #if SY_ECS_THREAD_SAFE
 			ReadOnlyLock_t lock{ mutex };
@@ -716,7 +716,7 @@ namespace sy
 		}
 
 		template <ComponentType T>
-		T* Get(const Entity entity) const
+		[[nodiscard]] T* Get(const Entity entity) const
 		{
 			return reinterpret_cast<T*>(Get(entity, QueryComponentID<T>()));
 		}
@@ -859,12 +859,12 @@ namespace sy
 		* To prevent vector reallocations, always ref chunk list through this method.
 		* Do not reference ChunkList directly when exist possibility to chunkListLUT get modified.
 		*/
-		inline ChunkList& ReferenceChunkList(const size_t idx)
+	    ChunkList& ReferenceChunkList(const size_t idx)
 		{
 			return chunkListLUT.at(idx).second;
 		}
 
-		inline const Archetype& ReferenceArchetype(const size_t idx) const { return chunkListLUT.at(idx).first; }
+	    const Archetype& ReferenceArchetype(const size_t idx) const { return chunkListLUT.at(idx).first; }
 
 		std::vector<ComponentInfo> RetrieveComponentInfosFromArchetype(const Archetype& archetype) const
 		{

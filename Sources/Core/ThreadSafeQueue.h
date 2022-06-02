@@ -27,7 +27,7 @@ namespace sy
             queue.push(std::forward<T>(value));
         }
 
-        bool TryPop(T& result)
+        [[nodiscard]] bool TryPop(T& result)
         {
             ReadWriteLock lock(mutex);
             if (queue.empty())
@@ -40,13 +40,13 @@ namespace sy
             return true;
         }
 
-        bool IsEmpty() const
+        [[nodiscard]] bool IsEmpty() const
         {
             ReadOnlyLock lock(mutex);
             return queue.empty();
         }
 
-        size_t Size() const
+        [[nodiscard]] size_t Size() const
         {
             ReadOnlyLock lock(mutex);
             return queue.size();

@@ -29,7 +29,7 @@ namespace sy
         {
         }
 
-        Slot_t Allocate()
+        [[nodiscard]] Slot_t Allocate()
         {
             if (freeSlots.empty())
             {
@@ -65,4 +65,5 @@ namespace sy
     };
 
     using OffsetPool = Pool<void>;
+
 }

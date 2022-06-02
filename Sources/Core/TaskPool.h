@@ -57,7 +57,7 @@ namespace sy
         * @brief ExecuteTask method will excutes 'callables' concurrently.
         */
         template <typename Callable, typename... Args>
-        auto ExecuteTask(Callable&& callable, Args&&... args)
+        [[nodiscard]] auto ExecuteTask(Callable&& callable, Args&&... args)
         {
             using ReturnType = std::invoke_result_t<Callable, Args...>;
             auto task =
@@ -78,7 +78,7 @@ namespace sy
         * And also must call 'ExecuteDeferredTask' method before use future object that was created from 'AddDeferredTask' method.
         */
         template <typename Callable, typename... Args>
-        auto AddDeferredTask(Callable&& callable, Args&&... args)
+        [[nodiscard]] auto AddDeferredTask(Callable&& callable, Args&&... args)
         {
             using ReturnType = std::invoke_result_t<Callable, Args...>;
             auto task =
@@ -110,14 +110,14 @@ namespace sy
             }
         }
 
-        size_t ThreadsCount() const { return threads.size(); }
+        [[nodiscard]] size_t ThreadsCount() const { return threads.size(); }
 
-        static size_t ThreadIndex()
+        [[nodiscard]] static size_t ThreadIndex()
         {
             return tidx;
         }
 
-        static bool IsWorkerThread()
+        [[nodiscard]] static bool IsWorkerThread()
         {
             return tidx != std::numeric_limits<size_t>::max();
         }

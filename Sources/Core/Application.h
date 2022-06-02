@@ -27,7 +27,7 @@ namespace sy
 
         int32 Execute();
 
-        std::wstring_view Title() const noexcept { return title; }
+        [[nodiscard]] std::wstring_view Title() const noexcept { return title; }
 
         inline void Close() { bShouldClose = true; }
 

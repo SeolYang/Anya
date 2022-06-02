@@ -35,10 +35,10 @@ namespace sy
         void ReleaseCompletedFrame(const uint64 completedFenceValue);
         void SetReleaseCompletedFrameCallback(const ReleaseCompletedFrameCallback& callback);
 
-        size_t MaxSize() const noexcept { return maxSize; }
-        size_t UsedSize() const noexcept { return usedSize; }
-        bool IsFull() const noexcept { return usedSize == maxSize; }
-        bool IsEmpty() const noexcept { return usedSize == 0; }
+        [[nodiscard]] size_t MaxSize() const noexcept { return maxSize; }
+        [[nodiscard]] size_t UsedSize() const noexcept { return usedSize; }
+        [[nodiscard]] bool IsFull() const noexcept { return usedSize == maxSize; }
+        [[nodiscard]] bool IsEmpty() const noexcept { return usedSize == 0; }
 
     private:
         std::deque<FrameTailAttribs> completedFrameTails;

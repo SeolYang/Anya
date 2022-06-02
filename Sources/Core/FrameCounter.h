@@ -21,7 +21,9 @@ namespace sy
             }
         }
 
+        [[nodiscard]]
         uint64 FrameCount() const noexcept { return frameCount; }
+        [[nodiscard]]
         uint64 LatestFPS() const noexcept { return latestFPS; }
 
     private:

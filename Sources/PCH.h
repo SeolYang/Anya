@@ -39,6 +39,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <condition_variable>
+#include <ranges>
 
 /** Thirdparty */
 #pragma warning(push)
@@ -114,6 +115,7 @@ namespace sy
 {
     namespace fs = std::filesystem;
     namespace chrono = std::chrono;
+    namespace ranges = std::ranges;
 
     using uint8 = uint8_t;
     using uint16 = uint16_t;
