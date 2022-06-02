@@ -4,24 +4,10 @@
 
 namespace sy::RHI
 {
-    DynamicUploadHeap::DynamicUploadHeap(const Device& device, size_t simultaneousFramesInFlight, size_t initSize, bool bIsCPUAccessible) :
+    DynamicUploadHeap::DynamicUploadHeap(const Device& device, size_t initSize, bool bIsCPUAccessible) :
         device(device),
-        bIsCPUAccessible(bIsCPUAccessible),
-        frameIndexTracker(simultaneousFramesInFlight),
-        currentFrameIndex(0)
+        bIsCPUAccessible(bIsCPUAccessible)
     {
-        frameIndexTracker.SetReleaseCompletedFrameCallback(
-            [this](const RingBuffer::FrameTailAttribs& frameAttribs)
-            {
-                const auto frameIndex = frameAttribs.TailOfFrame - frameAttribs.SizeOfFrame;
-                CleanUpRedundantBuffers(frameIndex);
-            });
-
-        pendingGPURingBuffers.resize(simultaneousFramesInFlight);
-        for (auto& gpuRingBuffers : pendingGPURingBuffers)
-        {
-            gpuRingBuffers.emplace_back(device, initSize, bIsCPUAccessible);
-        }
     }
 
     GPURingBuffer::DynamicAllocation DynamicUploadHeap::Allocate(const size_t sizeInBytes, const size_t resourceAlignment)
@@ -30,7 +16,6 @@ namespace sy::RHI
         assert((alignmentMask & resourceAlignment) == 0); // Alignment must be power of 2;
 
         const size_t alignedSize = (sizeInBytes + alignmentMask) & (~alignmentMask);
-        auto& gpuRingBuffers = pendingGPURingBuffers[currentFrameIndex];
         auto newAlloc = gpuRingBuffers.back().Allocate(alignedSize);
         if (newAlloc.Buffer == nullptr)
         {
@@ -49,9 +34,7 @@ namespace sy::RHI
 
     void DynamicUploadHeap::BeginFrame(uint64 frameNumber)
     {
-        currentFrameIndex = frameIndexTracker.Allocate(1);
-        frameIndexTracker.FinishCurrentFrame(frameNumber);
-        for (auto& gpuRingBuffer : pendingGPURingBuffers[currentFrameIndex])
+        for (auto& gpuRingBuffer : gpuRingBuffers)
         {
             gpuRingBuffer.FinishCurrentFrame(frameNumber);
         }
@@ -59,26 +42,20 @@ namespace sy::RHI
 
     void DynamicUploadHeap::EndFrame(uint64 frameNumber)
     {
-        frameIndexTracker.ReleaseCompletedFrame(frameNumber);
-    }
-
-    void DynamicUploadHeap::CleanUpRedundantBuffers(size_t frameIndex)
-    {
-        size_t numBuffersToDelete = 0;
-        auto& gpuRingBuffers = pendingGPURingBuffers[frameIndex];
+        size_t numOfBuffersToDelete = 0;
         for (size_t idx = 0; idx < gpuRingBuffers.size(); ++idx)
         {
             auto& gpuRingBuffer = gpuRingBuffers[idx];
-            gpuRingBuffer.ReleaseCompletedFrame(frameIndex);
-            if (numBuffersToDelete == idx && idx < gpuRingBuffers.size() - 1 && gpuRingBuffer.IsEmpty())
+            gpuRingBuffer.ReleaseCompletedFrame(frameNumber);
+            if (numOfBuffersToDelete == idx && idx < gpuRingBuffers.size() - 1 && gpuRingBuffer.IsEmpty())
             {
-                ++numBuffersToDelete;
+                ++numOfBuffersToDelete;
             }
         }
 
-        if (numBuffersToDelete > 0)
+        if (numOfBuffersToDelete > 0)
         {
-            gpuRingBuffers.erase(gpuRingBuffers.begin(), gpuRingBuffers.begin() + numBuffersToDelete);
+            gpuRingBuffers.erase(gpuRingBuffers.begin(), gpuRingBuffers.begin() + numOfBuffersToDelete);
         }
     }
 }

@@ -6,7 +6,7 @@
 #include <Core/PerformanceMonitor.h>
 #include <Core/FrameCounter.h>
 #include <Core/EngineCoreMediator.h>
-#include <Rendering/Renderer.h>
+#include <Rendering/RenderContext.h>
 #include <Framework/Scene.h>
 #include <Math/Math.h>
 
@@ -34,7 +34,7 @@ namespace sy
     Application::~Application()
     {
         scene.reset();
-        renderer.reset();
+        renderContext.reset();
         engineModuleMediator.reset();
         componentArchive.DestroyInstance();
 
@@ -75,7 +75,7 @@ namespace sy
                     //    std::this_thread::yield();
                     //}
 
-                    renderer->Render();
+                    renderContext->Render();
                 }
                 mainTimer->End();
  
@@ -120,7 +120,7 @@ namespace sy
         perfMonitor = std::make_unique<PerformanceMonitor>();
         engineModuleMediator = std::make_unique<EngineCore>(*taskPool, *mainTimer, *perfMonitor, *logger, componentArchive);
         CreateAppWindow();
-        renderer = std::make_unique<Renderer>(windowHandle, cmdLineParser);
+        renderContext = std::make_unique<RenderContext>(windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);
 
     }

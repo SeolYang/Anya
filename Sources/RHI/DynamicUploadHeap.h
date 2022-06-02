@@ -9,7 +9,7 @@ namespace sy::RHI
     class DynamicUploadHeap
     {
     public:
-        DynamicUploadHeap(const Device& device, size_t simultaneousFramesInFlight, size_t initSize, bool bIsCPUAccessible);
+        DynamicUploadHeap(const Device& device, size_t initSize, bool bIsCPUAccessible);
         ~DynamicUploadHeap() = default;
 
         DynamicUploadHeap(const DynamicUploadHeap&) = delete;
@@ -25,15 +25,9 @@ namespace sy::RHI
         void EndFrame(uint64 frameNumber);
 
     private:
-        void CleanUpRedundantBuffers(size_t frameIndex);
-
-    private:
         const Device& device;
         const bool bIsCPUAccessible;
-        std::vector<std::vector<GPURingBuffer>> pendingGPURingBuffers;
-
-        RingBuffer frameIndexTracker;
-        size_t currentFrameIndex;
+        std::vector<GPURingBuffer> gpuRingBuffers;
 
     };
 }

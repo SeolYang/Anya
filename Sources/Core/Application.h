@@ -11,7 +11,7 @@ namespace sy
 
     class TaskPool;
     class Scene;
-    class Renderer;
+    class RenderContext;
     class ComponentArchive;
     class EngineCore;
     class Timer;
@@ -52,7 +52,7 @@ namespace sy
         std::unique_ptr<PerformanceMonitor> perfMonitor;
         ComponentArchive& componentArchive;
         std::unique_ptr<EngineCore> engineModuleMediator;
-        std::unique_ptr<Renderer> renderer;
+        std::unique_ptr<RenderContext> renderContext;
         std::unique_ptr<Scene> scene;
 
 

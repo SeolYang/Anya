@@ -1,7 +1,8 @@
 #include <PCH.h>
-#include <Rendering/Renderer.h>
+#include <Rendering/RenderContext.h>
 #include <Core/CommandLineParser.h>
 #include <Core/EngineCoreMediator.h>
+#include <Core/TaskPool.h>
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
@@ -15,16 +16,19 @@
 #include <RHI/DescriptorPool.h>
 #include <RHI/DescriptorHeap.h>
 #include <RHI/DynamicUploadHeap.h>
+#include <RHI/CommandListPool.h>
 #include <RHI/ClearValue.h>
 #include <RHI/PIXMarker.h>
 
 namespace sy
 {
-	Renderer::Renderer(HWND windowHandle, const CommandLineParser& commandLineParser) :
+	RenderContext::RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser) :
 		adapterPatcher(commandLineParser),
-		renderResolution({ 1280, 720 })
+		renderResolution({ 1280, 720 }),
+	    currentFrame(0)
 	{
 		Logger& logger = EngineCore::EngineLogger();
+		const TaskPool& taskPool = EngineCore::EngineTaskPool();
 
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
@@ -33,7 +37,7 @@ namespace sy
 			logger.info("DX12 debug layer enabled.");
 		}
 
-		logger.info("Initializing Renderer...");
+		logger.info("Initializing RenderContext...");
 		{
 			logger.info("Creating Device...");
 			device = std::make_unique<RHI::Device>(adapterPatcher[0]);
@@ -51,88 +55,89 @@ namespace sy
 			graphicsCmdQueue = std::make_unique<RHI::DirectCommandQueue>(*device);
 			logger.info("Graphics Cmd Queue Created.");
 
+			logger.info("Creating Command List Pool...");
+			cmdListPool = std::make_unique<RHI::CommandListPool>(*device, taskPool, SimultaneousFrames);
+			logger.info("Command List Pool Created.");
+
 			logger.info("Creating Descriptor Pool...");
 			descriptorPool = std::make_unique<RHI::DescriptorPool>(*device, SimultaneousFrames);
 			logger.info("Descriptor Pool Created.");
 
 			logger.info("Creating Dynamic Upload Heap...");
-			dynamicUploadHeap = std::make_unique<RHI::DynamicUploadHeap>(*device, SimultaneousFrames, InitialDynamicUploadHeapSizeInBytes, true);
-			logger.info(" Dynamic Upload Heap Created.");
+			dynamicUploadHeap = std::make_unique<RHI::DynamicUploadHeap>(*device, InitialDynamicUploadHeapSizeInBytes, true);
+			logger.info("Dynamic Upload Heap Created.");
 
 			logger.info("Creating Swapchain...");
 			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
 			logger.info("Swapchain Created.");
 
-			graphicsCmdAllocators.reserve(swapChain->NumBackBuffer());
-			graphicsCmdLists.reserve(swapChain->NumBackBuffer());
-
 			frameFence = std::make_unique<RHI::FrameFence>(*device, SimultaneousFrames);
-
-			for (size_t idx = 0; idx < swapChain->NumBackBuffer(); ++idx)
-			{
-				graphicsCmdAllocators.emplace_back(std::make_unique<RHI::DirectCommandAllocator>(*device));
-				graphicsCmdLists.emplace_back(std::make_unique<RHI::DirectCommandList>(*device, *graphicsCmdAllocators[idx]));
-			}
 		}
 
 		frameFence->IncrementValue();
 		NotifyFrameBegin(frameFence->Value());
 
-		logger.info("Renderer Initialized.");
+		logger.info("RenderContext Initialized.");
 		timer.Begin();
 	}
 
-	Renderer::~Renderer()
+	RenderContext::~RenderContext()
 	{
 		RHI::CommandQueue::Flush(*graphicsCmdQueue, *frameFence);
 	}
 
-	void Renderer::Render()
+	void RenderContext::Render()
 	{
-		const auto currentBackbufferIdx = swapChain->CurrentBackBufferIndex();
+		if (currentFrame > 0)
+		{
+			frameFence->IncrementValue();
+			NotifyFrameBegin(frameFence->Value());
+		}
 
-		auto& graphicsCmdAllocator = *graphicsCmdAllocators[currentBackbufferIdx];
-		auto& graphicsCmdList = *graphicsCmdLists[currentBackbufferIdx];
-		
-		frameFence->IncrementValue();
-		NotifyFrameBegin(frameFence->Value());
-
-		graphicsCmdAllocator.Reset();
-		graphicsCmdList.Reset();
-
+	    auto graphicsCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
+		graphicsCmdList->Reset();
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
 		{
-			RHI::PIXMarker marker{ graphicsCmdList, "Render" };
-			swapChain->BeginFrame(graphicsCmdList);
+			RHI::PIXMarker marker{ *graphicsCmdList, "Render" };
+			swapChain->BeginFrame(*graphicsCmdList);
 
 			RHI::ClearValue clearVal{ backBuffer.Format(), };
 			const auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
-			swapChain->Clear(graphicsCmdList, clearColor);
+			swapChain->Clear(*graphicsCmdList, clearColor);
 
-			swapChain->EndFrame(graphicsCmdList);
+			swapChain->EndFrame(*graphicsCmdList);
 		}
-
-		graphicsCmdList.Close();
-		graphicsCmdQueue->ExecuteCommandList(graphicsCmdList);
+		graphicsCmdList->Close();
+		graphicsCmdQueue->ExecuteCommandList(*graphicsCmdList);
+		graphicsCmdList.reset();
 
 		swapChain->Present();
 
 		graphicsCmdQueue->Signal(*frameFence);
 		frameFence->WaitForSimultaneousFramesCompletion();
 
+
 		NotifyFrameEnd(frameFence->CompletedValue());
+		NextFrame();
 	}
 
-	void Renderer::NotifyFrameBegin(uint64 frameNumber)
+	void RenderContext::NotifyFrameBegin(uint64 frameNumber)
 	{
+		cmdListPool->BeginFrame(frameNumber);
 		dynamicUploadHeap->BeginFrame(frameNumber);
 		descriptorPool->BeginFrame(frameNumber);
 	}
 
-	void Renderer::NotifyFrameEnd(uint64 completedFrameNumber)
+	void RenderContext::NotifyFrameEnd(uint64 completedFrameNumber)
 	{
 		descriptorPool->EndFrame(completedFrameNumber);
 		dynamicUploadHeap->EndFrame(completedFrameNumber);
+		cmdListPool->EndFrame(completedFrameNumber);
 		timer.End();
+	}
+
+	void RenderContext::NextFrame()
+	{
+		++currentFrame;
 	}
 }

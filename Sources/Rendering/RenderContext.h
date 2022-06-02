@@ -28,9 +28,10 @@ namespace sy
 		class FrameFence;
 		class DescriptorPool;
 		class DynamicUploadHeap;
+		class CommandListPool;
 	}
 
-	class Renderer
+	class RenderContext
 	{
 	public:
 		using DirectCommandAllocatorPtr = std::unique_ptr<RHI::DirectCommandAllocator>;
@@ -41,16 +42,18 @@ namespace sy
 		using CopyCommandListPtr = std::unique_ptr<RHI::CopyCommandList>;
 
 	public:
-		Renderer(HWND windowHandle, const CommandLineParser& commandLineParser);
-		~Renderer();
+		RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser);
+		~RenderContext();
 
 		void Render();
 		void NotifyFrameBegin(uint64 frameNumber);
 		void NotifyFrameEnd(uint64 completedFrameNumber);
+		void NextFrame();
 
 	private:
 		RHI::AdapterPatcher adapterPatcher;
 		Dimensions renderResolution;
+		size_t currentFrame;
 
 		constexpr static RHI::EBackBufferMode BackBufferingMode = RHI::EBackBufferMode::Double;
 		constexpr static size_t SimultaneousFrames = utils::ToUnderlyingType(BackBufferingMode);
@@ -58,11 +61,10 @@ namespace sy
 
 		std::unique_ptr<RHI::Device> device;
 		std::unique_ptr<RHI::DirectCommandQueue> graphicsCmdQueue;
+		std::unique_ptr<RHI::CommandListPool> cmdListPool;
 		std::unique_ptr<RHI::DescriptorPool> descriptorPool;
 		std::unique_ptr<RHI::DynamicUploadHeap> dynamicUploadHeap;
 		std::unique_ptr<RHI::SwapChain> swapChain;
-		std::vector<DirectCommandAllocatorPtr> graphicsCmdAllocators;
-		std::vector<DirectCommandListPtr> graphicsCmdLists;
 		std::unique_ptr<RHI::FrameFence> frameFence;
 
 		/** Temporary Members for test */

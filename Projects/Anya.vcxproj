@@ -25,7 +25,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Sources\Rendering\Renderer.cpp" />
+    <ClCompile Include="..\Sources\Rendering\RenderContext.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
     <ClCompile Include="..\Sources\RHI\CommandAllocator.cpp" />
@@ -112,7 +112,7 @@
     <ClInclude Include="..\Sources\Math\Dimensions.h" />
     <ClInclude Include="..\Sources\Math\Math.h" />
     <ClInclude Include="..\Sources\PCH.h" />
-    <ClInclude Include="..\Sources\Rendering\Renderer.h" />
+    <ClInclude Include="..\Sources\Rendering\RenderContext.h" />
     <ClInclude Include="..\Sources\Resources\Resource.h" />
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Sources\RHI\Adapter.h" />

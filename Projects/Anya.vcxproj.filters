@@ -189,7 +189,7 @@
     <ClCompile Include="..\Sources\RHI\DescriptorPool.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Rendering\Renderer.cpp">
+    <ClCompile Include="..\Sources\Rendering\RenderContext.cpp">
       <Filter>Sources\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\FrameFence.cpp">
@@ -1190,7 +1190,7 @@
     <ClInclude Include="..\Sources\RHI\DescriptorPool.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Rendering\Renderer.h">
+    <ClInclude Include="..\Sources\Rendering\RenderContext.h">
       <Filter>Sources\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\FrameFence.h">
