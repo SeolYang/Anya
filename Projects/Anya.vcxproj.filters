@@ -138,9 +138,6 @@
     <ClCompile Include="..\Sources\RHI\Fence.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\SwapChain.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\RHI\Viewport.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
@@ -180,20 +177,23 @@
     <ClCompile Include="..\Sources\RHI\GPURingBuffer.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\DynamicUploadHeap.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\CommandListPool.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\DescriptorPool.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\Rendering\RenderContext.cpp">
       <Filter>Sources\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\FrameFence.cpp">
       <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\DescriptorPool.cpp">
+      <Filter>Sources\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\DynamicUploadHeap.cpp">
+      <Filter>Sources\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\CommandListPool.cpp">
+      <Filter>Sources\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\SwapChain.cpp">
+      <Filter>Sources\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1097,9 +1097,6 @@
     <ClInclude Include="..\Sources\RHI\Fence.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\SwapChain.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\RHI\Viewport.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
@@ -1181,20 +1178,23 @@
     <ClInclude Include="..\Sources\RHI\GPURingBuffer.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\DynamicUploadHeap.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\CommandListPool.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\DescriptorPool.h">
-      <Filter>Sources\RHI</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\Rendering\RenderContext.h">
       <Filter>Sources\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\FrameFence.h">
       <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\DescriptorPool.h">
+      <Filter>Sources\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\DynamicUploadHeap.h">
+      <Filter>Sources\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\CommandListPool.h">
+      <Filter>Sources\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\SwapChain.h">
+      <Filter>Sources\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

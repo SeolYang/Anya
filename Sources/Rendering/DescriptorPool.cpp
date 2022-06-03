@@ -1,9 +1,9 @@
 #include <PCH.h>
-#include <RHI/DescriptorPool.h>
+#include <Rendering/DescriptorPool.h>
 
-namespace sy::RHI
+namespace sy
 {
-    DescriptorPool::DescriptorPool(Device& device, const size_t simultaneousFramesInFlight) :
+    DescriptorPool::DescriptorPool(RHI::Device& device, const size_t simultaneousFramesInFlight) :
         frameIndexTracker{ simultaneousFramesInFlight },
         currentFrameIndex{ 0 },
         cbDescriptorPool{ 1, MaxNumOfCBDescriptors },
@@ -38,11 +38,11 @@ namespace sy::RHI
         frameIndexTracker.ReleaseCompletedFrame(frameNumber);
     }
 
-    DescriptorPool::SamplerDescAllocPtr DescriptorPool::AllocateSamplerDescriptor(const Sampler& sampler)
+    DescriptorPool::SamplerDescAllocPtr DescriptorPool::AllocateSamplerDescriptor(const RHI::Sampler& sampler)
     {
         const auto slot = samplerDescriptorPool.Allocate();
         samplerDescAllocCache[slot.Offset] =
-            Allocation<SamplerDescriptor>{
+            Allocation<RHI::SamplerDescriptor>{
                 .Descriptor = samplerDescriptorHeap.Allocate(slot.Offset, sampler),
                 .Index = static_cast<uint32>(slot.Offset)
         };
@@ -57,11 +57,11 @@ namespace sy::RHI
             });
     }
 
-    DescriptorPool::DSDescAllocPtr DescriptorPool::AllocateDepthStencilDescriptor(const Texture& texture)
+    DescriptorPool::DSDescAllocPtr DescriptorPool::AllocateDepthStencilDescriptor(const RHI::Texture& texture)
     {
         const auto slot = dsDescriptorPool.Allocate();
         dsDescAllocCache[slot.Offset] =
-            Allocation<DSDescriptor>{
+            Allocation<RHI::DSDescriptor>{
                 .Descriptor = dsDescriptorHeap.Allocate(slot.Offset, texture),
                 .Index = static_cast<uint32>(slot.Offset)
         };
@@ -76,11 +76,11 @@ namespace sy::RHI
             });
     }
 
-    DescriptorPool::RTDescAllocPtr DescriptorPool::AllocateRenderTargetDescriptor(const Texture& texture, const uint16 mipLevel)
+    DescriptorPool::RTDescAllocPtr DescriptorPool::AllocateRenderTargetDescriptor(const RHI::Texture& texture, const uint16 mipLevel)
     {
         const auto slot = rtDescriptorPool.Allocate();
         rtDescAllocCache[slot.Offset] =
-            Allocation<RTDescriptor>{
+            Allocation<RHI::RTDescriptor>{
                 .Descriptor = rtDescriptorHeap.Allocate(slot.Offset, texture, mipLevel),
                 .Index = static_cast<uint32>(slot.Offset)
         };

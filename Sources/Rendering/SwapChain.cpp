@@ -1,18 +1,17 @@
 #include <PCH.h>
-#include <RHI/SwapChain.h>
+#include <Rendering/SwapChain.h>
 #include <RHI/Display.h>
 #include <RHI/CommandQueue.h>
 #include <RHI/CommandList.h>
 #include <RHI/DescriptorHeap.h>
-#include <RHI/Descriptor.h>
 #include <RHI/Texture.h>
 #include <RHI/Device.h>
 #include <RHI/ResourceBarrier.h>
 #include <Core/Exceptions.h>
 
-namespace sy::RHI
+namespace sy
 {
-	SwapChain::SwapChain(Device& device, const Display& display, const CommandQueue& graphicsCommandQueue, DescriptorPool& descriptorPool, HWND windowHandle, const Dimensions& surfaceDimension, EBackBufferMode backBufferMode, bool bIsPreferHDR) :
+	SwapChain::SwapChain(RHI::Device& device, const RHI::Display& display, const RHI::CommandQueue& graphicsCommandQueue, DescriptorPool& descriptorPool, HWND windowHandle, const Dimensions& surfaceDimension, EBufferingMode backBufferMode, bool bIsPreferHDR) :
 		device(device),
 		descriptorPool(descriptorPool),
 		windowHandle(windowHandle)
@@ -26,20 +25,19 @@ namespace sy::RHI
 		DXGI_SWAP_CHAIN_DESC1 desc{
 			.Width = surfaceDimension.Width,
 			.Height = surfaceDimension.Height,
-			.Format = ConvertColorSpaceToColorFormatForBackbuffer(display.ColorSpace(), bIsPreferHDR),
+			.Format = RHI::ConvertColorSpaceToColorFormatForBackbuffer(display.ColorSpace(), bIsPreferHDR),
 			.SampleDesc = {.Count = 1, .Quality = 0 },
 			.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
 			.BufferCount = utils::ToUnderlyingType(backBufferMode),
 			.Scaling = DXGI_SCALING_STRETCH,
 			.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD,
 			.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH |
-					(CheckFeatureSupport::PresentAllowTearing() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : (UINT)0)
+					(RHI::CheckFeatureSupport::PresentAllowTearing() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : (UINT)0)
 		};
 
 		ConstructSwapChain(desc, graphicsCommandQueue);
 		rtDescriptors.resize(backBuffers.size());
 		swapChain->SetColorSpace1(display.ColorSpace());
-		SetDebugName(TEXT("SwapChain"));
 	}
 
 	void SwapChain::Present()
@@ -47,28 +45,28 @@ namespace sy::RHI
 		swapChain->Present(0, 0);
 	}
 
-	void SwapChain::BeginFrame(CopyCommandListBase& cmdList)
+	void SwapChain::BeginFrame(RHI::CopyCommandListBase& cmdList)
 	{
 		rtDescriptors[CurrentBackBufferIndex()] = std::move(descriptorPool.AllocateRenderTargetDescriptor(CurrentBackBufferTexture(), 0));
 
-		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
+        RHI::ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
 		cmdList.AppendResourceBarrier(barrier);
 	}
 
-	void SwapChain::EndFrame(CopyCommandListBase& cmdList)
+	void SwapChain::EndFrame(RHI::CopyCommandListBase& cmdList)
 	{
-		ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
+        RHI::ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
 		cmdList.AppendResourceBarrier(barrier);
 
 		rtDescriptors[CurrentBackBufferIndex()].reset();
 	}
 
-	void SwapChain::Clear(DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color)
+	void SwapChain::Clear(RHI::DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color)
 	{
 		cmdList.ClearRenderTarget(CurrentBackBufferRTV().Descriptor, color);
 	}
 
-	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const CommandQueue& cmdQueue)
+	void SwapChain::ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const RHI::CommandQueue& cmdQueue)
 	{
 		ComPtr<IDXGISwapChain1> _swapChain;
 		DXCall(dxgiFactory->CreateSwapChainForHwnd(cmdQueue.D3DCommandQueue(), windowHandle, &desc, nullptr, nullptr, &_swapChain));
@@ -82,7 +80,7 @@ namespace sy::RHI
 		for (uint32 idx = 0; idx < desc.BufferCount; ++idx)
 		{
 			DXCall(swapChain->GetBuffer(idx, IID_PPV_ARGS(&backBufferResources[idx])));
-			backBuffers[idx] = std::make_unique<Texture>(backBufferResources.at(idx));
+			backBuffers[idx] = std::make_unique<RHI::Texture>(backBufferResources.at(idx));
 		}
 	}
 }

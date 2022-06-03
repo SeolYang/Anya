@@ -4,6 +4,6 @@
 sy::int32 main(int argc, wchar_t** argv)
 {
 	using namespace sy;
-	auto app = std::make_unique<Application>(TEXT("Anya"), argc, argv);
+	const auto app = std::make_unique<Application>(TEXT("Anya"), argc, argv);
 	return app->Execute();
 }

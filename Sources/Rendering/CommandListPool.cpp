@@ -1,11 +1,11 @@
 #include <PCH.h>
-#include <RHI/CommandListPool.h>
+#include <Rendering/CommandListPool.h>
 #include <RHI/Device.h>
 #include <Core/TaskManager.h>
 
-namespace sy::RHI
+namespace sy
 {
-    CommandListPool::CommandListPool(Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight) :
+    CommandListPool::CommandListPool(RHI::Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight) :
         device(device),
         frameIndexTracker(simultaneousFramesInFlight),
         currentFrameIndex(0)

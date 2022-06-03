@@ -1,22 +1,17 @@
 #include <PCH.h>
 #include <Rendering/RenderContext.h>
+#include <Rendering/DescriptorPool.h>
+#include <Rendering/DynamicUploadHeap.h>
+#include <Rendering/CommandListPool.h>
 #include <Core/CommandLineParser.h>
 #include <Core/EngineCoreMediator.h>
-#include <Core/TaskManager.h>
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
 #include <RHI/FrameFence.h>
-#include <RHI/Resource.h>
 #include <RHI/Texture.h>
 #include <RHI/CommandQueue.h>
-#include <RHI/CommandAllocator.h>
 #include <RHI/CommandList.h>
-#include <RHI/ResourceBarrier.h>
-#include <RHI/DescriptorPool.h>
-#include <RHI/DescriptorHeap.h>
-#include <RHI/DynamicUploadHeap.h>
-#include <RHI/CommandListPool.h>
 #include <RHI/ClearValue.h>
 #include <RHI/PIXMarker.h>
 
@@ -56,19 +51,19 @@ namespace sy
 			logger.info("Graphics Cmd Queue Created.");
 
 			logger.info("Creating Command List Pool...");
-			cmdListPool = std::make_unique<RHI::CommandListPool>(*device, taskManager, SimultaneousFrames);
+			cmdListPool = std::make_unique<CommandListPool>(*device, taskManager, SimultaneousFrames);
 			logger.info("Command List Pool Created.");
 
 			logger.info("Creating Descriptor Pool...");
-			descriptorPool = std::make_unique<RHI::DescriptorPool>(*device, SimultaneousFrames);
+			descriptorPool = std::make_unique<DescriptorPool>(*device, SimultaneousFrames);
 			logger.info("Descriptor Pool Created.");
 
 			logger.info("Creating Dynamic Upload Heap...");
-			dynamicUploadHeap = std::make_unique<RHI::DynamicUploadHeap>(*device, InitialDynamicUploadHeapSizeInBytes, true);
+			dynamicUploadHeap = std::make_unique<DynamicUploadHeap>(*device, InitialDynamicUploadHeapSizeInBytes, true);
 			logger.info("Dynamic Upload Heap Created.");
 
 			logger.info("Creating Swapchain...");
-			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
+			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
 			logger.info("Swapchain Created.");
 
 			logger.info("Creating Frame Fence...");

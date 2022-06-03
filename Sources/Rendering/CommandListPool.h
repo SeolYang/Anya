@@ -7,16 +7,20 @@
 #include <RHI/CommandList.h>
 #include <RHI/CommandAllocator.h>
 
-namespace sy::RHI
+namespace sy
 {
-    class Device;
+    namespace RHI
+    {
+        class Device;
+    }
+
     class CommandListPool
     {
     private:
-        template <CommandListType LT, CommandAllocatorType AT>
+        template <RHI::CommandListType LT, RHI::CommandAllocatorType AT>
         struct CommandListPackage
         {
-            CommandListPackage(Device& device) :
+            CommandListPackage(RHI::Device& device) :
                 CmdAllocator(std::make_unique<AT>(device)),
                 CmdListPool(1, 1)
             {
@@ -27,9 +31,9 @@ namespace sy::RHI
             OffsetPool CmdListPool;
         };
 
-        using CopyCmdListPackage = CommandListPackage<CopyCommandList, CopyCommandAllocator>;
-        using ComputeCmdListPackage = CommandListPackage<ComputeCommandList, ComputeCommandAllocator>;
-        using DirectCmdListPackage = CommandListPackage < DirectCommandList, DirectCommandAllocator>;
+        using CopyCmdListPackage = CommandListPackage<RHI::CopyCommandList, RHI::CopyCommandAllocator>;
+        using ComputeCmdListPackage = CommandListPackage<RHI::ComputeCommandList, RHI::ComputeCommandAllocator>;
+        using DirectCmdListPackage = CommandListPackage <RHI::DirectCommandList, RHI::DirectCommandAllocator>;
 
         enum class ECmdListPackageType
         {
@@ -38,31 +42,13 @@ namespace sy::RHI
             Direct
         };
 
-        template <CommandListType T>
+        template <RHI::CommandListType T>
         constexpr static ECmdListPackageType QueryCommandListPackageType();
-
-        template <>
-        constexpr static ECmdListPackageType QueryCommandListPackageType<CopyCommandList>()
-        {
-            return ECmdListPackageType::Copy;
-        }
-
-        template <>
-        constexpr static ECmdListPackageType QueryCommandListPackageType<ComputeCommandList>()
-        {
-            return ECmdListPackageType::Compute;
-        }
-
-        template <>
-        constexpr static ECmdListPackageType QueryCommandListPackageType<DirectCommandList>()
-        {
-            return ECmdListPackageType::Direct;
-        }
 
         /** Per thread */
         struct PerThreadData
         {
-            PerThreadData(Device& device, size_t simultaneousFramesInFlight)
+            PerThreadData(RHI::Device& device, size_t simultaneousFramesInFlight)
             {
                 for (auto idx : views::iota(0Ui64, simultaneousFramesInFlight))
                 {
@@ -77,26 +63,9 @@ namespace sy::RHI
             std::vector<ComputeCmdListPackage> ComputeCmdListPackages;
             std::vector<DirectCmdListPackage> DirectCmdListPackages;
 
-            template<CommandListType T>
+            template<RHI::CommandListType T>
             auto& QueryCmdListPackage(size_t frameIndex);
 
-            template<>
-            auto& QueryCmdListPackage<CopyCommandList>(size_t frameIndex)
-            {
-                return CopyCmdListPackages[frameIndex];
-            }
-
-            template<>
-            auto& QueryCmdListPackage<ComputeCommandList>(size_t frameIndex)
-            {
-                return ComputeCmdListPackages[frameIndex];
-            }
-
-            template<>
-            auto& QueryCmdListPackage<DirectCommandList>(size_t frameIndex)
-            {
-                return DirectCmdListPackages[frameIndex];
-            }
         };
 
         struct Deallocation
@@ -106,12 +75,12 @@ namespace sy::RHI
         };
 
     public:
-        CommandListPool(Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight);
+        CommandListPool(RHI::Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight);
 
         void BeginFrame(size_t frameNumber);
         void EndFrame(size_t frameNumber);
 
-        template <CommandListType T>
+        template <RHI::CommandListType T>
         std::unique_ptr<T, std::function<void(const T*)>> Allocate()
         {
             const size_t threadIndex = TaskManager::ThreadIndex();
@@ -143,7 +112,7 @@ namespace sy::RHI
 
     private:
         Mutex mutex;
-        Device& device;
+        RHI::Device& device;
         RingBuffer frameIndexTracker;
         size_t currentFrameIndex;
 
@@ -151,4 +120,40 @@ namespace sy::RHI
         std::vector<std::vector<Deallocation>> pendingDeallocations;
 
     };
+
+    template <>
+    constexpr CommandListPool::ECmdListPackageType CommandListPool::QueryCommandListPackageType<RHI::CopyCommandList>()
+    {
+        return ECmdListPackageType::Copy;
+    }
+
+    template <>
+    constexpr CommandListPool::ECmdListPackageType CommandListPool::QueryCommandListPackageType<RHI::ComputeCommandList>()
+    {
+        return ECmdListPackageType::Compute;
+    }
+
+    template <>
+    constexpr CommandListPool::ECmdListPackageType CommandListPool::QueryCommandListPackageType<RHI::DirectCommandList>()
+    {
+        return ECmdListPackageType::Direct;
+    }
+
+    template<>
+    inline auto& CommandListPool::PerThreadData::QueryCmdListPackage<RHI::CopyCommandList>(size_t frameIndex)
+    {
+        return CopyCmdListPackages[frameIndex];
+    }
+
+    template<>
+    inline auto& CommandListPool::PerThreadData::QueryCmdListPackage<RHI::ComputeCommandList>(size_t frameIndex)
+    {
+        return ComputeCmdListPackages[frameIndex];
+    }
+
+    template<>
+    inline auto& CommandListPool::PerThreadData::QueryCmdListPackage<RHI::DirectCommandList>(size_t frameIndex)
+    {
+        return DirectCmdListPackages[frameIndex];
+    }
 }

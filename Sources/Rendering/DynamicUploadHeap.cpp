@@ -1,16 +1,17 @@
 #include <PCH.h>
-#include <RHI/DynamicUploadHeap.h>
+#include <Rendering/DynamicUploadHeap.h>
 #include <RHI/Device.h>
 
-namespace sy::RHI
+namespace sy
 {
-    DynamicUploadHeap::DynamicUploadHeap(const Device& device, size_t initSize, bool bIsCPUAccessible) :
+    DynamicUploadHeap::DynamicUploadHeap(const RHI::Device& device, size_t initSize, bool bIsCPUAccessible) :
         device(device),
         bIsCPUAccessible(bIsCPUAccessible)
     {
+        gpuRingBuffers.emplace_back(device, initSize, bIsCPUAccessible);
     }
 
-    GPURingBuffer::DynamicAllocation DynamicUploadHeap::Allocate(const size_t sizeInBytes, const size_t resourceAlignment)
+    RHI::GPURingBuffer::DynamicAllocation DynamicUploadHeap::Allocate(const size_t sizeInBytes, const size_t resourceAlignment)
     {
         const size_t alignmentMask = resourceAlignment - 1;
         assert((alignmentMask & resourceAlignment) == 0); // Alignment must be power of 2;
