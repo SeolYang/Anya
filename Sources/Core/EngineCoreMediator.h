@@ -3,7 +3,7 @@
 
 namespace sy
 {
-    class TaskPool;
+    class TaskManager;
     class ComponentArchive;
     class Timer;
     class PerformanceMonitor;
@@ -13,8 +13,8 @@ namespace sy
     class EngineCore
     {
     public:
-        EngineCore(TaskPool& taskPool, const Timer& mainTimer, PerformanceMonitor& perfMonitor, Logger& logger, ComponentArchive& componentArchive) noexcept(false) :
-            taskPool(taskPool),
+        EngineCore(TaskManager& taskManager, const Timer& mainTimer, PerformanceMonitor& perfMonitor, Logger& logger, ComponentArchive& componentArchive) noexcept(false) :
+            taskManager(taskManager),
             mainTimer(mainTimer),
             perfMonitor(perfMonitor),
             logger(logger),
@@ -32,7 +32,7 @@ namespace sy
         }
 
         static EngineCore& Instance() { assert(instance != nullptr); return *instance; }
-        static TaskPool& EngineTaskPool() { return Instance().taskPool; }
+        static TaskManager& EngineTaskManager() { return Instance().taskManager; }
         static PerformanceMonitor& EnginePerfMonitor() { return Instance().perfMonitor; }
         static const Timer& EngineTimer() { return Instance().mainTimer; }
         static Logger& EngineLogger() { return Instance().logger; }
@@ -41,7 +41,7 @@ namespace sy
     private:
         inline static std::once_flag instanceFlag;
         inline static EngineCore* instance = nullptr;
-        TaskPool& taskPool;
+        TaskManager& taskManager;
         const Timer& mainTimer;
         PerformanceMonitor& perfMonitor;
         Logger& logger;

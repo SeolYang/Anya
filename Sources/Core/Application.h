@@ -9,7 +9,7 @@ namespace sy
         Basic, /* Empty Scene */
     };
 
-    class TaskPool;
+    class TaskManager;
     class Scene;
     class RenderContext;
     class ComponentArchive;
@@ -46,7 +46,7 @@ namespace sy
         std::wstring title;
 
         CommandLineParser cmdLineParser;
-        std::unique_ptr<TaskPool> taskPool;
+        std::unique_ptr<TaskManager> taskManager;
         std::unique_ptr<spdlog::logger> logger;
         std::unique_ptr<Timer> mainTimer;
         std::unique_ptr<PerformanceMonitor> perfMonitor;

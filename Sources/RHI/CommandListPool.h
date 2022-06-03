@@ -2,15 +2,10 @@
 #include <PCH.h>
 #include <Core/RingBuffer.h>
 #include <Core/Pool.h>
+#include <Core/TaskManager.h>
+#include <Core/Utility.h>
 #include <RHI/CommandList.h>
 #include <RHI/CommandAllocator.h>
-
-#include "Core/TaskPool.h"
-
-namespace sy
-{
-    class TaskPool;
-}
 
 namespace sy::RHI
 {
@@ -111,7 +106,7 @@ namespace sy::RHI
         };
 
     public:
-        CommandListPool(Device& device, const TaskPool& taskPool, size_t simultaneousFramesInFlight);
+        CommandListPool(Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight);
 
         void BeginFrame(size_t frameNumber);
         void EndFrame(size_t frameNumber);
@@ -119,7 +114,7 @@ namespace sy::RHI
         template <CommandListType T>
         std::unique_ptr<T, std::function<void(const T*)>> Allocate()
         {
-            const size_t threadIndex = TaskPool::ThreadIndex();
+            const size_t threadIndex = TaskManager::ThreadIndex();
             auto& threadData = exclusiveThreadData.at(threadIndex);
             auto& cmdListPackage = threadData->QueryCmdListPackage<T>(currentFrameIndex);
 
@@ -127,6 +122,7 @@ namespace sy::RHI
             if (allocSlot.Offset >= cmdListPackage.CmdLists.size())
             {
                 cmdListPackage.CmdLists.emplace_back(std::make_unique<T>(device, *cmdListPackage.CmdAllocator));
+                cmdListPackage.CmdLists.back()->SetDebugName(std::format(TEXT("CommandList(Pool) Thread Idx: {} Package: {} Cmd List Offset: {}"), threadIndex, utils::ToUnderlyingType(QueryCommandListPackageType<T>()), allocSlot.Offset));
             }
 
             T* cmdList = cmdListPackage.CmdLists.at(allocSlot.Offset).get();

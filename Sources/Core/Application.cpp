@@ -1,7 +1,7 @@
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
-#include <Core/TaskPool.h>
+#include <Core/TaskManager.h>
 #include <Core/Timer.h>
 #include <Core/PerformanceMonitor.h>
 #include <Core/FrameCounter.h>
@@ -114,11 +114,11 @@ namespace sy
 
     void Application::Initialize()
     {
-        taskPool = std::make_unique<TaskPool>();
+        taskManager = std::make_unique<TaskManager>();
         CreateLogger();
         mainTimer = std::make_unique<Timer>();
         perfMonitor = std::make_unique<PerformanceMonitor>();
-        engineModuleMediator = std::make_unique<EngineCore>(*taskPool, *mainTimer, *perfMonitor, *logger, componentArchive);
+        engineModuleMediator = std::make_unique<EngineCore>(*taskManager, *mainTimer, *perfMonitor, *logger, componentArchive);
         CreateAppWindow();
         renderContext = std::make_unique<RenderContext>(windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);

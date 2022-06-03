@@ -755,7 +755,7 @@
     <ClInclude Include="..\Sources\Core\EventSystem.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Core\TaskPool.h">
+    <ClInclude Include="..\Sources\Core\TaskManager.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\Thirdparty\DirectXTex\includes\DDSTextureLoader\DDSTextureLoader.h">

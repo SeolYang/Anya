@@ -24,7 +24,7 @@ namespace sy::RHI
     class CommandList : public RHIObject
     {
     public:
-        virtual void SetDebugName(const std::wstring_view debugName) override;
+        void SetDebugName(const std::wstring_view debugName) override;
 
         void Reset();
         void Close();

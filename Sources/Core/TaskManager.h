@@ -3,10 +3,10 @@
 
 namespace sy
 {
-    class TaskPool
+    class TaskManager
     {
     public:
-        TaskPool() :
+        TaskManager() :
             bForceExist(false)
         {
             const auto hardwareConcurrency = std::thread::hardware_concurrency() - 1;
@@ -35,7 +35,6 @@ namespace sy
 
                                 task = std::move(tasks.front());
                                 tasks.pop();
-
                             }
 
                             task();
@@ -44,7 +43,7 @@ namespace sy
             }
         }
 
-        ~TaskPool()
+        ~TaskManager()
         {
             bForceExist = true;
             cv.notify_all();

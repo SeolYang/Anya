@@ -104,7 +104,7 @@
     <ClInclude Include="..\Sources\Core\PerformanceMonitor.h" />
     <ClInclude Include="..\Sources\Core\Pool.h" />
     <ClInclude Include="..\Sources\Core\RingBuffer.h" />
-    <ClInclude Include="..\Sources\Core\TaskPool.h" />
+    <ClInclude Include="..\Sources\Core\TaskManager.h" />
     <ClInclude Include="..\Sources\Core\ThreadSafeQueue.h" />
     <ClInclude Include="..\Sources\Core\Timer.h" />
     <ClInclude Include="..\Sources\Core\Utility.h" />

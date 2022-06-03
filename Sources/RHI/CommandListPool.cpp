@@ -1,11 +1,11 @@
 #include <PCH.h>
 #include <RHI/CommandListPool.h>
 #include <RHI/Device.h>
-#include <Core/TaskPool.h>
+#include <Core/TaskManager.h>
 
 namespace sy::RHI
 {
-    CommandListPool::CommandListPool(Device& device, const TaskPool& taskPool, size_t simultaneousFramesInFlight) :
+    CommandListPool::CommandListPool(Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight) :
         device(device),
         frameIndexTracker(simultaneousFramesInFlight),
         currentFrameIndex(0)
@@ -17,7 +17,7 @@ namespace sy::RHI
                 ExecutePendingDeallocations(frameIndex);
             });
 
-        const size_t numOfWorkerThreads = taskPool.NumOfWorkerThreads() + 1; // Include Main Thread
+        const size_t numOfWorkerThreads = taskManager.NumOfWorkerThreads() + 1; // Include Main Thread
         for (auto idx : views::iota(0Ui64, numOfWorkerThreads))
         {
             exclusiveThreadData.emplace_back(std::make_unique<PerThreadData>(device, simultaneousFramesInFlight));

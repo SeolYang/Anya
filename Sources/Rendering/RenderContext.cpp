@@ -2,7 +2,7 @@
 #include <Rendering/RenderContext.h>
 #include <Core/CommandLineParser.h>
 #include <Core/EngineCoreMediator.h>
-#include <Core/TaskPool.h>
+#include <Core/TaskManager.h>
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
@@ -28,7 +28,7 @@ namespace sy
 	    currentFrame(0)
 	{
 		Logger& logger = EngineCore::EngineLogger();
-		const TaskPool& taskPool = EngineCore::EngineTaskPool();
+		const TaskManager& taskManager = EngineCore::EngineTaskManager();
 
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
@@ -56,7 +56,7 @@ namespace sy
 			logger.info("Graphics Cmd Queue Created.");
 
 			logger.info("Creating Command List Pool...");
-			cmdListPool = std::make_unique<RHI::CommandListPool>(*device, taskPool, SimultaneousFrames);
+			cmdListPool = std::make_unique<RHI::CommandListPool>(*device, taskManager, SimultaneousFrames);
 			logger.info("Command List Pool Created.");
 
 			logger.info("Creating Descriptor Pool...");
@@ -71,7 +71,9 @@ namespace sy
 			swapChain = std::make_unique<RHI::SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
 			logger.info("Swapchain Created.");
 
+			logger.info("Creating Frame Fence...");
 			frameFence = std::make_unique<RHI::FrameFence>(*device, SimultaneousFrames);
+			logger.info("Frame Fence Created.");
 		}
 
 		frameFence->IncrementValue();
