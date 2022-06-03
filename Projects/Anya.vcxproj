@@ -29,6 +29,7 @@
     <ClCompile Include="..\Sources\Rendering\DescriptorPool.cpp" />
     <ClCompile Include="..\Sources\Rendering\DynamicUploadHeap.cpp" />
     <ClCompile Include="..\Sources\Rendering\RenderContext.cpp" />
+    <ClCompile Include="..\Sources\Rendering\ResourceStateTracker.cpp" />
     <ClCompile Include="..\Sources\Rendering\SwapChain.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
@@ -76,6 +77,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\Thirdparty\imgui\includes\imgui\imgui_tables.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -116,6 +118,7 @@
     <ClInclude Include="..\Sources\Rendering\DescriptorPool.h" />
     <ClInclude Include="..\Sources\Rendering\DynamicUploadHeap.h" />
     <ClInclude Include="..\Sources\Rendering\RenderContext.h" />
+    <ClInclude Include="..\Sources\Rendering\ResourceStateTracker.h" />
     <ClInclude Include="..\Sources\Rendering\SwapChain.h" />
     <ClInclude Include="..\Sources\Resources\Resource.h" />
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
@@ -224,10 +227,12 @@
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imconfig.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_dx12.h" />
+    <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_win32.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_internal.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_textedit.h" />
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\Thirdparty\json\includes\nlohmann\json.hpp" />
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.config.h" />
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.h" />
     <ClInclude Include="..\Thirdparty\robin_hood\includes\robin_hood\robin_hood.h" />
@@ -484,7 +489,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -512,7 +517,7 @@ xcopy "$(ProjectDir)..\Thirdparty\bin\$(Configuration)" "$(TargetDir)" /e /d /r 
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>

@@ -42,21 +42,11 @@
 #include <ranges>
 
 /** Thirdparty */
-#pragma warning(push)
-#pragma warning(disable:6387 26439 26495)
-#include <taskflow/taskflow.hpp>
-#pragma warning(pop)
-
 // Direct3D
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <dxgi.h>
 #include <dxgi1_6.h>
-
-#pragma warning(push)
-#pragma warning(disable:26812 26495 6387 6386 26110)
-#include <D3D12MemoryAllocator/D3D12MemAlloc.h>
-#pragma warning(pop)
 
 // DirectXMath : requires Windows 11 SDK(10.0.22000)+
 #include <DirectXMath.h>
@@ -73,7 +63,22 @@
 #include <DDSTextureLoader/DDSTextureLoader.h>
 #pragma warning(pop)
 
+// D3D12MemoryAllocator
+/** https://github.com/GPUOpen-LibrariesAndSDKs/D3D12MemoryAllocator */
+#pragma warning(push)
+#pragma warning(disable:26812 26495 6387 6386 26110)
+#include <D3D12MemoryAllocator/D3D12MemAlloc.h>
+#pragma warning(pop)
+
+// Taskflow
+/** https://github.com/taskflow/taskflow */
+#pragma warning(push)
+#pragma warning(disable:6387 26439 26495)
+#include <taskflow/taskflow.hpp>
+#pragma warning(pop)
+
 // Assimp
+/** https://github.com/assimp/assimp */
 #pragma warning(push)
 #pragma warning(disable:26451 26495 26812)
 #include <assimp/Importer.hpp>
@@ -82,19 +87,23 @@
 #pragma warning(pop)
 
 // STB
+/** https://github.com/nothings/stb */
 #define STB_IMAGE_IMPLEMENTATION
 #pragma warning(push)
 #pragma warning(disable:6262 26451)
 #include <stb/stb_image.h>
 #pragma warning(pop)
 
-// IMGUI
+// Dear IMGUI
+/** https://github.com/ocornut/imgui */
 #include <imgui/imgui.h>
 
 // robin_hood
+/** https://github.com/martinus/robin-hood-hashing */
 #include <robin_hood/robin_hood.h>
 
-// SPDLOG
+// spdlog
+/** https://github.com/gabime/spdlog */
 #pragma warning(push)
 #pragma warning(disable:4819 6285 26437 26451 26498 26800)
 #include <spdlog/spdlog.h>
@@ -111,12 +120,17 @@
 #pragma warning(pop)
 #endif
 
+// nlohmann's json lib (single-header verision)
+/** https://github.com/nlohmann/json */
+#include <nlohmann/json.hpp>
+
 namespace sy
 {
     namespace fs = std::filesystem;
     namespace chrono = std::chrono;
     namespace ranges = std::ranges;
     namespace views = std::views;
+    using namespace nlohmann;
 
     using uint8 = uint8_t;
     using uint16 = uint16_t;
