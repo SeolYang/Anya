@@ -12,19 +12,19 @@ namespace sy::RHI
         resourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource.D3DResource(), stateBefore, stateAfter, subresource);
     }
 
-    ResourceAliasingBarrier::ResourceAliasingBarrier(const Resource& resourceBefore, const Resource& resourceAfter) :
+    ResourceAliasingBarrier::ResourceAliasingBarrier(const Resource* resourceBefore, const Resource* resourceAfter) :
         resourceBefore(resourceBefore),
         resourceAfter(resourceAfter)
     {
-        assert(resourceBefore.D3DResource() != nullptr && resourceAfter.D3DResource() != nullptr);
-        resourceBarrier = CD3DX12_RESOURCE_BARRIER::Aliasing(resourceBefore.D3DResource(), resourceAfter.D3DResource());
+        resourceBarrier = CD3DX12_RESOURCE_BARRIER::Aliasing(
+            resourceBefore != nullptr ? resourceBefore->D3DResource() : nullptr,
+            resourceAfter != nullptr ? resourceAfter->D3DResource() : nullptr);
     }
 
-    ResourceUAVBarrier::ResourceUAVBarrier(const Resource& resource) :
+    ResourceUAVBarrier::ResourceUAVBarrier(const Resource* resource) :
         resource(resource)
     {
-        assert(resource.D3DResource() != nullptr);
-        resourceBarrier = CD3DX12_RESOURCE_BARRIER::UAV(resource.D3DResource());
+        resourceBarrier = CD3DX12_RESOURCE_BARRIER::UAV(resource != nullptr ? resource->D3DResource() : nullptr);
     }
 }
 

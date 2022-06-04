@@ -39,12 +39,12 @@ namespace sy::RHI
         ResourceTransitionBarrier(
             const Resource& resource,
             D3D12_RESOURCE_STATES stateBefore, D3D12_RESOURCE_STATES stateAfter,
-            uint32 subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES);
+            uint32 subResource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES);
 
-        auto StateBefore() const noexcept { return resourceBarrier.Transition.StateBefore; }
-        auto StateAfter() const noexcept { return resourceBarrier.Transition.StateAfter; }
-        auto Subresource() const noexcept { return resourceBarrier.Transition.Subresource; }
-        const auto& TargetResource() const noexcept { return resource; }
+        [[nodiscard]] auto StateBefore() const noexcept { return resourceBarrier.Transition.StateBefore; }
+        [[nodiscard]] auto StateAfter() const noexcept { return resourceBarrier.Transition.StateAfter; }
+        [[nodiscard]] uint32 SubResource() const noexcept { return resourceBarrier.Transition.Subresource; }
+        [[nodiscard]] const auto& TargetResource() const noexcept { return resource; }
 
     private:
         const Resource& resource;
@@ -54,26 +54,26 @@ namespace sy::RHI
     class ResourceAliasingBarrier : public ResourceBarrier
     {
     public:
-        ResourceAliasingBarrier(const Resource& resourceBefore, const Resource& resourceAfter);
+        ResourceAliasingBarrier(const Resource* resourceBefore, const Resource* resourceAfter);
 
-        const auto& ResourceBefore() const noexcept { return resourceBefore; }
-        const auto& ResourceAfter() const noexcept { return resourceAfter; }
+        const auto* ResourceBefore() const noexcept { return resourceBefore; }
+        const auto* ResourceAfter() const noexcept { return resourceAfter; }
 
     private:
-        const Resource& resourceBefore;
-        const Resource& resourceAfter;
+        const Resource* resourceBefore;
+        const Resource* resourceAfter;
 
     };
 
     class ResourceUAVBarrier : public ResourceBarrier
     {
     public:
-        ResourceUAVBarrier(const Resource& resource);
+        ResourceUAVBarrier(const Resource* resource);
 
-        const auto& TargetResource() const noexcept { return resource; }
+        const auto* TargetResource() const noexcept { return resource; }
 
     private:
-        const Resource& resource;
+        const Resource* resource;
 
     };
 }
