@@ -40,10 +40,17 @@
 #include <shared_mutex>
 #include <condition_variable>
 #include <ranges>
+#include <numbers>
 
-/** Thirdparty */
+/** Third-party */
 // Direct3D
-#include <d3d12.h>
+extern "C" { __declspec(dllexport) extern const UINT D3D12SDKVersion = 700; }
+extern "C" { __declspec(dllexport) extern const char* D3D12SDKPath = ".\\"; }
+#include <AgilitySDK/d3d12.h>
+#include <AgilitySDK/d3d12sdklayers.h>
+#include <AgilitySDK/d3d12shader.h>
+#include <AgilitySDK/d3dcommon.h>
+#include <AgilitySDK/dxgiformat.h>
 #include <d3dx12.h>
 #include <dxgi.h>
 #include <dxgi1_6.h>
