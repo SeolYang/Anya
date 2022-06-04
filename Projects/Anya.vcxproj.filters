@@ -64,6 +64,9 @@
     <Filter Include="Sources\Thirdparty\json">
       <UniqueIdentifier>{afd088cd-a89c-482d-a839-4293b3fd577e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Thirdparty\AgilitySDK">
+      <UniqueIdentifier>{8d4ab828-b41a-49df-a5ef-f715970f77bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -1214,6 +1217,24 @@
     <ClInclude Include="..\Thirdparty\imgui\includes\imgui\imgui_impl_win32.h">
       <Filter>Sources\Thirdparty\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12.h">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12sdklayers.h">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12shader.h">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12video.h">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3dcommon.h">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\dxgiformat.h">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">
@@ -1240,5 +1261,22 @@
     <None Include="..\Thirdparty\assimp\includes\assimp\vector3.inl">
       <Filter>Sources\Thirdparty\assimp</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12.idl">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </Midl>
+    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12sdklayers.idl">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </Midl>
+    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12video.idl">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </Midl>
+    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3dcommon.idl">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </Midl>
+    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\dxgiformat.idl">
+      <Filter>Sources\Thirdparty\AgilitySDK</Filter>
+    </Midl>
   </ItemGroup>
 </Project>

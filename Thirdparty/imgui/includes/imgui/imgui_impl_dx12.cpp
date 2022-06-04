@@ -41,7 +41,7 @@
 #include "imgui_impl_dx12.h"
 
 // DirectX
-#include <d3d12.h>
+#include <AgilitySDK/d3d12.h>
 #include <dxgi1_4.h>
 #include <d3dcompiler.h>
 #ifdef _MSC_VER
