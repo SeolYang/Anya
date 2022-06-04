@@ -6,7 +6,7 @@
  /* File created by MIDL compiler version 8.01.0626 */
 /* at Tue Jan 19 12:14:07 2038
  */
-/* Compiler settings for ..\Thirdparty\AgilitySDK\include\AgilitySDK\d3dcommon.idl:
+/* Compiler settings for ..\Thirdparty\AgilitySDK\include\d3dcommon.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0626 
     protocol : all , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
@@ -195,7 +195,7 @@ static const d3dcommon_MIDL_TYPE_FORMAT_STRING d3dcommon__MIDL_TypeFormatString 
  /* File created by MIDL compiler version 8.01.0626 */
 /* at Tue Jan 19 12:14:07 2038
  */
-/* Compiler settings for ..\Thirdparty\AgilitySDK\include\AgilitySDK\d3dcommon.idl:
+/* Compiler settings for ..\Thirdparty\AgilitySDK\include\d3dcommon.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0626 
     protocol : all , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 

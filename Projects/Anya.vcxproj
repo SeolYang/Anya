@@ -147,15 +147,15 @@
     <ClInclude Include="..\Sources\RHI\Sampler.h" />
     <ClInclude Include="..\Sources\RHI\Texture.h" />
     <ClInclude Include="..\Sources\RHI\Viewport.h" />
-    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12.h" />
-    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12sdklayers.h" />
-    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12shader.h" />
-    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12video.h">
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12.h" />
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12sdklayers.h" />
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12shader.h" />
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12video.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3dcommon.h" />
-    <ClInclude Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\dxgiformat.h" />
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3dcommon.h" />
+    <ClInclude Include="..\Thirdparty\AgilitySDK\include\dxgiformat.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\aabb.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\ai_assert.h" />
     <ClInclude Include="..\Thirdparty\assimp\includes\assimp\anim.h" />
@@ -452,14 +452,17 @@
     <None Include="..\Thirdparty\assimp\includes\assimp\vector3.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12.idl" />
-    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12sdklayers.idl" />
-    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3d12video.idl">
+    <Midl Include="..\Thirdparty\AgilitySDK\include\d3d12.idl" />
+    <Midl Include="..\Thirdparty\AgilitySDK\include\d3d12sdklayers.idl" />
+    <Midl Include="..\Thirdparty\AgilitySDK\include\d3d12video.idl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Midl>
-    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\d3dcommon.idl" />
-    <Midl Include="..\Thirdparty\AgilitySDK\include\AgilitySDK\dxgiformat.idl" />
+    <Midl Include="..\Thirdparty\AgilitySDK\include\d3dcommon.idl" />
+    <Midl Include="..\Thirdparty\AgilitySDK\include\dxgiformat.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Thirdparty\AgilitySDK\include\LICENSE-CODE.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
