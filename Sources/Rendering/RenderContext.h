@@ -33,6 +33,14 @@ namespace sy
 	class DynamicUploadHeap;
 	class CommandListPool;
 
+	enum class EGPUEngineType : uint8
+	{
+	    Graphics = 0,
+		AsyncCompute = 1,
+		Copy = 2,
+		NumOfTypes = 3
+	};
+
 	class RenderContext
 	{
 	public:
@@ -45,6 +53,13 @@ namespace sy
 		void NextFrame();
 
 	private:
+		[[nodiscard]] RHI::CommandQueue& GetCommandQueue(EGPUEngineType type) const noexcept
+		{
+			assert(type != EGPUEngineType::NumOfTypes);
+			return *cmdQueues[utils::ToUnderlyingType(type)];
+		}
+
+	private:
 		RHI::AdapterPatcher adapterPatcher;
 		Dimensions renderResolution;
 		size_t currentFrame;
@@ -54,7 +69,7 @@ namespace sy
 		constexpr static size_t InitialDynamicUploadHeapSizeInBytes = 65536;
 
 		std::unique_ptr<RHI::Device> device;
-		std::unique_ptr<RHI::DirectCommandQueue> graphicsCmdQueue;
+		std::array<std::unique_ptr<RHI::CommandQueue>, utils::ToUnderlyingType(EGPUEngineType::NumOfTypes)> cmdQueues;
 		std::unique_ptr<CommandListPool> cmdListPool;
 		std::unique_ptr<DescriptorPool> descriptorPool;
 		std::unique_ptr<DynamicUploadHeap> dynamicUploadHeap;

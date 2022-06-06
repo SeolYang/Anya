@@ -131,6 +131,9 @@ extern "C" { __declspec(dllexport) extern const char* D3D12SDKPath = ".\\"; }
 /** https://github.com/nlohmann/json */
 #include <nlohmann/json.hpp>
 
+// DirectXTK Simple Math
+#include <SimpleMath/SimpleMath.h>
+
 namespace sy
 {
     namespace fs = std::filesystem;

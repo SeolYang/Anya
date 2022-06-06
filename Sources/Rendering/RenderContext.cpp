@@ -46,9 +46,13 @@ namespace sy
 			logger.info("Available for Reservation     : {} MB", (adapterPatcher[0].AvailableForReservation() / (1024Ui64 * 1024Ui64)));
 			logger.info("-----------------------------------------------------------");
 
-			logger.info("Creating Graphics Cmd Queue...");
-			graphicsCmdQueue = std::make_unique<RHI::DirectCommandQueue>(*device);
-			logger.info("Graphics Cmd Queue Created.");
+			logger.info("Creating Command Queues...");
+			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::Graphics)] = std::make_unique<RHI::DirectCommandQueue>(*device);
+			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::AsyncCompute)] = std::make_unique<RHI::ComputeCommandQueue>(*device);
+			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::Copy)] = std::make_unique<RHI::CopyCommandQueue>(*device);
+			logger.info("Command Queues Created.");
+
+			auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
 
 			logger.info("Creating Command List Pool...");
 			cmdListPool = std::make_unique<CommandListPool>(*device, taskManager, SimultaneousFrames);
@@ -63,7 +67,7 @@ namespace sy
 			logger.info("Dynamic Upload Heap Created.");
 
 			logger.info("Creating Swapchain...");
-			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], *graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
+			swapChain = std::make_unique<SwapChain>(*device, adapterPatcher[0][0], graphicsCmdQueue, *descriptorPool, windowHandle, renderResolution, BackBufferingMode, false);
 			logger.info("Swapchain Created.");
 
 			logger.info("Creating Frame Fence...");
@@ -80,7 +84,9 @@ namespace sy
 
 	RenderContext::~RenderContext()
 	{
-		RHI::CommandQueue::Flush(*graphicsCmdQueue, *frameFence);
+		RHI::CommandQueue::Flush(GetCommandQueue(EGPUEngineType::Graphics), *frameFence);
+		RHI::CommandQueue::Flush(GetCommandQueue(EGPUEngineType::AsyncCompute), *frameFence);
+		RHI::CommandQueue::Flush(GetCommandQueue(EGPUEngineType::Copy), *frameFence);
 	}
 
 	void RenderContext::Render()
@@ -91,6 +97,7 @@ namespace sy
 			NotifyFrameBegin(frameFence->Value());
 		}
 
+		auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
 	    auto graphicsCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
 		graphicsCmdList->Reset();
 		auto& backBuffer = swapChain->CurrentBackBufferTexture();
@@ -105,12 +112,12 @@ namespace sy
 			swapChain->EndFrame(*graphicsCmdList);
 		}
 		graphicsCmdList->Close();
-		graphicsCmdQueue->ExecuteCommandList(*graphicsCmdList);
+		graphicsCmdQueue.ExecuteCommandList(*graphicsCmdList);
 		graphicsCmdList.reset();
 
 		swapChain->Present();
 
-		graphicsCmdQueue->Signal(*frameFence);
+		graphicsCmdQueue.Signal(*frameFence);
 		frameFence->WaitForSimultaneousFramesCompletion();
 
 		NotifyFrameEnd(frameFence->CompletedValue());

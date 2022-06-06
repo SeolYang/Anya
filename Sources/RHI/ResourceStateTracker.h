@@ -2,7 +2,7 @@
 #include <PCH.h>
 #include <RHI/ResourceBarrier.h>
 
-namespace sy
+namespace sy::RHI
 {
    
 }

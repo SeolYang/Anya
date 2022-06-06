@@ -29,7 +29,6 @@
     <ClCompile Include="..\Sources\Rendering\DescriptorPool.cpp" />
     <ClCompile Include="..\Sources\Rendering\DynamicUploadHeap.cpp" />
     <ClCompile Include="..\Sources\Rendering\RenderContext.cpp" />
-    <ClCompile Include="..\Sources\Rendering\ResourceStateTracker.cpp" />
     <ClCompile Include="..\Sources\Rendering\SwapChain.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
@@ -46,6 +45,7 @@
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp" />
     <ClCompile Include="..\Sources\RHI\Resource.cpp" />
+    <ClCompile Include="..\Sources\RHI\ResourceStateTracker.cpp" />
     <ClCompile Include="..\Sources\RHI\Sampler.cpp" />
     <ClCompile Include="..\Sources\RHI\Texture.cpp" />
     <ClCompile Include="..\Sources\RHI\Viewport.cpp" />
@@ -89,6 +89,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Thirdparty\SimpleMath\includes\SimpleMath\SimpleMath.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Thirdparty\stb\includes\stb\stb_vorbis.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -121,7 +125,6 @@
     <ClInclude Include="..\Sources\Rendering\DescriptorPool.h" />
     <ClInclude Include="..\Sources\Rendering\DynamicUploadHeap.h" />
     <ClInclude Include="..\Sources\Rendering\RenderContext.h" />
-    <ClInclude Include="..\Sources\Rendering\ResourceStateTracker.h" />
     <ClInclude Include="..\Sources\Rendering\SwapChain.h" />
     <ClInclude Include="..\Sources\Resources\Resource.h" />
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
@@ -139,6 +142,7 @@
     <ClInclude Include="..\Sources\RHI\Fence.h" />
     <ClInclude Include="..\Sources\RHI\FrameFence.h" />
     <ClInclude Include="..\Sources\RHI\GPURingBuffer.h" />
+    <ClInclude Include="..\Sources\RHI\ResourceStateTracker.h" />
     <ClInclude Include="..\Sources\RHI\StandardRootSignature.h" />
     <ClInclude Include="..\Sources\RHI\PIXMarker.h" />
     <ClInclude Include="..\Sources\RHI\ResourceBarrier.h" />
@@ -248,6 +252,7 @@
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.config.h" />
     <ClInclude Include="..\Thirdparty\optick\includes\optick\optick.h" />
     <ClInclude Include="..\Thirdparty\robin_hood\includes\robin_hood\robin_hood.h" />
+    <ClInclude Include="..\Thirdparty\SimpleMath\includes\SimpleMath\SimpleMath.h" />
     <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\async.h" />
     <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\async_logger-inl.h" />
     <ClInclude Include="..\Thirdparty\spdlog\includes\spdlog\async_logger.h" />
@@ -450,6 +455,7 @@
     <None Include="..\Thirdparty\assimp\includes\assimp\SmoothingGroups.inl" />
     <None Include="..\Thirdparty\assimp\includes\assimp\vector2.inl" />
     <None Include="..\Thirdparty\assimp\includes\assimp\vector3.inl" />
+    <None Include="..\Thirdparty\SimpleMath\includes\SimpleMath\SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\Thirdparty\AgilitySDK\include\d3d12.idl" />
@@ -514,7 +520,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include;$(SolutionDir)..\Thirdparty\SimpleMath\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -542,7 +548,7 @@ xcopy "$(ProjectDir)..\Thirdparty\bin\$(Configuration)" "$(TargetDir)" /e /d /r 
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include;$(SolutionDir)..\Thirdparty\SimpleMath\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>

@@ -31,19 +31,12 @@ namespace sy::RHI
 	};
 
 	/**
-	* @brief This type of command queue can be used to execute draw, compute and copy commands.
+	* @brief This type of command queue can be used to execut only copy commands.
 	*/
-	class DirectCommandQueue : public CommandQueue
+	class CopyCommandQueue : public CommandQueue
 	{
 	public:
-		DirectCommandQueue(const Device& device);
-
-	};
-
-	class BundleCommandQueue : public CommandQueue
-	{
-	public:
-		BundleCommandQueue(const Device& device);
+		CopyCommandQueue(const Device& device);
 
 	};
 
@@ -58,12 +51,12 @@ namespace sy::RHI
 	};
 
 	/**
-	* @brief This type of command queue can be used to execut only copy commands.
+	* @brief This type of command queue can be used to execute draw, compute and copy commands.
 	*/
-	class CopyCommandQueue : public CommandQueue
+	class DirectCommandQueue : public CommandQueue
 	{
 	public:
-		CopyCommandQueue(const Device& device);
+		DirectCommandQueue(const Device& device);
 
 	};
 }
