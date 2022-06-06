@@ -1244,6 +1244,9 @@
     <ClInclude Include="..\Sources\RHI\ResourceStateTracker.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\Core\Assert.h">
+      <Filter>Sources\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">

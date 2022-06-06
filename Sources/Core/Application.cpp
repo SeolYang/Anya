@@ -8,7 +8,6 @@
 #include <Core/EngineCoreMediator.h>
 #include <Rendering/RenderContext.h>
 #include <Framework/Scene.h>
-#include <Math/Math.h>
 
 namespace sy
 {

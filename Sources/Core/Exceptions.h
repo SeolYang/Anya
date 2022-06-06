@@ -105,7 +105,7 @@ namespace sy
 
     };
 
-    inline void Win32CallInternal(HRESULT result, const size_t line, const std::wstring file)
+    inline void Win32CallInternal(HRESULT result, const size_t line, const std::wstring& file)
     {
         if (FAILED(result))
         {
