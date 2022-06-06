@@ -29,7 +29,32 @@ namespace sy::RHI
         void Reset();
         void Close();
 
-        ID3D12GraphicsCommandList6* D3DCommandList() const noexcept { return commandList.Get(); }
+        [[nodiscard]] ID3D12GraphicsCommandList6* D3DCommandList() const noexcept { return commandList.Get(); }
+        [[nodiscard]] D3D12_COMMAND_LIST_TYPE Type() const noexcept { return type; }
+
+        [[nodiscard]] class CopyCommandList& ToCopy() noexcept
+        {
+            assert(type == D3D12_COMMAND_LIST_TYPE_COPY);
+            return reinterpret_cast<CopyCommandList&>(*this);
+        }
+
+        [[nodiscard]] class ComputeCommandList& ToCompute() noexcept
+        {
+            assert(type == D3D12_COMMAND_LIST_TYPE_COMPUTE);
+            return reinterpret_cast<ComputeCommandList&>(*this);
+        }
+
+        [[nodiscard]] class DirectCommandList& ToDirect() noexcept
+        {
+            assert(type == D3D12_COMMAND_LIST_TYPE_DIRECT);
+            return reinterpret_cast<DirectCommandList&>(*this);
+        }
+
+        [[nodiscard]] class BundleCommandList& ToBundle() noexcept
+        {
+            assert(type == D3D12_COMMAND_LIST_TYPE_BUNDLE);
+            return reinterpret_cast<BundleCommandList&>(*this);
+        }
 
     protected:
         CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, const CommandAllocator& cmdAllocator);
@@ -37,15 +62,18 @@ namespace sy::RHI
     private:
         ComPtr<ID3D12GraphicsCommandList6> commandList;
         const CommandAllocator& cmdAllocator;
+        const D3D12_COMMAND_LIST_TYPE type;
 
     };
 
     template <typename T>
     concept CommandListType = std::derived_from<T, CommandList>;
 
-    class CopyCommandListBase : public CommandList
+    class CopyCommandList : public CommandList
     {
     public:
+        CopyCommandList(Device& device, const CopyCommandAllocator& commandAllocator);
+
         /** Proxy functions for Copy Command List */
         void CopyResource(const Resource& destination, const Resource& source);
         void AppendResourceBarrier(const ResourceBarrier& barrier);
@@ -56,17 +84,22 @@ namespace sy::RHI
 
     };
 
-    class ComputeCommandListBase : public CopyCommandListBase
+    /**
+    * @brief    Compute = Copy + Compute
+    */
+    class ComputeCommandList : public CopyCommandList
     {
     public:
+        ComputeCommandList(Device& device, const ComputeCommandAllocator& commandAllocator);
+
         /** Proxy functions for Compute Command List */
 
     protected:
-        using CopyCommandListBase::CopyCommandListBase;
+        using CopyCommandList::CopyCommandList;
 
     };
 
-    class DirectCommandListBase : public ComputeCommandListBase
+    class DirectCommandListBase : public ComputeCommandList
     {
     public:
         /** Proxy functions for Direct Command List */
@@ -77,7 +110,7 @@ namespace sy::RHI
         void ClearRenderTarget(const RTDescriptor& rtDescriptor, const DirectX::XMFLOAT4& color);
 
     protected:
-        using ComputeCommandListBase::ComputeCommandListBase;
+        using ComputeCommandList::ComputeCommandList;
 
     };
 
@@ -98,23 +131,6 @@ namespace sy::RHI
     {
     public:
         BundleCommandList(Device& device, const BundleCommandAllocator& commandAllocator);
-
-    };
-
-    /**
-    * @brief    Compute = Copy + Compute
-    */
-    class ComputeCommandList : public ComputeCommandListBase
-    {
-    public:
-        ComputeCommandList(Device& device, const ComputeCommandAllocator& commandAllocator);
-
-    };
-
-    class CopyCommandList : public CopyCommandListBase
-    {
-    public:
-        CopyCommandList(Device& device, const CopyCommandAllocator& commandAllocator);
 
     };
 }

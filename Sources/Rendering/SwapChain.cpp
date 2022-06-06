@@ -45,17 +45,17 @@ namespace sy
 		swapChain->Present(0, 0);
 	}
 
-	void SwapChain::BeginFrame(RHI::CopyCommandListBase& cmdList)
+	void SwapChain::BeginFrame(RHI::CopyCommandList& cmdList)
 	{
 		rtDescriptors[CurrentBackBufferIndex()] = std::move(descriptorPool.AllocateRenderTargetDescriptor(CurrentBackBufferTexture(), 0));
 
-        RHI::ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
+        const RHI::ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
 		cmdList.AppendResourceBarrier(barrier);
 	}
 
-	void SwapChain::EndFrame(RHI::CopyCommandListBase& cmdList)
+	void SwapChain::EndFrame(RHI::CopyCommandList& cmdList)
 	{
-        RHI::ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
+        const RHI::ResourceTransitionBarrier barrier{ CurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
 		cmdList.AppendResourceBarrier(barrier);
 
 		rtDescriptors[CurrentBackBufferIndex()].reset();

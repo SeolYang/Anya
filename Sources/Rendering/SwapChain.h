@@ -11,7 +11,7 @@ namespace sy
 		class Display;
 		class CommandQueue;
 		class DirectCommandListBase;
-		class CopyCommandListBase;
+		class CopyCommandList;
 		class RTDescriptorHeap;
 		class Texture;
 	}
@@ -38,8 +38,8 @@ namespace sy
 
 		void Present();
 
-		void BeginFrame(RHI::CopyCommandListBase& cmdList);
-		void EndFrame(RHI::CopyCommandListBase& cmdList);
+		void BeginFrame(RHI::CopyCommandList& cmdList);
+		void EndFrame(RHI::CopyCommandList& cmdList);
 		void Clear(RHI::DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color);
 
 		const std::vector<std::unique_ptr<RHI::Texture>>& BackBuffers() const noexcept { return backBuffers; }
