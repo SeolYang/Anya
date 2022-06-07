@@ -42,12 +42,12 @@ namespace sy
 		void EndFrame(RHI::CopyCommandList& cmdList);
 		void Clear(RHI::DirectCommandListBase& cmdList, DirectX::XMFLOAT4 color);
 
-		const std::vector<std::unique_ptr<RHI::Texture>>& BackBuffers() const noexcept { return backBuffers; }
-		auto NumBackBuffer() const noexcept { return backBuffers.size(); }
-		uint64 CurrentBackBufferIndex() const { return (uint64)swapChain->GetCurrentBackBufferIndex(); }
-		auto& CurrentBackBufferTexture() const { assert(CurrentBackBufferIndex() < backBuffers.size()); return *backBuffers.at(CurrentBackBufferIndex()); }
-		auto CurrentBackBufferRTV() const { assert(CurrentBackBufferIndex() < rtDescriptors.size()); return *rtDescriptors.at(CurrentBackBufferIndex()); }
-		IDXGISwapChain4* D3DSwapChain() const noexcept { return swapChain.Get(); }
+		[[nodiscard]] const std::vector<std::unique_ptr<RHI::Texture>>& GetBackBuffers() const noexcept { return backBuffers; }
+		[[nodiscard]] auto GetNumBackBuffer() const noexcept { return backBuffers.size(); }
+		[[nodiscard]] uint64 GetCurrentBackBufferIndex() const { return (uint64)swapChain->GetCurrentBackBufferIndex(); }
+		[[nodiscard]] auto& GetCurrentBackBufferTexture() const { assert(GetCurrentBackBufferIndex() < backBuffers.size()); return *backBuffers.at(GetCurrentBackBufferIndex()); }
+		[[nodiscard]] auto GetCurrentBackBufferRTV() const { assert(GetCurrentBackBufferIndex() < rtDescriptors.size()); return *rtDescriptors.at(GetCurrentBackBufferIndex()); }
+		[[nodiscard]] IDXGISwapChain4* GetD3DSwapChain() const noexcept { return swapChain.Get(); }
 
 	private:
 		void ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const RHI::CommandQueue& cmdQueue);

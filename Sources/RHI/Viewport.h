@@ -9,7 +9,7 @@ namespace sy::RHI
 	public:
 		Viewport(float topLeftX, float topLeftY, float width, float height, float minDepth, float maxDepth);
 
-		inline auto D3DViewport() const noexcept
+		[[nodiscard]] auto Build() const noexcept
 		{
 			return D3D12_VIEWPORT{
 				.TopLeftX = topLeftX,

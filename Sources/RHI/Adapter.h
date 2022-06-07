@@ -13,21 +13,21 @@ namespace sy::RHI
 		Display& operator[](size_t idx) { return displays[idx]; }
 		Display operator[](size_t idx) const { return displays[idx]; }
 
-		std::string_view Description() const noexcept { return description; }
-		inline auto  VendorID() const noexcept { return vendorID; }
-		inline auto DeviceID() const noexcept { return deviceID; }
-		inline auto SubSysID() const noexcept { return subSysID; }
-		inline auto Revision() const noexcept { return revision; }
-		inline auto DedicatedVideoMemory() const noexcept { return dedicatedVideoMemory; }
-		inline auto DedicatedSystemMemory() const noexcept { return dedicatedSystemMemory; }
-		inline auto SharedSystemMemory() const noexcept { return sharedSystemMemory; }
+		std::string_view GetDescription() const noexcept { return description; }
+		[[nodiscard]] auto GetVendorID() const noexcept { return vendorID; }
+		[[nodiscard]] auto GetDeviceID() const noexcept { return deviceID; }
+		[[nodiscard]] auto GetSubSysID() const noexcept { return subSysID; }
+		[[nodiscard]] auto GetRevision() const noexcept { return revision; }
+		[[nodiscard]] auto GetDedicatedVideoMemory() const noexcept { return dedicatedVideoMemory; }
+		[[nodiscard]] auto GetDedicatedSystemMemory() const noexcept { return dedicatedSystemMemory; }
+		[[nodiscard]] auto GetSharedSystemMemory() const noexcept { return sharedSystemMemory; }
 
-		auto Budget() const noexcept { return queriedVideoMemInfo.Budget; }
-		auto CurrentUsage() const noexcept { return queriedVideoMemInfo.CurrentUsage; }
-		auto AvailableForReservation() const noexcept { return queriedVideoMemInfo.AvailableForReservation; }
-		auto CurrentReservation() const noexcept { return queriedVideoMemInfo.CurrentReservation; }
+		[[nodiscard]] auto GetBudget() const noexcept { return queriedVideoMemInfo.Budget; }
+		[[nodiscard]] auto GetCurrentUsage() const noexcept { return queriedVideoMemInfo.CurrentUsage; }
+		[[nodiscard]] auto GetAvailableForReservation() const noexcept { return queriedVideoMemInfo.AvailableForReservation; }
+		[[nodiscard]] auto GetCurrentReservation() const noexcept { return queriedVideoMemInfo.CurrentReservation; }
 
-		IDXGIAdapter1* D3DAdapter() const noexcept { return adapter.Get(); }
+		[[nodiscard]] IDXGIAdapter1* GetD3DAdapter() const noexcept { return adapter.Get(); }
 
 	private:
 		ComPtr<IDXGIAdapter1> adapter;

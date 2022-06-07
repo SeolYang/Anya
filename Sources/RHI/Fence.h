@@ -23,8 +23,8 @@ namespace sy::RHI
 		Fence(const Device& device, uint64_t initialValue = 0);
 
 		void IncrementValue() noexcept { ++value; }
-		[[nodiscard]] auto Value() const noexcept { return value; }
-		[[nodiscard]] auto CompletedValue() const { return fence->GetCompletedValue(); }
+		[[nodiscard]] auto GetValue() const noexcept { return value; }
+		[[nodiscard]] auto GetCompletedValue() const { return fence->GetCompletedValue(); }
 		void SetEventOnCompletion(uint64_t value, HANDLE event);
 		void SetDebugName(const std::wstring_view debugName) override;
 
@@ -33,7 +33,7 @@ namespace sy::RHI
 		*/
 		void Wait(HANDLE handle);
 
-		[[nodiscard]] ID3D12Fence1* D3DFence() const noexcept { return fence.Get(); }
+		[[nodiscard]] ID3D12Fence1* GetD3DFence() const noexcept { return fence.Get(); }
 
 	private:
 		ComPtr<ID3D12Fence1> fence;

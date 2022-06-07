@@ -9,25 +9,25 @@ namespace sy::RHI
 {
 	CommandQueue::CommandQueue(const Device& device, D3D12_COMMAND_LIST_TYPE type)
 	{
-		D3D12_COMMAND_QUEUE_DESC desc = {
+		const D3D12_COMMAND_QUEUE_DESC desc = {
 			.Type = type,
 			.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL, /* @TODO Should i make able to customize command queue priority? */
 			.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE,
-			.NodeMask = device.NodeMask()
+			.NodeMask = device.GetNodeMask()
 		};
 
-		DXCall(device.D3DDevice()->CreateCommandQueue(&desc, IID_PPV_ARGS(&queue)));
+		DXCall(device.GetD3DDevice()->CreateCommandQueue(&desc, IID_PPV_ARGS(&queue)));
 		SetDebugName(TEXT("CommandQueue"));
 	}
 
 	void CommandQueue::Signal(const Fence& fence)
 	{
-		DXCall(queue->Signal(fence.D3DFence(), fence.Value()));
+		DXCall(queue->Signal(fence.GetD3DFence(), fence.GetValue()));
 	}
 
 	void CommandQueue::Wait(const Fence& fence)
 	{
-		DXCall(queue->Wait(fence.D3DFence(), fence.Value()));
+		DXCall(queue->Wait(fence.GetD3DFence(), fence.GetValue()));
 	}
 
 	void CommandQueue::Flush(CommandQueue& commandQueue, Fence& fence)
@@ -41,7 +41,7 @@ namespace sy::RHI
 
 	void CommandQueue::ExecuteCommandList(const CommandList& cmdList)
 	{
-		ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.D3DCommandList());
+		ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.GetD3DCommandList());
 		queue->ExecuteCommandLists(1, &d3dCmdList);
 	}
 
@@ -52,7 +52,7 @@ namespace sy::RHI
 		std::transform(cmdLists.begin(), cmdLists.end(), transformed.begin(),
 			[](const CommandList& cmdList)
 			{
-				ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.D3DCommandList());
+				ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.GetD3DCommandList());
 				return d3dCmdList;
 			});
 

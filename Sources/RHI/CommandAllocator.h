@@ -14,7 +14,7 @@ namespace sy::RHI
 
         void Reset() { commandAllocator->Reset(); }
 
-        auto D3DCommandAllocator() const { return commandAllocator.Get(); }
+        [[nodiscard]] auto GetD3DCommandAllocator() const noexcept { return commandAllocator.Get(); }
 
     protected:
         CommandAllocator(Device& device, D3D12_COMMAND_LIST_TYPE commandListType);

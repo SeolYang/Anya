@@ -8,7 +8,7 @@ namespace sy::RHI
 	Fence::Fence(const Device& device, uint64_t initialValue) :
 		value(initialValue)
 	{
-		DXCall(device.D3DDevice()->CreateFence(initialValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+		DXCall(device.GetD3DDevice()->CreateFence(initialValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
 		SetDebugName(TEXT("Fence"));
 	}
 
@@ -29,9 +29,9 @@ namespace sy::RHI
 	void Fence::Wait(HANDLE handle)
 	{
 		constexpr std::chrono::milliseconds duration = std::chrono::milliseconds::max();
-		if (CompletedValue() < Value())
+		if (GetCompletedValue() < GetValue())
 		{
-			SetEventOnCompletion(Value(), handle);
+			SetEventOnCompletion(GetValue(), handle);
 			::WaitForSingleObject(handle, (DWORD)duration.count());
 		}
 	}

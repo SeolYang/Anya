@@ -19,7 +19,7 @@ namespace sy
         /**
         * How to binding allocated resource : https://docs.microsoft.com/en-us/windows/win32/direct3d12/using-descriptors-directly-in-the-root-signature?redirectedfrom=MSDN
         */
-        RHI::GPURingBuffer::DynamicAllocation Allocate(const size_t sizeInBytes, const size_t resourceAlignment = RHI::GPU_DEFAULT_RESOURCE_ALIGNMENT);
+        [[nodiscard]] RHI::GPURingBuffer::DynamicAllocation Allocate(const size_t sizeInBytes, const size_t resourceAlignment = RHI::GPU_DEFAULT_RESOURCE_ALIGNMENT);
         void BeginFrame(uint64 frameNumber);
         void EndFrame(uint64 frameNumber);
 

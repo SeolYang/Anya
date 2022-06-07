@@ -16,35 +16,35 @@ namespace sy::RHI
 
         /** @TODO   Load Texture from external file. */
 
-        Dimensions Resolution() const
+        [[nodiscard]] Dimensions GetResolution() const noexcept
         {
-            const auto& description = Description();
+            const auto& description = GetDescription();
             return Dimensions{ (uint32)description.Width, (uint32)description.Height, (uint32)description.DepthOrArraySize };
         }
 
-        uint16 MipLevels() const
+        [[nodiscard]] uint16 MipLevels() const noexcept
         {
-            return Description().MipLevels;
+            return GetDescription().MipLevels;
         }
 
-        auto Format() const
+        [[nodiscard]] auto Format() const noexcept
         {
-            return Description().Format;
+            return GetDescription().Format;
         }
 
-        auto Dimension() const
+        [[nodiscard]] auto Dimension() const noexcept
         {
-            return Description().Dimension;
+            return GetDescription().Dimension;
         }
 
-        uint64 Alignment() const
+        [[nodiscard]] uint64 Alignment() const noexcept
         {
-            return Description().Alignment;
+            return GetDescription().Alignment;
         }
 
-        auto TextureLayout() const
+        [[nodiscard]] auto TextureLayout() const noexcept
         {
-            return Description().Layout;
+            return GetDescription().Layout;
         }
 
     };

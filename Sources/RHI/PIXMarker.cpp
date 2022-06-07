@@ -4,26 +4,26 @@
 
 namespace sy::RHI
 {
-    PIXMarker::PIXMarker(CommandList& cmdList, const std::wstring_view message) :
+    PIXMarker::PIXMarker(CommandList& cmdList, std::wstring_view message) :
         cmdList(cmdList)
     {
 #ifdef USE_PIX
-        PIXBeginEvent(cmdList.D3DCommandList(), 0, message.data());
+        PIXBeginEvent(cmdList.GetD3DCommandList(), 0, message.data());
 #endif
     }
 
-    PIXMarker::PIXMarker(CommandList& cmdList, const std::string_view message) :
+    PIXMarker::PIXMarker(CommandList& cmdList, std::string_view message) :
         cmdList(cmdList)
     {
 #ifdef USE_PIX
-        PIXBeginEvent(cmdList.D3DCommandList(), 0, message.data());
+        PIXBeginEvent(cmdList.GetD3DCommandList(), 0, message.data());
 #endif
     }
 
     PIXMarker::~PIXMarker()
     {
 #ifdef USE_PIX
-        PIXEndEvent(cmdList.D3DCommandList());
+        PIXEndEvent(cmdList.GetD3DCommandList());
 #endif
     }
 }

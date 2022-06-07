@@ -14,7 +14,7 @@ namespace sy::RHI
 		{
 		}
 
-		inline D3D12_CLEAR_VALUE D3DClearValue() const
+		[[nodiscard]] D3D12_CLEAR_VALUE GetD3DClearValue() const noexcept
 		{
 			D3D12_CLEAR_VALUE output;
 			output.Format = Format;

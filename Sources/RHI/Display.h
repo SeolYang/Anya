@@ -27,16 +27,16 @@ namespace sy::RHI
 	public:
 		Display(const DXGI_OUTPUT_DESC1& output) noexcept;
 
-		inline const auto& DesktopCoordinates() const noexcept { return desktopCoordinates; }
-		inline const auto& RedPrimary() const noexcept { return redPrimary; }
-		inline const auto& GreenPrimary() const noexcept { return greenPrimary; }
-		inline const auto& BluePrimary() const noexcept { return bluePrimary; }
-		inline const auto& WhitePoint() const noexcept { return whitePoint; }
-		inline float MinLuminance() const noexcept { return minLuminance; }
-		inline float MaxLuminance() const noexcept { return maxLuminance; }
-		inline float FullFrameLuminance() const noexcept { return maxFullFrameLuminance; }
-		inline DXGI_COLOR_SPACE_TYPE ColorSpace() const noexcept { return colorSpace; }
-		inline bool IsHDRCapable() const noexcept { return bIsHDRCapable; }
+		[[nodiscard]] const auto& GetDesktopCoordinates() const noexcept { return desktopCoordinates; }
+		[[nodiscard]] const auto& GetRedPrimary() const noexcept { return redPrimary; }
+		[[nodiscard]] const auto& GetGreenPrimary() const noexcept { return greenPrimary; }
+		[[nodiscard]] const auto& GetBluePrimary() const noexcept { return bluePrimary; }
+		[[nodiscard]] const auto& GetWhitePoint() const noexcept { return whitePoint; }
+		[[nodiscard]] float GetMinLuminance() const noexcept { return minLuminance; }
+		[[nodiscard]] float GetMaxLuminance() const noexcept { return maxLuminance; }
+		[[nodiscard]] float GetFullFrameLuminance() const noexcept { return maxFullFrameLuminance; }
+		[[nodiscard]] DXGI_COLOR_SPACE_TYPE GetColorSpace() const noexcept { return colorSpace; }
+		[[nodiscard]] bool IsHDRCapable() const noexcept { return bIsHDRCapable; }
 
 	private:
 		RECT desktopCoordinates;

@@ -28,7 +28,7 @@ namespace sy::RHI
         GPURingBuffer(const GPURingBuffer&) = delete;
         GPURingBuffer& operator=(const GPURingBuffer&) = delete;
 
-        DynamicAllocation Allocate(const size_t sizeInBytes);
+        [[nodiscard]] DynamicAllocation Allocate(const size_t sizeInBytes);
 
         void FinishCurrentFrame(const uint64 currentFrameFenceValue)
         {
@@ -45,14 +45,11 @@ namespace sy::RHI
             ringBuffer.SetReleaseCompletedFrameCallback(callback);
         }
 
-        size_t MaxSize() const noexcept { return ringBuffer.MaxSize(); }
-        bool IsFull() const noexcept { return ringBuffer.IsFull(); }
-        bool IsEmpty() const noexcept { return ringBuffer.IsEmpty(); }
+        [[nodiscard]] size_t GetMaxSize() const noexcept { return ringBuffer.MaxSize(); }
+        [[nodiscard]] bool IsFull() const noexcept { return ringBuffer.IsFull(); }
+        [[nodiscard]] bool IsEmpty() const noexcept { return ringBuffer.IsEmpty(); }
 
-        virtual void SetDebugName(const std::wstring_view debugName) override;
-
-    private:
-        void Destroy();
+        void SetDebugName(const std::wstring_view debugName) override;
 
     private:
         RingBuffer ringBuffer;

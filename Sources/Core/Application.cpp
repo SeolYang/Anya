@@ -26,7 +26,8 @@ namespace sy
     Application::Application(std::wstring_view title, int32 argc, wchar_t** argv) :
         componentArchive(ComponentArchive::Instance()),
         title(title),
-        cmdLineParser({argc, argv})
+        cmdLineParser({argc, argv}),
+        windowHandle(NULL)
     {
     }
 

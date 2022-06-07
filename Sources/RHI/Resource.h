@@ -11,10 +11,9 @@ namespace sy::RHI
 
         virtual void SetDebugName(const std::wstring_view debugName) override;
 
-        ID3D12Resource* D3DResource() const noexcept { return resource.Get(); }
-        const D3D12_RESOURCE_DESC& Description() const noexcept { return resourceDesc; }
-
-        auto GPUVirtuaAddress() const noexcept { return resource->GetGPUVirtualAddress(); }
+        [[nodiscard]] ID3D12Resource* GetD3DResource() const noexcept { return resource.Get(); }
+        [[nodiscard]] const D3D12_RESOURCE_DESC& GetDescription() const noexcept { return resourceDesc; }
+        [[nodiscard]] auto GetGPUVirtuaAddress() const noexcept { return resource->GetGPUVirtualAddress(); }
 
     protected:
         /**

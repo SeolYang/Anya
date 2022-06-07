@@ -20,8 +20,8 @@ namespace sy::RHI
 
         virtual ~CPUDescriptor() noexcept = 0;
 
-        const D3D12_CPU_DESCRIPTOR_HANDLE& CPUHandle() const noexcept { return cpuHandle; }
-        const auto& CPUAddress() const noexcept { return cpuHandle.ptr; }
+        [[nodiscard]] const D3D12_CPU_DESCRIPTOR_HANDLE& GetCPUHandle() const noexcept { return cpuHandle; }
+        [[nodiscard]] const auto& GetCPUAddress() const noexcept { return cpuHandle.ptr; }
 
     protected:
         D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle;

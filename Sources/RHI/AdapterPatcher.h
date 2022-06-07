@@ -15,7 +15,7 @@ namespace sy::RHI
 		AdapterPatcher(const CommandLineParser& commandLineParser);
 
 		Adapter& operator[](size_t idx) { return hardwareAdapters[idx]; }
-		const std::vector<Adapter>& HardwareAdapters() const { return hardwareAdapters; }
+		[[nodiscard]] const std::vector<Adapter>& GetHardwareAdapters() const { return hardwareAdapters; }
 
 	private:
 		ComPtr<IDXGIFactory7> dxgiFactory;

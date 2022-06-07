@@ -7,7 +7,7 @@ namespace sy::RHI
 {
     CommandAllocator::CommandAllocator(Device& device, D3D12_COMMAND_LIST_TYPE commandListType)
     {
-        DXCall(device.D3DDevice()->CreateCommandAllocator(commandListType, IID_PPV_ARGS(&commandAllocator)));
+        DXCall(device.GetD3DDevice()->CreateCommandAllocator(commandListType, IID_PPV_ARGS(&commandAllocator)));
         SetDebugName(TEXT("CommandAllocator"));
     }
 

@@ -29,7 +29,7 @@ namespace sy
 
         virtual ~RingBuffer() = default;
 
-        size_t Allocate(const size_t allocSize) noexcept;
+        [[nodiscard]] size_t Allocate(const size_t allocSize) noexcept;
 
         void FinishCurrentFrame(const uint64 currentFrameFenceValue);
         void ReleaseCompletedFrame(const uint64 completedFenceValue);

@@ -4,5 +4,7 @@
 
 namespace sy::RHI
 {
-   
+   class ResourceStateTracker
+   {
+   };
 }

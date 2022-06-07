@@ -38,12 +38,12 @@ namespace sy
 			device = std::make_unique<RHI::Device>(adapterPatcher[0]);
 			logger.info("Device Created.");
 			logger.info("---------------------- Adapter infos ----------------------");
-			logger.info("Description                   : {}", adapterPatcher[0].Description());
-			logger.info("DedicatedVideoMemory          : {} MB", (adapterPatcher[0].DedicatedVideoMemory() / (1024Ui64 * 1024Ui64)));
-			logger.info("DedicatedSystemMemory         : {} MB", (adapterPatcher[0].DedicatedSystemMemory() / (1024Ui64 * 1024Ui64)));
-			logger.info("SharedSystemMemory            : {} MB", (adapterPatcher[0].SharedSystemMemory() / (1024Ui64 * 1024Ui64)));
-			logger.info("Budget provided by OS         : {} MB", (adapterPatcher[0].Budget() / (1024Ui64 * 1024Ui64)));
-			logger.info("Available for Reservation     : {} MB", (adapterPatcher[0].AvailableForReservation() / (1024Ui64 * 1024Ui64)));
+			logger.info("Description                   : {}", adapterPatcher[0].GetDescription());
+			logger.info("DedicatedVideoMemory          : {} MB", (adapterPatcher[0].GetDedicatedVideoMemory() / (1024Ui64 * 1024Ui64)));
+			logger.info("DedicatedSystemMemory         : {} MB", (adapterPatcher[0].GetDedicatedSystemMemory() / (1024Ui64 * 1024Ui64)));
+			logger.info("SharedSystemMemory            : {} MB", (adapterPatcher[0].GetSharedSystemMemory() / (1024Ui64 * 1024Ui64)));
+			logger.info("Budget provided by OS         : {} MB", (adapterPatcher[0].GetBudget() / (1024Ui64 * 1024Ui64)));
+			logger.info("Available for Reservation     : {} MB", (adapterPatcher[0].GetAvailableForReservation() / (1024Ui64 * 1024Ui64)));
 			logger.info("-----------------------------------------------------------");
 
 			logger.info("Creating Command Queues...");
@@ -76,7 +76,7 @@ namespace sy
 		}
 
 		frameFence->IncrementValue();
-		NotifyFrameBegin(frameFence->Value());
+		NotifyFrameBegin(frameFence->GetValue());
 
 		logger.info("RenderContext Initialized.");
 		timer.Begin();
@@ -94,18 +94,16 @@ namespace sy
 		if (currentFrame > 0)
 		{
 			frameFence->IncrementValue();
-			NotifyFrameBegin(frameFence->Value());
+			NotifyFrameBegin(frameFence->GetValue());
 		}
 
 		auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
 	    auto graphicsCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
-		graphicsCmdList->Reset();
-		auto& backBuffer = swapChain->CurrentBackBufferTexture();
+		graphicsCmdList->Open();
 		{
 			RHI::PIXMarker marker{ *graphicsCmdList, "Render" };
 			swapChain->BeginFrame(*graphicsCmdList);
 
-			RHI::ClearValue clearVal{ backBuffer.Format(), };
 			const auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
 			swapChain->Clear(*graphicsCmdList, clearColor);
 
@@ -120,7 +118,7 @@ namespace sy
 		graphicsCmdQueue.Signal(*frameFence);
 		frameFence->WaitForSimultaneousFramesCompletion();
 
-		NotifyFrameEnd(frameFence->CompletedValue());
+		NotifyFrameEnd(frameFence->GetCompletedValue());
 		NextFrame();
 	}
 

@@ -81,7 +81,7 @@ namespace sy
         void EndFrame(size_t frameNumber);
 
         template <RHI::CommandListType T>
-        std::unique_ptr<T, std::function<void(const T*)>> Allocate()
+        [[nodiscard]] std::unique_ptr<T, std::function<void(const T*)>> Allocate()
         {
             const size_t threadIndex = TaskManager::ThreadIndex();
             auto& threadData = exclusiveThreadData.at(threadIndex);

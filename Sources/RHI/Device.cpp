@@ -10,7 +10,7 @@ namespace sy::RHI
 	{
 		/** https://docs.microsoft.com/en-us/windows/win32/direct3d12/hardware-feature-levels */
 		D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_2;
-		DXCall(D3D12CreateDevice(adapter.D3DAdapter(), featureLevel, IID_PPV_ARGS(&device)));
+		DXCall(D3D12CreateDevice(adapter.GetD3DAdapter(), featureLevel, IID_PPV_ARGS(&device)));
 
 #if (defined(DEBUG) || defined(_DEBUG)) && !FORCE_DISABLE_DEBUG_LAYER
 		/* https://www.3dgep.com/learning-directx-12-1/ */

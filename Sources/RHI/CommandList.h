@@ -1,7 +1,7 @@
 #pragma once
 #include <PCH.h>
 #include <RHI/RHI.h>
-#include <RHI/ResourceBarrier.h>
+#include <RHI/ResourceStateTracker.h>
 
 namespace sy::RHI
 {
@@ -24,13 +24,15 @@ namespace sy::RHI
     class CommandList : public RHIObject
     {
     public:
+        virtual ~CommandList() = 0;
+
         void SetDebugName(const std::wstring_view debugName) override;
 
-        void Reset();
-        void Close();
+        virtual void Open();
+        virtual void Close();
 
-        [[nodiscard]] ID3D12GraphicsCommandList6* D3DCommandList() const noexcept { return commandList.Get(); }
-        [[nodiscard]] D3D12_COMMAND_LIST_TYPE Type() const noexcept { return type; }
+        [[nodiscard]] ID3D12GraphicsCommandList7* GetD3DCommandList() const noexcept { return commandList.Get(); }
+        [[nodiscard]] D3D12_COMMAND_LIST_TYPE GetType() const noexcept { return type; }
 
         [[nodiscard]] class CopyCommandList& ToCopy() noexcept
         {
@@ -59,10 +61,10 @@ namespace sy::RHI
     protected:
         CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, const CommandAllocator& cmdAllocator);
 
-    private:
-        ComPtr<ID3D12GraphicsCommandList6> commandList;
+    protected:
         const CommandAllocator& cmdAllocator;
         const D3D12_COMMAND_LIST_TYPE type;
+        const ComPtr<ID3D12GraphicsCommandList7> commandList;
 
     };
 
@@ -74,13 +76,23 @@ namespace sy::RHI
     public:
         CopyCommandList(Device& device, const CopyCommandAllocator& commandAllocator);
 
-        /** Proxy functions for Copy Command List */
+        void Open() override;
+        void Close() override;
+
         void CopyResource(const Resource& destination, const Resource& source);
         void AppendResourceBarrier(const ResourceBarrier& barrier);
         void AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers);
 
+        void FlushResourceBarriers();
+
     protected:
         using CommandList::CommandList;
+
+    private:
+        static constexpr uint32 NumMaxBatchBarriers = 16;
+        ResourceStateTracker resourceStateTracker;
+        std::array<D3D12_RESOURCE_BARRIER, NumMaxBatchBarriers> barriersBatch;
+        uint32 numCurrentBatchedBarriers = 0;
 
     };
 

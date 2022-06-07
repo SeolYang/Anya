@@ -19,19 +19,19 @@ namespace sy::RHI
             DirectX::XMFLOAT4 borderColor = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f),
             uint32 maxAnisotropy = 0);
 
-        const D3D12_SAMPLER_DESC& D3DSampler() const noexcept { return sampler; }
-        D3D12_SAMPLER_DESC& D3DSampler() noexcept { return sampler; }
+        [[nodiscard]] const D3D12_SAMPLER_DESC& GetD3DSampler() const noexcept { return sampler; }
+        [[nodiscard]] D3D12_SAMPLER_DESC& GetD3DSampler() noexcept { return sampler; }
 
-        auto Filter() const noexcept { return sampler.Filter; }
-        auto AddressU() const noexcept { return sampler.AddressU; }
-        auto AddressV() const noexcept { return sampler.AddressV; }
-        auto AddressW() const noexcept { return sampler.AddressW; }
-        float32 MipLODBias() const noexcept { return sampler.MipLODBias; }
-        float32 MinLOD() const noexcept { return sampler.MinLOD; }
-        float32 MaxLOD() const noexcept { return sampler.MaxLOD; }
-        auto ComparisionFunc() const noexcept { return sampler.ComparisonFunc; }
-        DirectX::XMFLOAT4 BorderColor() const noexcept { return DirectX::XMFLOAT4(sampler.BorderColor); }
-        uint32 MaxAnisotropy() const noexcept { return sampler.MaxAnisotropy; }
+        [[nodiscard]] auto GetFilter() const noexcept { return sampler.Filter; }
+        [[nodiscard]] auto GetAddressU() const noexcept { return sampler.AddressU; }
+        [[nodiscard]] auto GetAddressV() const noexcept { return sampler.AddressV; }
+        [[nodiscard]] auto GetAddressW() const noexcept { return sampler.AddressW; }
+        [[nodiscard]] float32 GetMipLODBias() const noexcept { return sampler.MipLODBias; }
+        [[nodiscard]] float32 GetMinLOD() const noexcept { return sampler.MinLOD; }
+        [[nodiscard]] float32 GetMaxLOD() const noexcept { return sampler.MaxLOD; }
+        [[nodiscard]] auto GetComparisionFunc() const noexcept { return sampler.ComparisonFunc; }
+        [[nodiscard]] DirectX::XMFLOAT4 GetBorderColor() const noexcept { return DirectX::XMFLOAT4(sampler.BorderColor); }
+        [[nodiscard]] uint32 GetMaxAnisotropy() const noexcept { return sampler.MaxAnisotropy; }
 
     private:
         D3D12_SAMPLER_DESC sampler;

@@ -7,8 +7,8 @@ namespace sy::RHI
     class PIXMarker
     {
     public:
-        PIXMarker(CommandList& cmdList, const std::wstring_view message);
-        PIXMarker(CommandList& cmdList, const std::string_view message);
+        PIXMarker(CommandList& cmdList, std::wstring_view message);
+        PIXMarker(CommandList& cmdList, std::string_view message);
         ~PIXMarker();
 
     private:

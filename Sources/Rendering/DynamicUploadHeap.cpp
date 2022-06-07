@@ -20,7 +20,7 @@ namespace sy
         auto newAlloc = gpuRingBuffers.back().Allocate(alignedSize);
         if (newAlloc.Buffer == nullptr)
         {
-            size_t maxSizeOfNewBuffer = gpuRingBuffers.back().MaxSize() * 2;
+            size_t maxSizeOfNewBuffer = gpuRingBuffers.back().GetMaxSize() * 2;
             while (maxSizeOfNewBuffer < sizeInBytes)
             {
                 maxSizeOfNewBuffer *= 2;

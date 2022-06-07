@@ -17,8 +17,8 @@ namespace sy::RHI
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
-		size_t Capacity() const noexcept { return capacity; }
-		size_t DescriptorSize() const noexcept { return descriptorSize; }
+		[[nodiscard]] size_t GetCapacity() const noexcept { return capacity; }
+		[[nodiscard]] size_t GetDescriptorSize() const noexcept { return descriptorSize; }
 
 	protected:
 		DescriptorHeap(Device& device, const D3D12_DESCRIPTOR_HEAP_TYPE heapType, const uint32_t capacity);
@@ -76,7 +76,7 @@ namespace sy::RHI
 	public:
 		SamplerDescriptorHeap(Device& device, const uint32_t capacity);
 
-		SamplerDescriptor Allocate(const size_t idx, const Sampler& sampler);
+		[[nodiscard]] SamplerDescriptor Allocate(const size_t idx, const Sampler& sampler);
 
 	};
 
@@ -89,7 +89,7 @@ namespace sy::RHI
 	public:
 		DSDescriptorHeap(Device& device, const uint32_t capacity);
 
-		DSDescriptor Allocate(const size_t idx, const Texture& texture);
+		[[nodiscard]] DSDescriptor Allocate(const size_t idx, const Texture& texture);
 
 	};
 
@@ -102,7 +102,7 @@ namespace sy::RHI
 	public:
 		RTDescriptorHeap(Device& device, const uint32_t capacity);
 
-		RTDescriptor Allocate(const size_t idx, const Texture& texture, const uint16 mipLevel = 0);
+		[[nodiscard]] RTDescriptor Allocate(const size_t idx, const Texture& texture, const uint16 mipLevel = 0);
 
 	};
 }

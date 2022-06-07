@@ -13,9 +13,9 @@ namespace sy::RHI
 		void Signal(const Fence& fence);
 		void Wait(const Fence& fence);
 
-		ID3D12CommandQueue* D3DCommandQueue() const { return queue.Get(); }
+		[[nodiscard]] ID3D12CommandQueue* GetD3DCommandQueue() const noexcept { return queue.Get(); }
 
-		virtual void SetDebugName(const std::wstring_view debugName) override;
+		void SetDebugName(const std::wstring_view debugName) override;
 
 		static void Flush(CommandQueue& commandQueue, Fence& fence);
 

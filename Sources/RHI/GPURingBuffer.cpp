@@ -43,7 +43,7 @@ namespace sy::RHI
         }
         resDesc.Width = maxSizeOfBuffer;
 
-        DXCall(device.D3DDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &resDesc, defaultUsage, nullptr, IID_PPV_ARGS(&gpuBuffer)));
+        DXCall(device.GetD3DDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &resDesc, defaultUsage, nullptr, IID_PPV_ARGS(&gpuBuffer)));
 
         gpuVirtualAddress = gpuBuffer->GetGPUVirtualAddress();
         if (bAllowCPUAccess)
@@ -104,9 +104,5 @@ namespace sy::RHI
         {
             gpuBuffer->SetName(debugName.data());
         }
-    }
-
-    void GPURingBuffer::Destroy()
-    {
     }
 }
