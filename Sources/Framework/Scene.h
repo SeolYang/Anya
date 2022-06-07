@@ -21,10 +21,10 @@ namespace sy
 
         void Init();
 
-        const std::vector<Entity>& Entities() const noexcept { return entities; }
+        [[nodiscard]] const std::vector<Entity>& GetEntities() const noexcept { return entities; }
 
     protected:
-        virtual bool InitInternal() { return true; };
+        [[nodiscard]] virtual bool InitInternal() { return true; };
 
     private:
         ComponentArchive& componentArchive;
