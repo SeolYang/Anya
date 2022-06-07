@@ -22,8 +22,8 @@ namespace sy
 		renderResolution({ 1280, 720 }),
 	    currentFrame(0)
 	{
-		Logger& logger = EngineCore::EngineLogger();
-		const TaskManager& taskManager = EngineCore::EngineTaskManager();
+		Logger& logger = EngineCore::GetLogger();
+		const TaskManager& taskManager = EngineCore::GetTaskManager();
 
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
@@ -104,7 +104,7 @@ namespace sy
 			RHI::PIXMarker marker{ *graphicsCmdList, "Render" };
 			swapChain->BeginFrame(*graphicsCmdList);
 
-			const auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.DeltaTime()), 0.6f * std::cos(timer.DeltaTime()), 0.9f, 1.0f);
+			const auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.GetDeltaTime()), 0.6f * std::cos(timer.GetDeltaTime()), 0.9f, 1.0f);
 			swapChain->Clear(*graphicsCmdList, clearColor);
 
 			swapChain->EndFrame(*graphicsCmdList);

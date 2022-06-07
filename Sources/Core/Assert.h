@@ -9,7 +9,7 @@ namespace sy
 #if defined(_DEBUG) || defined(DEBUG)
         if (!bCondition)
         {
-            auto& logger = EngineCore::EngineLogger();
+            auto& logger = EngineCore::GetLogger();
             logger.critical(std::format("Assert failed at File : {}, Line : {}, Message : {}", file, line, message));
             __debugbreak();
         }

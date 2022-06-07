@@ -111,9 +111,9 @@ namespace sy
             }
         }
 
-        [[nodiscard]] size_t NumOfWorkerThreads() const { return threads.size(); }
+        [[nodiscard]] size_t GetNumWorkerThreads() const { return threads.size(); }
 
-        [[nodiscard]] static size_t ThreadIndex()
+        [[nodiscard]] static size_t GetCurrentWorkerThreadIndex()
         {
             return tidx;
         }

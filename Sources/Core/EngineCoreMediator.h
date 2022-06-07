@@ -31,12 +31,12 @@ namespace sy
             EngineCore::instance = nullptr;
         }
 
-        static EngineCore& Instance() { assert(instance != nullptr); return *instance; }
-        static TaskManager& EngineTaskManager() { return Instance().taskManager; }
-        static PerformanceMonitor& EnginePerfMonitor() { return Instance().perfMonitor; }
-        static const Timer& EngineTimer() { return Instance().mainTimer; }
-        static Logger& EngineLogger() { return Instance().logger; }
-        static ComponentArchive& EngineComponentArchive() { return Instance().componentArchive; }
+        [[nodiscard]] static EngineCore& Instance() { assert(instance != nullptr); return *instance; }
+        [[nodiscard]] static TaskManager& GetTaskManager() { return Instance().taskManager; }
+        [[nodiscard]] static PerformanceMonitor& GetPerfMonitor() { return Instance().perfMonitor; }
+        [[nodiscard]] static const Timer& GetTimer() { return Instance().mainTimer; }
+        [[nodiscard]] static Logger& GetLogger() { return Instance().logger; }
+        [[nodiscard]] static ComponentArchive& GetComponentArchive() { return Instance().componentArchive; }
 
     private:
         inline static std::once_flag instanceFlag;

@@ -37,14 +37,14 @@ namespace sy
         componentArchive.Attach<HierarchyComponent>(newEntity, parent);
         componentArchive.Attach<TransformComponent>(newEntity);
 
-        Logger& logger = EngineCore::EngineLogger();
+        Logger& logger = EngineCore::GetLogger();
         logger.info("Scene Entity %d created in scene.", utils::ToUnderlyingType(newEntity));
         return newEntity;
     }
 
     void Scene::Init()
     {
-        Logger& logger = EngineCore::EngineLogger();
+        Logger& logger = EngineCore::GetLogger();
         logger.info("Initializing Scene...");
         if (InitInternal())
         {

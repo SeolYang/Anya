@@ -46,7 +46,7 @@ namespace sy
             return queue.empty();
         }
 
-        [[nodiscard]] size_t Size() const
+        [[nodiscard]] size_t GetSize() const
         {
             ReadOnlyLock lock{ mutex };
             return queue.size();

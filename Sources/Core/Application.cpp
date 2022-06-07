@@ -79,8 +79,8 @@ namespace sy
                 }
                 mainTimer->End();
  
-                frameCounter.Update(mainTimer->DeltaTimeNanos());
-                perfMonitor->UpdateAs(TEXT("MainLoopDelta"), mainTimer->DeltaTimeNanos());
+                frameCounter.Update(mainTimer->GetDeltaTimeNanos());
+                perfMonitor->UpdateAs(TEXT("MainLoopDelta"), mainTimer->GetDeltaTimeNanos());
             }
         }
         catch (Exception& exception)

@@ -83,7 +83,7 @@ namespace sy
         template <RHI::CommandListType T>
         [[nodiscard]] std::unique_ptr<T, std::function<void(const T*)>> Allocate()
         {
-            const size_t threadIndex = TaskManager::ThreadIndex();
+            const size_t threadIndex = TaskManager::GetCurrentWorkerThreadIndex();
             auto& threadData = exclusiveThreadData.at(threadIndex);
             auto& cmdListPackage = threadData->QueryCmdListPackage<T>(currentFrameIndex);
 

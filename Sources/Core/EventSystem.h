@@ -82,7 +82,7 @@ namespace sy
 		EventSystem& operator=(const EventSystem&) = delete;
 		EventSystem& operator=(EventSystem&&) = delete;
 
-		static auto Create()
+		[[nodiscard]] static auto Create()
 		{
 			return std::make_shared<EventSystem>();
 		}
@@ -90,7 +90,7 @@ namespace sy
 		/**
 		* @brief Be careful with lambda which captured the (this) pointer in object.
 		*/
-		Event Subscribe(Callback e)
+		[[nodiscard]] Event Subscribe(Callback e)
 		{
 			ReadWriteLock lock{ mutex };
 			static auto id = utils::ToUnderlyingType(INVALID_EVENT_ID);

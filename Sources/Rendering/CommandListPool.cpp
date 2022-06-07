@@ -17,7 +17,7 @@ namespace sy
                 ExecutePendingDeallocations(frameIndex);
             });
 
-        const size_t numOfWorkerThreads = taskManager.NumOfWorkerThreads() + 1; // Include Main Thread
+        const size_t numOfWorkerThreads = taskManager.GetNumWorkerThreads() + 1; // Include Main Thread
         for (auto idx : views::iota(0Ui64, numOfWorkerThreads))
         {
             exclusiveThreadData.emplace_back(std::make_unique<PerThreadData>(device, simultaneousFramesInFlight));

@@ -22,6 +22,7 @@ namespace sy
 
         using Slot_t = SlotType<SlotDataType>;
 
+    public:
         Pool(const size_t sizePerSlot, const size_t numOfGrowSlots = 64) :
             sizePerSlot(sizePerSlot),
             numOfGrowSlots(numOfGrowSlots),
