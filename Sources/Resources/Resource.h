@@ -38,7 +38,7 @@ namespace sy
         * Load is not thread-safe it self.
         * It must be called by single thread.
         */
-        bool Load() 
+        [[nodiscard]] bool Load()
         { 
             if (!bIsLoaded)
             {
@@ -65,10 +65,10 @@ namespace sy
             }
         }
 
-        const fs::path& Path() const noexcept { return path; }
-        virtual EResourceType Type() const noexcept = 0;
+        [[nodiscard]] const fs::path& GetPath() const noexcept { return path; }
+        virtual EResourceType GetType() const noexcept = 0;
 
-        bool IsReadyToUse() const noexcept { return bIsLoaded; }
+        [[nodiscard]] bool IsReadyToUse() const noexcept { return bIsLoaded; }
 
     protected:
         virtual bool LoadInternal() = 0;

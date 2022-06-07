@@ -16,7 +16,7 @@ namespace sy
         ResourceCache& operator=(ResourceCache&&) = delete;
 
         template <ResourceType T>
-        bool Register(std::weak_ptr<T> resource)
+        [[nodiscard]] bool Register(std::weak_ptr<T> resource)
         {
             if (!resource.expired() && !Contains(resource))
             {
