@@ -106,11 +106,12 @@ namespace sy::RHI
             }
         }
 
+        std::vector<D3D12_RESOURCE_BARRIER> ResolvePendingResourceBarriers();
+
+        void AppendBarrierToBatch(D3D12_RESOURCE_BARRIER barrier);
+
     protected:
         using CommandList::CommandList;
-
-    private:
-        void AppendBarrierToBatch(D3D12_RESOURCE_BARRIER barrier);
 
     private:
         static constexpr uint32 NumMaxBatchBarriers = 16;

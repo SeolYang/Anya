@@ -9,6 +9,7 @@ namespace sy::RHI
 {
 	CommandQueue::CommandQueue(const Device& device, D3D12_COMMAND_LIST_TYPE type)
 	{
+		ANYA_ASSERT(type != D3D12_COMMAND_LIST_TYPE_BUNDLE, "Can't be create Bundle type of Command Queue.");
 		const D3D12_COMMAND_QUEUE_DESC desc = {
 			.Type = type,
 			.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL, /* @TODO Should i make able to customize command queue priority? */
@@ -39,24 +40,29 @@ namespace sy::RHI
 		::CloseHandle(flushFenceEvent);
 	}
 
-	void CommandQueue::ExecuteCommandList(const CommandList& cmdList)
+	void CommandQueue::ExecuteCommandLists(CopyCommandList& immediateCmdList, std::span<Ref<CopyCommandList>> pendingCmdLists)
 	{
-		ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.GetD3DCommandList());
-		queue->ExecuteCommandLists(1, &d3dCmdList);
-	}
-
-	void CommandQueue::ExecuteCommandLists(const std::vector<std::reference_wrapper<const CommandList>>& cmdLists)
-	{
-		std::vector<ID3D12CommandList*> transformed;
-		transformed.resize(cmdLists.size());
-		std::transform(cmdLists.begin(), cmdLists.end(), transformed.begin(),
-			[](const CommandList& cmdList)
+		std::vector<ID3D12CommandList*> cmdListsToExecuteOnQueue;
+		for (auto& cmdListRef : pendingCmdLists)
+		{
+			auto& cmdList = cmdListRef.get();
+			const auto resolvedBarriers = cmdList.ResolvePendingResourceBarriers();
+			if (resolvedBarriers.size() > 0)
 			{
-				ID3D12CommandList* d3dCmdList = static_cast<ID3D12CommandList*>(cmdList.GetD3DCommandList());
-				return d3dCmdList;
-			});
+				immediateCmdList.Open();
+				for (const auto& barrier : resolvedBarriers)
+				{
+					immediateCmdList.AppendBarrierToBatch(barrier);
+				}
+				immediateCmdList.Close();
 
-		queue->ExecuteCommandLists((uint32)transformed.size(), transformed.data());
+				cmdListsToExecuteOnQueue.emplace_back(immediateCmdList.GetD3DCommandList());
+			}
+
+			cmdListsToExecuteOnQueue.emplace_back(cmdList.GetD3DCommandList());
+			queue->ExecuteCommandLists((uint32)cmdListsToExecuteOnQueue.size(), cmdListsToExecuteOnQueue.data());
+			cmdListsToExecuteOnQueue.clear();
+		}
 	}
 
 	void CommandQueue::SetDebugName(const std::wstring_view debugName)
@@ -66,23 +72,5 @@ namespace sy::RHI
 		{
 			DXCall(queue->SetName(debugName.data()));
 		}
-	}
-
-	DirectCommandQueue::DirectCommandQueue(const Device& device) :
-		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_DIRECT)
-	{
-		SetDebugName(TEXT("DirectCommandQueue"));
-	}
-
-	ComputeCommandQueue::ComputeCommandQueue(const Device& device) :
-		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_COMPUTE)
-	{
-		SetDebugName(TEXT("ComputeCommandQueue"));
-	}
-
-	CopyCommandQueue::CopyCommandQueue(const Device& device) :
-		CommandQueue(device, D3D12_COMMAND_LIST_TYPE_COPY)
-	{
-		SetDebugName(TEXT("CopyCommandQueue"));
 	}
 }

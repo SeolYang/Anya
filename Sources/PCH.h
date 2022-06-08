@@ -163,6 +163,18 @@ namespace sy
     template <typename T>
     using OptionalRef = std::optional<std::reference_wrapper<T>>;
 
+    template <typename T>
+    using Ref = std::reference_wrapper<T>;
+
+    template <typename T>
+    using ConstRef = std::reference_wrapper<const T>;
+
+    template <typename T>
+    using RefVector = std::vector<Ref<T>>;
+
+    template <typename T>
+    using ConstRefVector = RefVector<ConstRef<T>>;
+
     using Mutex = std::shared_timed_mutex;
     using ReadWriteLock = std::unique_lock<Mutex>;
     using ReadOnlyLock = std::shared_lock<Mutex>;

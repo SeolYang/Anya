@@ -9,11 +9,10 @@
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
 #include <RHI/FrameFence.h>
-#include <RHI/Texture.h>
 #include <RHI/CommandQueue.h>
 #include <RHI/CommandList.h>
-#include <RHI/ClearValue.h>
 #include <RHI/PIXMarker.h>
+#include <RHI/Texture.h>
 
 namespace sy
 {
@@ -47,9 +46,12 @@ namespace sy
 			logger.info("-----------------------------------------------------------");
 
 			logger.info("Creating Command Queues...");
-			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::Graphics)] = std::make_unique<RHI::DirectCommandQueue>(*device);
-			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::AsyncCompute)] = std::make_unique<RHI::ComputeCommandQueue>(*device);
-			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::Copy)] = std::make_unique<RHI::CopyCommandQueue>(*device);
+			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::Graphics)] = std::make_unique<RHI::CommandQueue>(*device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+			GetCommandQueue(EGPUEngineType::Graphics).SetDebugName(TEXT("Graphics"));
+			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::AsyncCompute)] = std::make_unique<RHI::CommandQueue>(*device, D3D12_COMMAND_LIST_TYPE_COMPUTE);
+			GetCommandQueue(EGPUEngineType::AsyncCompute).SetDebugName(TEXT("AsyncCompute"));
+			cmdQueues[utils::ToUnderlyingType(EGPUEngineType::Copy)] = std::make_unique<RHI::CommandQueue>(*device, D3D12_COMMAND_LIST_TYPE_COPY);
+			GetCommandQueue(EGPUEngineType::Copy).SetDebugName(TEXT("Copy"));
 			logger.info("Command Queues Created.");
 
 			auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
@@ -98,6 +100,9 @@ namespace sy
 		}
 
 		auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
+		auto immediateCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
+
+		/** Assume this process happen on worker thread. */
 	    auto graphicsCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
 		graphicsCmdList->Open();
 		{
@@ -110,7 +115,11 @@ namespace sy
 			swapChain->EndFrame(*graphicsCmdList);
 		}
 		graphicsCmdList->Close();
-		graphicsCmdQueue.ExecuteCommandList(*graphicsCmdList);
+		///////////////////////////////////////////////////////
+
+		RefVector<RHI::CopyCommandList> pendingCmdLists;
+		pendingCmdLists.emplace_back(std::ref(*graphicsCmdList));
+		graphicsCmdQueue.ExecuteCommandLists(*immediateCmdList, pendingCmdLists);
 		graphicsCmdList.reset();
 
 		swapChain->Present();

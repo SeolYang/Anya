@@ -6,7 +6,6 @@
 #include <RHI/DescriptorHeap.h>
 #include <RHI/Texture.h>
 #include <RHI/Device.h>
-#include <RHI/ResourceBarrier.h>
 #include <Core/Exceptions.h>
 
 namespace sy
@@ -49,15 +48,12 @@ namespace sy
 	{
 		rtDescriptors[GetCurrentBackBufferIndex()] = std::move(descriptorPool.AllocateRenderTargetDescriptor(GetCurrentBackBufferTexture(), 0));
 
-        const RHI::ResourceTransitionBarrier barrier{ GetCurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET};
-		cmdList.AppendResourceBarrier(barrier);
+		cmdList.TransitionBarrier(GetCurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET);
 	}
 
 	void SwapChain::EndFrame(RHI::CopyCommandList& cmdList)
 	{
-        const RHI::ResourceTransitionBarrier barrier{ GetCurrentBackBufferTexture(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT };
-		cmdList.AppendResourceBarrier(barrier);
-
+		cmdList.TransitionBarrier(GetCurrentBackBufferTexture(), D3D12_RESOURCE_STATE_PRESENT);
 		rtDescriptors[GetCurrentBackBufferIndex()].reset();
 	}
 

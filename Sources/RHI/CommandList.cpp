@@ -3,8 +3,6 @@
 #include <RHI/Device.h>
 #include <RHI/CommandAllocator.h>
 #include <RHI/Resource.h>
-#include <RHI/Texture.h>
-#include <RHI/ResourceBarrier.h>
 #include <RHI/Descriptor.h>
 #include <Core/Exceptions.h>
 #include <Core/Assert.h>
@@ -79,9 +77,10 @@ namespace sy::RHI
     void CopyCommandList::TransitionBarrier(Resource& target, const D3D12_RESOURCE_STATES targetState, const uint32 subResourceIndex)
     {
         ANYA_ASSERT(target.GetD3DResource() != nullptr, "Resource can't be a null resource to state transition.")
+        ANYA_ASSERT(targetState != D3D12_RESOURCE_STATE_UNKNOWN && targetState != D3D12_RESOURCE_STATE_BEFORE_INITIALIZE, "Not a valid resource state to transition.");
 
         ResourceState& resState = resourceStateTracker.GetResourceState(&target);
-        ANYA_ASSERT(!resState.IsInitialized(), "Not initialized Resource State.");
+        ANYA_ASSERT(resState.IsInitialized(), "Not initialized Resource State.");
 
         // If resource state is unknown. It must be resolved later!
         if (resState.IsUnknownState())
@@ -96,10 +95,10 @@ namespace sy::RHI
         }
         else
         {
-            if (subResourceIndex == D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES || !resState.IsTrackingPerResource())
+            if (subResourceIndex == D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES && !resState.IsTrackingPerResource())
             {
                 uint32 idx = 0;
-                for (D3D12_RESOURCE_STATES subResourceState : resState.GetSubResourceStates())
+                for (const D3D12_RESOURCE_STATES subResourceState : resState.GetSubResourceStates())
                 {
                     if (subResourceState != targetState)
                     {
@@ -128,6 +127,44 @@ namespace sy::RHI
         }
 
         resState.SetSubResourceState(subResourceIndex, targetState);
+    }
+
+    std::vector<D3D12_RESOURCE_BARRIER> CopyCommandList::ResolvePendingResourceBarriers()
+    {
+        std::vector<D3D12_RESOURCE_BARRIER> resolvedBarriers;
+        for (ResourceStateTracker::PendingResourceState& pendingResourceState : resourceStateTracker.GetPendingResourceStates())
+        {
+            // Resolve before state from Resource.
+            auto& resState = pendingResourceState.Target->GetResourceState();
+            const auto currentSubResourceState = resState.GetSubResourceState(pendingResourceState.SubResourceIndex);
+            const auto targetState = pendingResourceState.State;
+            if (currentSubResourceState != targetState)
+            {
+                resolvedBarriers.emplace_back(
+                    CD3DX12_RESOURCE_BARRIER::Transition(
+                        pendingResourceState.Target->GetD3DResource(),
+                        currentSubResourceState,
+                        targetState,
+                        pendingResourceState.SubResourceIndex));
+            }
+
+            // Update Resource state using ResourceStateTracker's infos.
+            const auto finalResStateInCmdList = resourceStateTracker.GetResourceState(pendingResourceState.Target).GetSubResourceState(pendingResourceState.SubResourceIndex);
+            resState.SetSubResourceState(pendingResourceState.SubResourceIndex, finalResStateInCmdList);
+        }
+
+        return resolvedBarriers;
+    }
+
+    void CopyCommandList::AppendBarrierToBatch(const D3D12_RESOURCE_BARRIER barrier)
+    {
+        ANYA_ASSERT(numCurrentBatchedBarriers < NumMaxBatchBarriers, "Can't exceed maximum batch barrier capacity.");
+        barriersBatch[numCurrentBatchedBarriers] = barrier;
+        ++numCurrentBatchedBarriers;
+        if (numCurrentBatchedBarriers == NumMaxBatchBarriers)
+        {
+            FlushResourceBarriers();
+        }
     }
 
     ComputeCommandList::ComputeCommandList(Device& device, const ComputeCommandAllocator& commandAllocator) :

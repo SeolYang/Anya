@@ -15,14 +15,11 @@ namespace sy
 		class Device;
 		
 		class CommandQueue;
-		class DirectCommandQueue;
 		class DirectCommandList;
 		class DirectCommandAllocator;
-		class CopyCommandQueue;
 		class CopyCommandList;
 		class CopyCommandAllocator;
 		class ComputeCommandAllocator;
-		class ComputeCommandQueue;
 		class ComputeCommandList;
 		class RTDescriptorHeap;
 		class Fence;
@@ -46,6 +43,11 @@ namespace sy
 	public:
 		RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser);
 		~RenderContext();
+
+		RenderContext(const RenderContext&) = delete;
+		RenderContext(RenderContext&&) noexcept = delete;
+		RenderContext operator=(const RenderContext&) = delete;
+		RenderContext operator=(RenderContext&&) noexcept = delete;
 
 		void Render();
 		void NotifyFrameBegin(uint64 frameNumber);

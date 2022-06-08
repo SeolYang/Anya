@@ -2,10 +2,59 @@
 #include <PCH.h>
 #include <RHI/RHI.h>
 #include <Core/Assert.h>
+#include <Core/Utility.h>
 #include <Math/Dimensions.h>
 
 namespace sy::RHI
 {
+    static D3D12_RESOURCE_STATES DeduceOptimalStateFromDesc(const D3D12_RESOURCE_DESC& desc, D3D12_HEAP_TYPE heapType = D3D12_HEAP_TYPE_DEFAULT)
+    {
+        // https://docs.microsoft.com/en-us/windows/win32/direct3d12/using-resource-barriers-to-synchronize-resource-states-in-direct3d-12#initial-states-for-resources
+        /**
+        * @todo Implement proper method to get initial state of resource.
+        */
+        const auto resFlags = desc.Flags;
+        const bool bDedicatedMemory = heapType == D3D12_HEAP_TYPE_DEFAULT;
+        const bool bIsReadBack = heapType == D3D12_HEAP_TYPE_READBACK;
+        //if (utils::FlagsContains(resFlags, ))
+        if (desc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER)
+        {
+            if (bDedicatedMemory)
+            {
+                return D3D12_RESOURCE_STATE_COMMON;
+            }
+
+            return bIsReadBack ? D3D12_RESOURCE_STATE_GENERIC_READ : D3D12_RESOURCE_STATE_COPY_DEST;
+        }
+
+        if (!utils::FlagsContains(resFlags, D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE))
+        {
+            return D3D12_RESOURCE_STATE_COMMON;
+        }
+
+        const bool bAllowedDepthStencil = utils::FlagsContains(resFlags, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
+        const bool bAllowedRenderTarget = utils::FlagsContains(resFlags, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+        const bool bAllowedUnorderedAccess = utils::FlagsContains(resFlags, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+        const bool bAllowedAnyWriteOperations = bAllowedDepthStencil || bAllowedRenderTarget || bAllowedUnorderedAccess;
+        if (bAllowedAnyWriteOperations)
+        {
+            if (bAllowedDepthStencil)
+            {
+                return D3D12_RESOURCE_STATE_DEPTH_WRITE;
+            }
+            if (bAllowedRenderTarget)
+            {
+                return D3D12_RESOURCE_STATE_RENDER_TARGET;
+            }
+            if (bAllowedUnorderedAccess)
+            {
+                return D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+            }
+        }
+
+        return D3D12_RESOURCE_STATE_COMMON;
+    }
+
     class ResourceState
     {
     public:

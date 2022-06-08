@@ -219,4 +219,11 @@ namespace sy::utils
         return adjustment;
     }
 
+    /************************ Helpers ************************/
+    template<typename T>
+    [[nodiscard]] bool FlagsContains(T flags, T flag) noexcept
+    {
+        return (flags & flag) != 0;
+    }
+
 }

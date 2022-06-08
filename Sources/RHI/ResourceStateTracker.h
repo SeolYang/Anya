@@ -23,33 +23,18 @@ namespace sy::RHI
         ResourceStateTracker& operator=(const ResourceStateTracker&) = delete;
         ResourceStateTracker& operator=(ResourceStateTracker&&) noexcept = delete;
 
-        [[nodiscard]] ResourceState& GetResourceState(Resource* resPtr)
-        {
-            ANYA_ASSERT(resPtr != nullptr, "Resource can't be a nullptr");
-            ResourceState& state = scopedResourceStates[resPtr];
-            if (!state.IsInitialized())
-            {
-                state = ResourceState(D3D12_RESOURCE_STATE_UNKNOWN, resPtr->GetNumSubResources());
-            }
-
-            return state;
-        }
+        [[nodiscard]] ResourceState& GetResourceState(Resource* resPtr);
 
         void AddPendingResourceState(PendingResourceState pendingResourceState)
         {
             pendingResourceStates.emplace_back(pendingResourceState);
         }
-
-        [[nodiscard]] const std::vector<PendingResourceState>& GetPendingResourceStates() const noexcept
+        [[nodiscard]] std::vector<PendingResourceState>& GetPendingResourceStates() noexcept
         {
             return pendingResourceStates;
         }
 
-        void Reset()
-        {
-            scopedResourceStates.clear();
-            pendingResourceStates.clear();
-        }
+        void Reset();
 
     private:
         robin_hood::unordered_map<Resource*, ResourceState> scopedResourceStates;

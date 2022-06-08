@@ -14,14 +14,14 @@ namespace sy::RHI
 
     void ResourceState::SetSubResourceState(const uint32 subResourceIndex, D3D12_RESOURCE_STATES state)
     {
-        ANYA_ASSERT(subResourceIndex < subResourceStates.size(), "Out of Range Sub-resource Index.");
-        bTrackingPerResource == (subResourceIndex == D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES || subResourceStates.size() == 1);
+        bTrackingPerResource = (subResourceIndex == D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES || subResourceStates.size() == 1);
         if (bTrackingPerResource)
         {
             this->state = state;
         }
         else
         {
+            ANYA_ASSERT(subResourceIndex < subResourceStates.size(), "Out of Range Sub-resource Index.");
             subResourceStates[subResourceIndex] = state;
         }
     }
@@ -29,12 +29,9 @@ namespace sy::RHI
     Resource::Resource(const ComPtr<ID3D12Resource>& existingResource) :
         allocation(nullptr),
         resource(existingResource),
-        resourceDesc(resource->GetDesc())
+        resourceDesc(resource->GetDesc()),
+        resourceState(DeduceOptimalStateFromDesc(resourceDesc), GetNumSubResources())
     {
-        /**
-        * @todo Implement proper method to get initial state of resource.
-        */
-        resourceState = ResourceState(D3D12_RESOURCE_STATE_COMMON, GetNumSubResources());
     }
 
     //Resource::Resource(D3D12MA::Allocator& allocator, const D3D12_RESOURCE_DESC resourceDesc) :

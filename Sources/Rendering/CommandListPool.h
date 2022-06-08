@@ -74,6 +74,12 @@ namespace sy
             OffsetPool::Slot_t Slot;
         };
 
+        template <RHI::CommandListType T>
+        using CommandListPtr = std::unique_ptr<T, std::function<void(const T*)>>;
+        using CopyCommandListPtr = CommandListPtr<RHI::CopyCommandList>;
+        using ComputeCommandListPtr = CommandListPtr<RHI::ComputeCommandList>;
+        using DirectCommandListPtr = CommandListPtr<RHI::DirectCommandList>;
+
     public:
         CommandListPool(RHI::Device& device, const TaskManager& taskManager, size_t simultaneousFramesInFlight);
 
@@ -81,7 +87,7 @@ namespace sy
         void EndFrame(size_t frameNumber);
 
         template <RHI::CommandListType T>
-        [[nodiscard]] std::unique_ptr<T, std::function<void(const T*)>> Allocate()
+        [[nodiscard]] CommandListPtr<T> Allocate()
         {
             const size_t threadIndex = TaskManager::GetCurrentWorkerThreadIndex();
             auto& threadData = exclusiveThreadData.at(threadIndex);
