@@ -2,7 +2,7 @@
 #include <RHI/DescriptorHeap.h>
 #include <RHI/Device.h>
 #include <RHI/Texture.h>
-#include <RHI/Sampler.h>
+#include <RHI/SamplerBuilder.h>
 #include <Core/Exceptions.h>
 
 namespace sy::RHI
@@ -95,11 +95,11 @@ namespace sy::RHI
 		SetDebugName(TEXT("Sampler DescriporHeap"));
 	}
 
-	SamplerDescriptor SamplerDescriptorHeap::Allocate(const size_t idx, const Sampler& sampler)
+	SamplerDescriptor SamplerDescriptorHeap::Allocate(const size_t idx, const SamplerBuilder& samplerBuilder)
 	{
 		assert(idx < GetCapacity());
 
-		auto heap = D3DDescriptorHeap();
+		const auto heap = D3DDescriptorHeap();
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE samplerCPUHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
@@ -107,7 +107,8 @@ namespace sy::RHI
 		CD3DX12_GPU_DESCRIPTOR_HANDLE samplerGPUHandle{ heap->GetGPUDescriptorHandleForHeapStart() };
 		samplerGPUHandle = GPUHandleOffset(samplerGPUHandle, idx, GetDescriptorSize());
 
-		device.GetD3DDevice()->CreateSampler(&sampler.GetD3DSampler(), samplerCPUHandle);
+		const auto samplerDesc = samplerBuilder.Build();
+		device.GetD3DDevice()->CreateSampler(&samplerDesc, samplerCPUHandle);
 
 		return SamplerDescriptor{ samplerCPUHandle, samplerGPUHandle };
 	}

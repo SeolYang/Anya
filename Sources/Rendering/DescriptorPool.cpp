@@ -38,12 +38,12 @@ namespace sy
         frameIndexTracker.ReleaseCompletedFrame(frameNumber);
     }
 
-    DescriptorPool::SamplerDescAllocPtr DescriptorPool::AllocateSamplerDescriptor(const RHI::Sampler& sampler)
+    DescriptorPool::SamplerDescAllocPtr DescriptorPool::AllocateSamplerDescriptor(const RHI::SamplerBuilder& samplerBuilder)
     {
         const auto slot = samplerDescriptorPool.Allocate();
         samplerDescAllocCache[slot.Offset] =
             Allocation<RHI::SamplerDescriptor>{
-                .Descriptor = samplerDescriptorHeap.Allocate(slot.Offset, sampler),
+                .Descriptor = samplerDescriptorHeap.Allocate(slot.Offset, samplerBuilder),
                 .Index = static_cast<uint32>(slot.Offset)
         };
 

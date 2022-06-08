@@ -9,7 +9,7 @@ namespace sy::RHI
 	class Device;
 	class Texture;
 	class Buffer;
-	class Sampler;
+	class SamplerBuilder;
 	class DescriptorHeap : public RHIObject
 	{
 	public:
@@ -76,7 +76,7 @@ namespace sy::RHI
 	public:
 		SamplerDescriptorHeap(Device& device, const uint32_t capacity);
 
-		[[nodiscard]] SamplerDescriptor Allocate(const size_t idx, const Sampler& sampler);
+		[[nodiscard]] SamplerDescriptor Allocate(const size_t idx, const SamplerBuilder& samplerBuilder);
 
 	};
 

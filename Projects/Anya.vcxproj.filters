@@ -147,9 +147,6 @@
     <ClCompile Include="..\Sources\RHI\Fence.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Viewport.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\Core\DXErr.cpp">
       <Filter>Sources\Core</Filter>
     </ClCompile>
@@ -169,9 +166,6 @@
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\CommandList.cpp">
-      <Filter>Sources\RHI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\RHI\Sampler.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp">
@@ -208,6 +202,15 @@
       <Filter>Sources\Thirdparty\SimpleMath</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\ResourceStateTracker.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\RootSignature.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\PipelineStateObject.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Buffer.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1112,7 +1115,7 @@
     <ClInclude Include="..\Sources\RHI\Fence.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Viewport.h">
+    <ClInclude Include="..\Sources\RHI\ViewportBuilder.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Core\DXErr.h">
@@ -1154,10 +1157,10 @@
     <ClInclude Include="..\Sources\Core\FrameCounter.h">
       <Filter>Sources\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\ClearValue.h">
+    <ClInclude Include="..\Sources\RHI\ClearValueBuilder.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\Sampler.h">
+    <ClInclude Include="..\Sources\RHI\SamplerBuilder.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Thirdparty\WinPixEventRuntime\includes\WinPixEventRuntime\pix3.h">
@@ -1177,9 +1180,6 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\Pool.h">
       <Filter>Sources\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\RHI\StandardRootSignature.h">
-      <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Core\ThreadSafeQueue.h">
       <Filter>Sources\Core</Filter>
@@ -1240,6 +1240,15 @@
     </ClInclude>
     <ClInclude Include="..\Sources\Core\Assert.h">
       <Filter>Sources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\RootSignature.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\PipelineStateObject.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Buffer.h">
+      <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

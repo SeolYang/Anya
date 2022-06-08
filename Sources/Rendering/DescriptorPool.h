@@ -49,7 +49,7 @@ namespace sy
         void EndFrame(const uint64 frameNumber);
 
         /** @TODO Implement CB-SR-UA Descriptor Allocations */
-        [[nodiscard]] SamplerDescAllocPtr AllocateSamplerDescriptor(const RHI::Sampler& sampler);
+        [[nodiscard]] SamplerDescAllocPtr AllocateSamplerDescriptor(const RHI::SamplerBuilder& sampler);
         [[nodiscard]] DSDescAllocPtr AllocateDepthStencilDescriptor(const RHI::Texture& texture);
         [[nodiscard]] RTDescAllocPtr AllocateRenderTargetDescriptor(const RHI::Texture& texture, const uint16 mipLevel = 0);
 

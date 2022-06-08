@@ -140,6 +140,7 @@ namespace sy
     namespace chrono = std::chrono;
     namespace ranges = std::ranges;
     namespace views = std::views;
+    namespace SimpleMath = DirectX::SimpleMath;
     using namespace nlohmann;
 
     using uint8 = uint8_t;

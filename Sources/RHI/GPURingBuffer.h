@@ -14,14 +14,14 @@ namespace sy::RHI
             ID3D12Resource* Buffer = nullptr;
             size_t Offset = 0;
             size_t Size = 0;
-            void* CPUAddress = reinterpret_cast<void*>(0);
+            void* CPUAddress = nullptr;
             D3D12_GPU_VIRTUAL_ADDRESS GPUAddress = 0;
         };
 
     public:
-        GPURingBuffer(const Device& device, const size_t maxSizeOfBuffer, const bool bAllowCPUAccess);
+        GPURingBuffer(const Device& device, size_t maxSizeOfBuffer, bool bAllowCPUAccess);
         GPURingBuffer(GPURingBuffer&& rhs) noexcept;
-        ~GPURingBuffer() = default;
+        ~GPURingBuffer() override = default;
 
         GPURingBuffer& operator=(GPURingBuffer&&) noexcept;
 

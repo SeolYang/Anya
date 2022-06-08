@@ -1,9 +1,9 @@
 #include <PCH.h>
-#include <RHI/Sampler.h>
+#include <RHI/SamplerBuilder.h.h>
 
 namespace sy::RHI
 {
-    Sampler::Sampler(D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addressU, D3D12_TEXTURE_ADDRESS_MODE addressV, D3D12_TEXTURE_ADDRESS_MODE addressW, float32 mipLODBias, float32 minLOD, float32 maxLOD, D3D12_COMPARISON_FUNC comparisionFunc, DirectX::XMFLOAT4 borderColor, uint32 maxAnisotropy) :
+    SamplerBuilder::SamplerBuilder(D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addressU, D3D12_TEXTURE_ADDRESS_MODE addressV, D3D12_TEXTURE_ADDRESS_MODE addressW, float32 mipLODBias, float32 minLOD, float32 maxLOD, D3D12_COMPARISON_FUNC comparisionFunc, SimpleMath::Color borderColor, uint32 maxAnisotropy) :
         sampler
             {
                 .Filter = filter,
