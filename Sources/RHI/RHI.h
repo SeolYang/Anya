@@ -9,6 +9,8 @@ namespace sy::RHI
     *           https://asawicki.info/news_1726_secrets_of_direct3d_12_resource_alignment 
     */
     constexpr size_t GPU_DEFAULT_RESOURCE_ALIGNMENT = 65536;
+    constexpr D3D12_RESOURCE_STATES D3D12_RESOURCE_STATE_BEFORE_INITIALIZE= static_cast<D3D12_RESOURCE_STATES>(0xffffffff);
+    constexpr D3D12_RESOURCE_STATES D3D12_RESOURCE_STATE_UNKNOWN = static_cast<D3D12_RESOURCE_STATES>(0xfffffffe);
 
     class RHIObject
     {
@@ -19,7 +21,7 @@ namespace sy::RHI
             this->debugName = debugName;
         }
 
-        std::wstring_view DebugName() const noexcept { return debugName; }
+        [[nodiscard]] std::wstring_view GetDebugName() const noexcept { return debugName; }
 
     protected:
         RHIObject() : 

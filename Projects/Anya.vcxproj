@@ -43,7 +43,6 @@
     <ClCompile Include="..\Sources\RHI\FrameFence.cpp" />
     <ClCompile Include="..\Sources\RHI\GPURingBuffer.cpp" />
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
-    <ClCompile Include="..\Sources\RHI\ResourceBarrier.cpp" />
     <ClCompile Include="..\Sources\RHI\Resource.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceStateTracker.cpp" />
     <ClCompile Include="..\Sources\RHI\Sampler.cpp" />
@@ -146,7 +145,6 @@
     <ClInclude Include="..\Sources\RHI\ResourceStateTracker.h" />
     <ClInclude Include="..\Sources\RHI\StandardRootSignature.h" />
     <ClInclude Include="..\Sources\RHI\PIXMarker.h" />
-    <ClInclude Include="..\Sources\RHI\ResourceBarrier.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\Resource.h" />
     <ClInclude Include="..\Sources\RHI\Sampler.h" />

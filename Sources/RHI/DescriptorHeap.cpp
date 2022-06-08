@@ -122,7 +122,7 @@ namespace sy::RHI
 	{
 		D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
 		const auto& resolution = texture.GetResolution();
-		switch (texture.Dimension())
+		switch (texture.GetDimension())
 		{
 		case D3D12_RESOURCE_DIMENSION_TEXTURE2D:
 			if (resolution.Depth > 1)
@@ -174,7 +174,7 @@ namespace sy::RHI
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 
 		const auto& resolution = texture.GetResolution();
-		switch (texture.Dimension())
+		switch (texture.GetDimension())
 		{
 		case D3D12_RESOURCE_DIMENSION_BUFFER:
 			rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_BUFFER;
@@ -226,7 +226,7 @@ namespace sy::RHI
 			break;
 		}
 
-		rtvDesc.Format = texture.Format();
+		rtvDesc.Format = texture.GetFormat();
 		return rtvDesc;
 	}
 

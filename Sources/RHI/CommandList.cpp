@@ -60,13 +60,13 @@ namespace sy::RHI
     void CopyCommandList::Open()
     {
         CommandList::Open();
-        // resourceStateTracker.Reset();
+        resourceStateTracker.Reset();
         numCurrentBatchedBarriers = 0;
     }
 
     void CopyCommandList::Close()
     {
-        //FlushResourceBarriers();
+        FlushResourceBarriers();
         CommandList::Close();
     }
 
@@ -76,16 +76,58 @@ namespace sy::RHI
         GetD3DCommandList()->CopyResource(destination.GetD3DResource(), source.GetD3DResource());
     }
 
-    void CopyCommandList::AppendResourceBarrier(const ResourceBarrier& barrier)
+    void CopyCommandList::TransitionBarrier(Resource& target, const D3D12_RESOURCE_STATES targetState, const uint32 subResourceIndex)
     {
-        const auto targetBarrier = barrier.D3DResourceBarrier();
-        GetD3DCommandList()->ResourceBarrier(1, &targetBarrier);
-    }
+        ANYA_ASSERT(target.GetD3DResource() != nullptr, "Resource can't be a null resource to state transition.")
 
-    void CopyCommandList::AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers)
-    {
-        const auto targetBarriers = ResourceBarriersToD3D(barriers);
-        GetD3DCommandList()->ResourceBarrier((uint32)barriers.size(), targetBarriers.data());
+        ResourceState& resState = resourceStateTracker.GetResourceState(&target);
+        ANYA_ASSERT(!resState.IsInitialized(), "Not initialized Resource State.");
+
+        // If resource state is unknown. It must be resolved later!
+        if (resState.IsUnknownState())
+        {
+            resourceStateTracker.AddPendingResourceState(
+                ResourceStateTracker::PendingResourceState{
+                    .Target = &target,
+                    .State = targetState,
+                    .SubResourceIndex = subResourceIndex
+                }
+            );
+        }
+        else
+        {
+            if (subResourceIndex == D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES || !resState.IsTrackingPerResource())
+            {
+                uint32 idx = 0;
+                for (D3D12_RESOURCE_STATES subResourceState : resState.GetSubResourceStates())
+                {
+                    if (subResourceState != targetState)
+                    {
+                        AppendBarrierToBatch(CD3DX12_RESOURCE_BARRIER::Transition(
+                            target.GetD3DResource(),
+                            subResourceState,
+                            targetState,
+                            idx));
+                    }
+
+                    ++idx;
+                }
+            }
+            else
+            {
+                const auto beforeSubResourceState = resState.GetSubResourceState(subResourceIndex);
+                if (beforeSubResourceState != targetState)
+                {
+                    AppendBarrierToBatch(CD3DX12_RESOURCE_BARRIER::Transition(
+                        target.GetD3DResource(),
+                        beforeSubResourceState,
+                        targetState,
+                        subResourceIndex));
+                }
+            }
+        }
+
+        resState.SetSubResourceState(subResourceIndex, targetState);
     }
 
     ComputeCommandList::ComputeCommandList(Device& device, const ComputeCommandAllocator& commandAllocator) :

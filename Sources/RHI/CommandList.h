@@ -24,7 +24,7 @@ namespace sy::RHI
     class CommandList : public RHIObject
     {
     public:
-        virtual ~CommandList() = 0;
+        virtual ~CommandList() override = 0;
 
         void SetDebugName(const std::wstring_view debugName) override;
 
@@ -80,13 +80,37 @@ namespace sy::RHI
         void Close() override;
 
         void CopyResource(const Resource& destination, const Resource& source);
-        void AppendResourceBarrier(const ResourceBarrier& barrier);
-        void AppendResourceBarriers(const ResourceBarrier::Vector_t& barriers);
 
-        void FlushResourceBarriers();
+        void TransitionBarrier(Resource& target, D3D12_RESOURCE_STATES targetState, uint32 subResourceIndex = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES);
+
+        void UAVBarrier(const Resource* target)
+        {
+            AppendBarrierToBatch(CD3DX12_RESOURCE_BARRIER::UAV(target != nullptr ? target->GetD3DResource() : nullptr));
+        }
+
+        void AliasingBarrier(const Resource* before, const Resource* after)
+        {
+            AppendBarrierToBatch(CD3DX12_RESOURCE_BARRIER::Aliasing(
+                before != nullptr ? before->GetD3DResource() : nullptr,
+                after != nullptr ? after->GetD3DResource() : nullptr
+            ));
+        }
+
+        void FlushResourceBarriers()
+        {
+            ANYA_ASSERT(numCurrentBatchedBarriers < NumMaxBatchBarriers, "Invalid num of batched barriers");
+            if (numCurrentBatchedBarriers > 0)
+            {
+                GetD3DCommandList()->ResourceBarrier(numCurrentBatchedBarriers, barriersBatch.data());
+                numCurrentBatchedBarriers = 0;
+            }
+        }
 
     protected:
         using CommandList::CommandList;
+
+    private:
+        void AppendBarrierToBatch(D3D12_RESOURCE_BARRIER barrier);
 
     private:
         static constexpr uint32 NumMaxBatchBarriers = 16;
