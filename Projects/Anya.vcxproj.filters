@@ -207,10 +207,16 @@
     <ClCompile Include="..\Sources\RHI\RootSignature.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\RHI\PipelineStateObject.cpp">
+    <ClCompile Include="..\Sources\RHI\PSO.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\Buffer.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\Shader.cpp">
+      <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\RHI\RootParamBuilder.cpp">
       <Filter>Sources\RHI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1244,10 +1250,16 @@
     <ClInclude Include="..\Sources\RHI\RootSignature.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\RHI\PipelineStateObject.h">
+    <ClInclude Include="..\Sources\RHI\PSO.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\Buffer.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\Shader.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\RHI\RootParamBuilder.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
   </ItemGroup>

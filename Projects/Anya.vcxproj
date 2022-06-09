@@ -43,11 +43,13 @@
     <ClCompile Include="..\Sources\RHI\Fence.cpp" />
     <ClCompile Include="..\Sources\RHI\FrameFence.cpp" />
     <ClCompile Include="..\Sources\RHI\GPURingBuffer.cpp" />
-    <ClCompile Include="..\Sources\RHI\PipelineStateObject.cpp" />
+    <ClCompile Include="..\Sources\RHI\PSO.cpp" />
     <ClCompile Include="..\Sources\RHI\PIXMarker.cpp" />
     <ClCompile Include="..\Sources\RHI\Resource.cpp" />
     <ClCompile Include="..\Sources\RHI\ResourceStateTracker.cpp" />
+    <ClCompile Include="..\Sources\RHI\RootParamBuilder.cpp" />
     <ClCompile Include="..\Sources\RHI\RootSignature.cpp" />
+    <ClCompile Include="..\Sources\RHI\Shader.cpp" />
     <ClCompile Include="..\Sources\RHI\Texture.cpp" />
     <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -144,13 +146,15 @@
     <ClInclude Include="..\Sources\RHI\Fence.h" />
     <ClInclude Include="..\Sources\RHI\FrameFence.h" />
     <ClInclude Include="..\Sources\RHI\GPURingBuffer.h" />
-    <ClInclude Include="..\Sources\RHI\PipelineStateObject.h" />
+    <ClInclude Include="..\Sources\RHI\PSO.h" />
     <ClInclude Include="..\Sources\RHI\ResourceStateTracker.h" />
+    <ClInclude Include="..\Sources\RHI\RootParamBuilder.h" />
     <ClInclude Include="..\Sources\RHI\RootSignature.h" />
     <ClInclude Include="..\Sources\RHI\PIXMarker.h" />
     <ClInclude Include="..\Sources\RHI\RHI.h" />
     <ClInclude Include="..\Sources\RHI\Resource.h" />
     <ClInclude Include="..\Sources\RHI\SamplerBuilder.h" />
+    <ClInclude Include="..\Sources\RHI\Shader.h" />
     <ClInclude Include="..\Sources\RHI\Texture.h" />
     <ClInclude Include="..\Sources\RHI\ViewportBuilder.h" />
     <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12.h" />

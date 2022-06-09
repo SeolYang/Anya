@@ -13,7 +13,6 @@ namespace sy
 	namespace RHI
 	{
 		class Device;
-		
 		class CommandQueue;
 		class DirectCommandList;
 		class DirectCommandAllocator;

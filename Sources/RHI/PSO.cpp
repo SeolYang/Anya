@@ -1,5 +1,5 @@
 #include <PCH.h>
-#include <RHI/PipelineStateObject.h>
+#include <RHI/PSO.h>
 
 namespace sy::RHI
 {

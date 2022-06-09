@@ -107,7 +107,10 @@ extern "C" { __declspec(dllexport) extern const char* D3D12SDKPath = ".\\"; }
 
 // robin_hood
 /** https://github.com/martinus/robin-hood-hashing */
+#pragma warning(push)
+#pragma warning(disable:26819)
 #include <robin_hood/robin_hood.h>
+#pragma warning(pop)
 
 // spdlog
 /** https://github.com/gabime/spdlog */
