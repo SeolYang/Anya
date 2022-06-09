@@ -146,6 +146,7 @@
     <ClInclude Include="..\Sources\RHI\Fence.h" />
     <ClInclude Include="..\Sources\RHI\FrameFence.h" />
     <ClInclude Include="..\Sources\RHI\GPURingBuffer.h" />
+    <ClInclude Include="..\Sources\RHI\InputLayoutBuilder.h" />
     <ClInclude Include="..\Sources\RHI\PSO.h" />
     <ClInclude Include="..\Sources\RHI\ResourceStateTracker.h" />
     <ClInclude Include="..\Sources\RHI\RootParamBuilder.h" />

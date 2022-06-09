@@ -97,7 +97,7 @@ extern "C" { __declspec(dllexport) extern const char* D3D12SDKPath = ".\\"; }
 /** https://github.com/nothings/stb */
 #define STB_IMAGE_IMPLEMENTATION
 #pragma warning(push)
-#pragma warning(disable:6262 26451)
+#pragma warning(disable:6262 26451 26819)
 #include <stb/stb_image.h>
 #pragma warning(pop)
 
@@ -132,7 +132,10 @@ extern "C" { __declspec(dllexport) extern const char* D3D12SDKPath = ".\\"; }
 
 // nlohmann's json lib (single-header verision)
 /** https://github.com/nlohmann/json */
+#pragma warning(push)
+#pragma warning(disable:26819)
 #include <nlohmann/json.hpp>
+#pragma warning(pop)
 
 // DirectXTK Simple Math
 #include <SimpleMath/SimpleMath.h>

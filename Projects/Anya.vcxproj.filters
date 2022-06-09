@@ -1262,6 +1262,9 @@
     <ClInclude Include="..\Sources\RHI\RootParamBuilder.h">
       <Filter>Sources\RHI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\RHI\InputLayoutBuilder.h">
+      <Filter>Sources\RHI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">
