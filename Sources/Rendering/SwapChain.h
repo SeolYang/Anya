@@ -48,7 +48,7 @@ namespace sy
 		[[nodiscard]] auto& GetCurrentBackBufferTexture() const { assert(GetCurrentBackBufferIndex() < backBuffers.size()); return *backBuffers.at(GetCurrentBackBufferIndex()); }
 		[[nodiscard]] auto GetCurrentBackBufferRTV() const { assert(GetCurrentBackBufferIndex() < rtDescriptors.size()); return *rtDescriptors.at(GetCurrentBackBufferIndex()); }
 		[[nodiscard]] IDXGISwapChain4* GetD3DSwapChain() const noexcept { return swapChain.Get(); }
-
+		[[nodiscard]] const DXGI_SWAP_CHAIN_DESC1& GetDesc() const noexcept { return desc; }
 	private:
 		void ConstructSwapChain(const DXGI_SWAP_CHAIN_DESC1 desc, const RHI::CommandQueue& cmdQueue);
 
@@ -60,6 +60,7 @@ namespace sy
 		HWND windowHandle;
 		std::vector<std::unique_ptr<RHI::Texture>> backBuffers;
 		std::vector<DescriptorPool::RTDescAllocPtr> rtDescriptors;
+		DXGI_SWAP_CHAIN_DESC1 desc;
 
 	};
 }

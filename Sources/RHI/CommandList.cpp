@@ -4,12 +4,14 @@
 #include <RHI/CommandAllocator.h>
 #include <RHI/Resource.h>
 #include <RHI/Descriptor.h>
+#include <RHI/DescriptorHeap.h>
 #include <Core/Exceptions.h>
 #include <Core/Assert.h>
 
+
 namespace sy::RHI
 {
-    CommandList::CommandList(Device& device, D3D12_COMMAND_LIST_TYPE type, const CommandAllocator& cmdAllocator) :
+    CommandList::CommandList(Device& device, const D3D12_COMMAND_LIST_TYPE type, const CommandAllocator& cmdAllocator) :
         cmdAllocator(cmdAllocator),
         type(type),
         commandList([&]
@@ -173,9 +175,52 @@ namespace sy::RHI
         SetDebugName(TEXT("ComputeCommandList"));
     }
 
-    void DirectCommandListBase::ClearRenderTarget(const RTDescriptor& rtDescriptor, const DirectX::XMFLOAT4& color)
+    void ComputeCommandList::SetDescriptorHeaps(std::span<ConstRef<DescriptorHeap>> descriptorHeaps) const
     {
-        GetD3DCommandList()->ClearRenderTargetView(rtDescriptor.GetCPUHandle(), &color.x, 0, nullptr);
+        if (descriptorHeaps.size() > 0)
+        {
+            std::vector<ID3D12DescriptorHeap*> d3dDescriptorHeaps{descriptorHeaps.size()};
+            ranges::transform(descriptorHeaps.begin(), descriptorHeaps.end(), d3dDescriptorHeaps.begin(),
+                [](const ConstRef<DescriptorHeap>& descriptorHeapRef)
+                {
+                    return descriptorHeapRef.get().GetD3DDescriptorHeap();
+                });
+
+            GetD3DCommandList()->SetDescriptorHeaps(static_cast<uint32>(d3dDescriptorHeaps.size()), d3dDescriptorHeaps.data());
+        }
+    }
+
+    void DirectCommandListBase::ClearRenderTarget(const RTDescriptor renderTarget, const DirectX::XMFLOAT4& color) const
+    {
+        GetD3DCommandList()->ClearRenderTargetView(renderTarget.GetCPUHandle(), &color.x, 0, nullptr);
+    }
+
+    void DirectCommandListBase::SetRenderTarget(const RTDescriptor renderTarget, const std::optional<DSDescriptor> depthStencil) const
+    {
+        GetD3DCommandList()->OMSetRenderTargets(
+            1, 
+            &renderTarget.GetCPUHandle(), 
+            false,
+            depthStencil.has_value() ? &depthStencil->GetCPUHandle() : nullptr);
+    }
+
+    void DirectCommandListBase::SetRenderTargets(std::span<RTDescriptor> renderTargets, std::optional<DSDescriptor> depthStencil) const
+    {
+        /**
+         * @TODO Implement Set Multiple Render Targets
+         */
+        std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> d3dDescriptorHandles{ renderTargets.size()};
+        ranges::transform(renderTargets.begin(), renderTargets.end(), d3dDescriptorHandles.begin(),
+            [](const RTDescriptor& rtDescriptor)
+            {
+                return rtDescriptor.GetCPUHandle();
+            });
+
+        GetD3DCommandList()->OMSetRenderTargets(
+            static_cast<uint32>(d3dDescriptorHandles.size()),
+            d3dDescriptorHandles.size() > 0 ? d3dDescriptorHandles.data() : nullptr,
+            false,
+            depthStencil.has_value() ? &depthStencil->GetCPUHandle() : nullptr);
     }
 
     DirectCommandList::DirectCommandList(Device& device, const DirectCommandAllocator& commandAllocator) :
@@ -189,4 +234,5 @@ namespace sy::RHI
     {
         SetDebugName(TEXT("BundleCommandList"));
     }
+ 
 }

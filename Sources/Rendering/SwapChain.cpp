@@ -21,7 +21,7 @@ namespace sy
 #endif
 		DXCall(CreateDXGIFactory2(factoryFlags, IID_PPV_ARGS(&dxgiFactory)));
 		
-		DXGI_SWAP_CHAIN_DESC1 desc{
+	    desc = {
 			.Width = surfaceDimension.Width,
 			.Height = surfaceDimension.Height,
 			.Format = RHI::ConvertColorSpaceToColorFormatForBackbuffer(display.GetColorSpace(), bIsPreferHDR),

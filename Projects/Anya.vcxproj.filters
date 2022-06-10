@@ -70,6 +70,9 @@
     <Filter Include="Sources\Thirdparty\SimpleMath">
       <UniqueIdentifier>{ff34f8ae-5fce-4c6b-b58d-7cf61a07a331}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\UI">
+      <UniqueIdentifier>{3fb5f991-06a3-4022-8cb2-155781813ccd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -218,6 +221,12 @@
     </ClCompile>
     <ClCompile Include="..\Sources\RHI\RootParamBuilder.cpp">
       <Filter>Sources\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\UIRenderContext.cpp">
+      <Filter>Sources\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\UI\ApplicationMenuBar.cpp">
+      <Filter>Sources\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1264,6 +1273,15 @@
     </ClInclude>
     <ClInclude Include="..\Sources\RHI\InputLayoutBuilder.h">
       <Filter>Sources\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\UIRenderContext.h">
+      <Filter>Sources\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\UI\UIContext.h">
+      <Filter>Sources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\UI\ApplicationMenuBar.h">
+      <Filter>Sources\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

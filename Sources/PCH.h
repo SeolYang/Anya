@@ -104,6 +104,8 @@ extern "C" { __declspec(dllexport) extern const char* D3D12SDKPath = ".\\"; }
 // Dear IMGUI
 /** https://github.com/ocornut/imgui */
 #include <imgui/imgui.h>
+#include <imgui/imgui_impl_win32.h>
+#include <imgui/imgui_impl_dx12.h>
 
 // robin_hood
 /** https://github.com/martinus/robin-hood-hashing */

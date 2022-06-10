@@ -6,18 +6,30 @@
 #include <Core/PerformanceMonitor.h>
 #include <Core/FrameCounter.h>
 #include <Core/EngineCoreMediator.h>
+#include <UI/UIContext.h>
+#include <UI/ApplicationMenuBar.h>
 #include <Rendering/RenderContext.h>
 #include <Framework/Scene.h>
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace sy
 {
     LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
+        if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+        {
+            return true;
+        }
+
         switch (msg)
         {
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
+
+        default:
+            break;
         }
 
         return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -35,9 +47,9 @@ namespace sy
     {
         scene.reset();
         renderContext.reset();
+        uiContext.reset();
         engineModuleMediator.reset();
         componentArchive.DestroyInstance();
-
         DestroyAppWindow();
         logger.reset();
         mainTimer.reset();
@@ -75,6 +87,15 @@ namespace sy
                     //    std::this_thread::yield();
                     //}
 
+                    uiContext->BeginFrame();
+                    menuBarUI->OnGUI();
+
+                    if (bShowDemoWindow)
+                    {
+                        ImGui::ShowDemoWindow(&bShowDemoWindow);
+                    }
+
+                    uiContext->Render();
                     renderContext->Render();
                 }
                 mainTimer->End();
@@ -120,9 +141,16 @@ namespace sy
         perfMonitor = std::make_unique<PerformanceMonitor>();
         engineModuleMediator = std::make_unique<EngineCore>(*taskManager, *mainTimer, *perfMonitor, *logger, componentArchive);
         CreateAppWindow();
+        CreateUI();
         renderContext = std::make_unique<RenderContext>(windowHandle, cmdLineParser);
         LoadScene(EDefaultScenes::Basic);
 
+    }
+
+    void Application::CreateUI()
+    {
+        uiContext = std::make_unique<UIContext>();
+        menuBarUI = std::make_unique<ApplicationMenuBar>(*this);
     }
 
     void Application::CreateLogger()
@@ -160,14 +188,25 @@ namespace sy
         const Dimensions resolution{ 1280, 720 };
 
         auto error = GetLastError();
-        auto windowStyle = WS_OVERLAPPEDWINDOW;
+        constexpr auto WindowStyle = WS_POPUP;
+        constexpr auto ExWindowStyle = WS_EX_APPWINDOW;
+
+        RECT winRect{
+            0,
+            static_cast<LONG>(resolution.Height),
+            static_cast<LONG>(resolution.Width),
+            0
+        };
+
+        ANYA_ASSERT(AdjustWindowRectEx(&winRect, WindowStyle, false, ExWindowStyle) != 0, "Failed to adjust window rect");
+
         windowHandle = CreateWindowEx(
-            NULL,
+            ExWindowStyle,
             windowClass.lpszClassName,
             title.c_str(),
-            windowStyle,
+            WindowStyle,
             (screenWidth - resolution.Width)/2, (screenHeight - resolution.Height)/2,
-            resolution.Width, resolution.Height,
+            winRect.right - winRect.left, winRect.top - winRect.bottom,
             NULL, NULL, windowClass.hInstance, NULL);
         
         ShowWindow(windowHandle, SW_SHOWDEFAULT);

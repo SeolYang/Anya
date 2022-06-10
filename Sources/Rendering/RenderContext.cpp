@@ -14,6 +14,8 @@
 #include <RHI/PIXMarker.h>
 #include <RHI/Texture.h>
 
+#include "UIRenderContext.h"
+
 namespace sy
 {
 	RenderContext::RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser) :
@@ -75,6 +77,10 @@ namespace sy
 			logger.info("Creating Frame Fence...");
 			frameFence = std::make_unique<RHI::FrameFence>(*device, SimultaneousFrames);
 			logger.info("Frame Fence Created.");
+
+			logger.info("Creating UI Render Context...");
+			uiRenderContext = std::make_unique<UIRenderContext>(windowHandle, *device, *swapChain);
+			logger.info("UI Render Context Created.");
 		}
 
 		frameFence->IncrementValue();
@@ -100,7 +106,7 @@ namespace sy
 		}
 
 		auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
-		auto immediateCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
+		const auto immediateCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
 
 		/** Assume this process happen on worker thread. */
 	    auto graphicsCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
@@ -111,6 +117,9 @@ namespace sy
 
 			const auto clearColor = DirectX::XMFLOAT4(0.4f * std::sin(timer.GetDeltaTime()), 0.6f * std::cos(timer.GetDeltaTime()), 0.9f, 1.0f);
 			swapChain->Clear(*graphicsCmdList, clearColor);
+			graphicsCmdList->SetRenderTarget(swapChain->GetCurrentBackBufferRTV().Descriptor);
+
+			uiRenderContext->Render(*graphicsCmdList);
 
 			swapChain->EndFrame(*graphicsCmdList);
 		}

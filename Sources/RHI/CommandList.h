@@ -1,6 +1,7 @@
 #pragma once
 #include <PCH.h>
 #include <RHI/RHI.h>
+#include <RHI/Descriptor.h>
 #include <RHI/ResourceStateTracker.h>
 
 namespace sy::RHI
@@ -19,8 +20,7 @@ namespace sy::RHI
     class Texture;
     class Buffer;
     class ResourceBarrier;
-    class RTDescriptor;
-
+    class DescriptorHeap;
     class CommandList : public RHIObject
     {
     public:
@@ -130,6 +130,7 @@ namespace sy::RHI
         ComputeCommandList(Device& device, const ComputeCommandAllocator& commandAllocator);
 
         /** Proxy functions for Compute Command List */
+        void SetDescriptorHeaps(std::span<ConstRef<DescriptorHeap>> descriptorHeaps) const;
 
     protected:
         using CopyCommandList::CopyCommandList;
@@ -144,7 +145,9 @@ namespace sy::RHI
         /**
         * @brief Clear Render Target.
         */
-        void ClearRenderTarget(const RTDescriptor& rtDescriptor, const DirectX::XMFLOAT4& color);
+        void ClearRenderTarget(RTDescriptor renderTarget, const DirectX::XMFLOAT4& color) const;
+        void SetRenderTarget(RTDescriptor renderTarget, std::optional<DSDescriptor> depthStencil = std::nullopt) const;
+        void SetRenderTargets(std::span<RTDescriptor> renderTargets, std::optional<DSDescriptor> depthStencil = std::nullopt) const;
 
     protected:
         using ComputeCommandList::ComputeCommandList;

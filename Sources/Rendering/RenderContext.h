@@ -28,6 +28,7 @@ namespace sy
 	class DescriptorPool;
 	class DynamicUploadHeap;
 	class CommandListPool;
+	class UIRenderContext;
 
 	enum class EGPUEngineType : uint8
 	{
@@ -53,21 +54,25 @@ namespace sy
 		void NotifyFrameEnd(uint64 completedFrameNumber);
 		void NextFrame();
 
-	private:
 		[[nodiscard]] RHI::CommandQueue& GetCommandQueue(EGPUEngineType type) const noexcept
 		{
 			assert(type != EGPUEngineType::NumOfTypes);
 			return *cmdQueues[utils::ToUnderlyingType(type)];
 		}
 
+		[[nodiscard]] RHI::Device& GetDevice() const { return *device; }
+		[[nodiscard]] SwapChain& GetSwapChain() const { return *swapChain; }
+		[[nodiscard]] CommandListPool& GetCommandListPool() const { return *cmdListPool; }
+
+	public:
+		constexpr static EBufferingMode BackBufferingMode = EBufferingMode::Double;
+		constexpr static size_t SimultaneousFrames = utils::ToUnderlyingType(BackBufferingMode);
+		constexpr static size_t InitialDynamicUploadHeapSizeInBytes = 65536;
+
 	private:
 		RHI::AdapterPatcher adapterPatcher;
 		Dimensions renderResolution;
 		size_t currentFrame;
-
-		constexpr static EBufferingMode BackBufferingMode = EBufferingMode::Double;
-		constexpr static size_t SimultaneousFrames = utils::ToUnderlyingType(BackBufferingMode);
-		constexpr static size_t InitialDynamicUploadHeapSizeInBytes = 65536;
 
 		std::unique_ptr<RHI::Device> device;
 		std::array<std::unique_ptr<RHI::CommandQueue>, utils::ToUnderlyingType(EGPUEngineType::NumOfTypes)> cmdQueues;
@@ -76,6 +81,7 @@ namespace sy
 		std::unique_ptr<DynamicUploadHeap> dynamicUploadHeap;
 		std::unique_ptr<SwapChain> swapChain;
 		std::unique_ptr<RHI::FrameFence> frameFence;
+		std::unique_ptr<UIRenderContext> uiRenderContext;
 
 		/** Temporary Members for test */
 		Timer timer;

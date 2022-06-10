@@ -30,6 +30,7 @@
     <ClCompile Include="..\Sources\Rendering\DynamicUploadHeap.cpp" />
     <ClCompile Include="..\Sources\Rendering\RenderContext.cpp" />
     <ClCompile Include="..\Sources\Rendering\SwapChain.cpp" />
+    <ClCompile Include="..\Sources\Rendering\UIRenderContext.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
     <ClCompile Include="..\Sources\RHI\AdapterPatcher.cpp" />
     <ClCompile Include="..\Sources\RHI\Buffer.cpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="..\Sources\RHI\RootSignature.cpp" />
     <ClCompile Include="..\Sources\RHI\Shader.cpp" />
     <ClCompile Include="..\Sources\RHI\Texture.cpp" />
+    <ClCompile Include="..\Sources\UI\ApplicationMenuBar.cpp" />
     <ClCompile Include="..\Thirdparty\D3D12MemoryAllocator\includes\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -129,6 +131,7 @@
     <ClInclude Include="..\Sources\Rendering\DynamicUploadHeap.h" />
     <ClInclude Include="..\Sources\Rendering\RenderContext.h" />
     <ClInclude Include="..\Sources\Rendering\SwapChain.h" />
+    <ClInclude Include="..\Sources\Rendering\UIRenderContext.h" />
     <ClInclude Include="..\Sources\Resources\Resource.h" />
     <ClInclude Include="..\Sources\Resources\ResourceCache.h" />
     <ClInclude Include="..\Sources\RHI\Adapter.h" />
@@ -158,6 +161,8 @@
     <ClInclude Include="..\Sources\RHI\Shader.h" />
     <ClInclude Include="..\Sources\RHI\Texture.h" />
     <ClInclude Include="..\Sources\RHI\ViewportBuilder.h" />
+    <ClInclude Include="..\Sources\UI\ApplicationMenuBar.h" />
+    <ClInclude Include="..\Sources\UI\UIContext.h" />
     <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12.h" />
     <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12sdklayers.h" />
     <ClInclude Include="..\Thirdparty\AgilitySDK\include\d3d12shader.h" />

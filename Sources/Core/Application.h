@@ -11,6 +11,8 @@ namespace sy
 
     class TaskManager;
     class Scene;
+    class UIContext;
+    class ApplicationMenuBar;
     class RenderContext;
     class ComponentArchive;
     class EngineCore;
@@ -35,6 +37,7 @@ namespace sy
 
     private:
         void Initialize();
+        void CreateUI();
         void CreateLogger();
         void CreateAppWindow();
         void DestroyAppWindow();
@@ -52,9 +55,12 @@ namespace sy
         std::unique_ptr<PerformanceMonitor> perfMonitor;
         ComponentArchive& componentArchive;
         std::unique_ptr<EngineCore> engineModuleMediator;
+        std::unique_ptr<UIContext> uiContext;
+        std::unique_ptr<ApplicationMenuBar> menuBarUI;
         std::unique_ptr<RenderContext> renderContext;
         std::unique_ptr<Scene> scene;
 
+        bool bShowDemoWindow = true;
 
     };
 }

@@ -7,17 +7,17 @@
 
 namespace sy::RHI
 {
-	CD3DX12_CPU_DESCRIPTOR_HANDLE CPUHandleOffset(CD3DX12_CPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
+	CD3DX12_CPU_DESCRIPTOR_HANDLE CPUHandleOffset(const CD3DX12_CPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
 	{
 		CD3DX12_CPU_DESCRIPTOR_HANDLE newHandle;
-		newHandle.InitOffsetted(offsetHandle, (int32)idx, (uint32)descriptorSize);
+		newHandle.InitOffsetted(offsetHandle, static_cast<int32>(idx), static_cast<uint32>(descriptorSize));
 		return newHandle;
 	}
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE GPUHandleOffset(CD3DX12_GPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
+	CD3DX12_GPU_DESCRIPTOR_HANDLE GPUHandleOffset(const CD3DX12_GPU_DESCRIPTOR_HANDLE offsetHandle, const size_t idx, const size_t descriptorSize)
 	{
 		CD3DX12_GPU_DESCRIPTOR_HANDLE newHandle;
-		newHandle.InitOffsetted(offsetHandle, (int32)idx, (uint32)descriptorSize);
+		newHandle.InitOffsetted(offsetHandle, static_cast<int32>(idx), static_cast<uint32>(descriptorSize));
 		return newHandle;
 	}
 
@@ -26,8 +26,8 @@ namespace sy::RHI
 		capacity(capacity)
 	{
 		// Shaer Visibility of Descriptor Heap: https://seolyang.tistory.com/35 -> 리소스 뷰 분류 참고
-		bool bIsVisibleToShader = (heapType == D3D12_DESCRIPTOR_HEAP_TYPE::D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) || (heapType == D3D12_DESCRIPTOR_HEAP_TYPE::D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
-		D3D12_DESCRIPTOR_HEAP_DESC desc
+		const bool bIsVisibleToShader = (heapType == D3D12_DESCRIPTOR_HEAP_TYPE::D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) || (heapType == D3D12_DESCRIPTOR_HEAP_TYPE::D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
+		const D3D12_DESCRIPTOR_HEAP_DESC desc
 		{
 			.Type = heapType,
 			.NumDescriptors = capacity,
@@ -81,10 +81,10 @@ namespace sy::RHI
 		const size_t actualIdx = IndexOf(type, idx);
 		assert(actualIdx < GetCapacity() && "Out of Range");
 
-		CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle{ D3DDescriptorHeap()->GetCPUDescriptorHandleForHeapStart() };
-		cpuHandle.Offset((int32)actualIdx, (uint32)GetDescriptorSize());
-		CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle{ D3DDescriptorHeap()->GetGPUDescriptorHandleForHeapStart() };
-		gpuHandle.Offset((int32)actualIdx, (uint32)GetDescriptorSize());
+		CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle{ GetD3DDescriptorHeap()->GetCPUDescriptorHandleForHeapStart() };
+		cpuHandle.Offset(static_cast<int32>(actualIdx), static_cast<uint32>(GetDescriptorSize()));
+		CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle{ GetD3DDescriptorHeap()->GetGPUDescriptorHandleForHeapStart() };
+		gpuHandle.Offset(static_cast<int32>(actualIdx), static_cast<uint32>(GetDescriptorSize()));
 
 		return std::make_pair(cpuHandle, gpuHandle);
 	}
@@ -99,7 +99,7 @@ namespace sy::RHI
 	{
 		assert(idx < GetCapacity());
 
-		const auto heap = D3DDescriptorHeap();
+		const auto heap = GetD3DDescriptorHeap();
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE samplerCPUHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
@@ -152,7 +152,7 @@ namespace sy::RHI
 	{
 		assert(idx < GetCapacity());
 
-		auto heap = D3DDescriptorHeap();
+		auto heap = GetD3DDescriptorHeap();
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
@@ -235,11 +235,11 @@ namespace sy::RHI
 	{
 		assert(idx < GetCapacity());
 
-		auto heap = D3DDescriptorHeap();
+		auto heap = GetD3DDescriptorHeap();
 		assert(heap != nullptr);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle{ heap->GetCPUDescriptorHandleForHeapStart() };
-		rtvHandle.Offset((int32)idx, (uint32)GetDescriptorSize());
+		rtvHandle.Offset(static_cast<int32>(idx), static_cast<uint32>(GetDescriptorSize()));
 
 		const auto rtvDesc = TextureToRTVDesc(texture, mipLevel);
 		device.GetD3DDevice()->CreateRenderTargetView(texture.GetD3DResource(), &rtvDesc, rtvHandle);

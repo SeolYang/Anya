@@ -13,7 +13,7 @@ namespace sy::RHI
 	class DescriptorHeap : public RHIObject
 	{
 	public:
-		auto D3DDescriptorHeap() const noexcept { return descriptorHeap.Get(); }
+		auto GetD3DDescriptorHeap() const noexcept { return descriptorHeap.Get(); }
 
 		virtual void SetDebugName(const std::wstring_view debugName) override;
 
@@ -66,6 +66,10 @@ namespace sy::RHI
 		std::array<uint32_t, utils::ToUnderlyingType(EDescriptorType::NumOfTypes)> descriptorCapacities;
 
 	};
+
+	using CBDescriptorHeap = CBSRUADescriptorHeap;
+	using SRDescriptorHeap = CBSRUADescriptorHeap;
+	using UADescriptorHeap = CBSRUADescriptorHeap;
 
 	/**
 	* @brief Descriptor Heap for Sampler.
