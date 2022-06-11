@@ -6,16 +6,21 @@ namespace sy
     class UIContext
     {
     public:
-        UIContext()
+        UIContext(const bool bEnableDocking = false) :
+            bEnableDocking(bEnableDocking)
         {
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
             ImGui::StyleColorsDark();
+            //ImGui::Spectrum::LoadFont();
 
             ImGuiIO& io = ImGui::GetIO(); (void)io;
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-            //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-            //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+            if (bEnableDocking)
+            {
+                io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+                io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+            }
         }
 
         void BeginFrame()
@@ -23,6 +28,27 @@ namespace sy
             ImGui_ImplDX12_NewFrame();
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
+
+            if (bEnableDocking)
+            {
+                ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+            }
+        }
+
+        void EndFrame()
+        {
+            ImGui::EndFrame();
+
+
+            if (bEnableDocking)
+            {
+                const ImGuiIO& io = ImGui::GetIO(); (void)io;
+                if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+                {
+                    ImGui::UpdatePlatformWindows();
+                    ImGui::RenderPlatformWindowsDefault();
+                }
+            }
         }
 
         void Render()
@@ -34,6 +60,9 @@ namespace sy
         {
             ImGui::DestroyContext();
         }
+
+    private:
+        bool bEnableDocking;
 
     };
 }

@@ -97,14 +97,17 @@ namespace sy
 		RHI::CommandQueue::Flush(GetCommandQueue(EGPUEngineType::Copy), *frameFence);
 	}
 
-	void RenderContext::Render()
+	void RenderContext::BeginFrame()
 	{
 		if (currentFrame > 0)
 		{
 			frameFence->IncrementValue();
 			NotifyFrameBegin(frameFence->GetValue());
 		}
+	}
 
+	void RenderContext::Render()
+	{
 		auto& graphicsCmdQueue = GetCommandQueue(EGPUEngineType::Graphics);
 		const auto immediateCmdList = cmdListPool->Allocate<RHI::DirectCommandList>();
 
@@ -135,7 +138,10 @@ namespace sy
 
 		graphicsCmdQueue.Signal(*frameFence);
 		frameFence->WaitForSimultaneousFramesCompletion();
+	}
 
+	void RenderContext::EndFrame()
+	{
 		NotifyFrameEnd(frameFence->GetCompletedValue());
 		NextFrame();
 	}

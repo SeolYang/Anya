@@ -88,15 +88,21 @@ namespace sy
                     //}
 
                     uiContext->BeginFrame();
-                    menuBarUI->OnGUI();
-
-                    if (bShowDemoWindow)
                     {
-                        ImGui::ShowDemoWindow(&bShowDemoWindow);
+                        menuBarUI->OnGUI();
+                        if (bShowDemoWindow)
+                        {
+                            ImGui::ShowDemoWindow(&bShowDemoWindow);
+                        }
+                        uiContext->Render();
                     }
+                    uiContext->EndFrame();
 
-                    uiContext->Render();
-                    renderContext->Render();
+                    renderContext->BeginFrame();
+                    {
+                        renderContext->Render();
+                    }
+                    renderContext->EndFrame();
                 }
                 mainTimer->End();
  

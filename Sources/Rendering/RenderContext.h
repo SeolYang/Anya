@@ -49,10 +49,9 @@ namespace sy
 		RenderContext operator=(const RenderContext&) = delete;
 		RenderContext operator=(RenderContext&&) noexcept = delete;
 
+		void BeginFrame();
 		void Render();
-		void NotifyFrameBegin(uint64 frameNumber);
-		void NotifyFrameEnd(uint64 completedFrameNumber);
-		void NextFrame();
+		void EndFrame();
 
 		[[nodiscard]] RHI::CommandQueue& GetCommandQueue(EGPUEngineType type) const noexcept
 		{
@@ -63,6 +62,11 @@ namespace sy
 		[[nodiscard]] RHI::Device& GetDevice() const { return *device; }
 		[[nodiscard]] SwapChain& GetSwapChain() const { return *swapChain; }
 		[[nodiscard]] CommandListPool& GetCommandListPool() const { return *cmdListPool; }
+
+	private:
+		void NotifyFrameBegin(uint64 frameNumber);
+		void NotifyFrameEnd(uint64 completedFrameNumber);
+		void NextFrame();
 
 	public:
 		constexpr static EBufferingMode BackBufferingMode = EBufferingMode::Double;
