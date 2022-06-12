@@ -186,50 +186,53 @@ namespace sy::RHI
         SM_6_5,
         SM_6_6
     };
+}
 
-    inline std::wstring to_wstring(const EShaderType type) noexcept
+namespace sy
+{
+    inline std::wstring Stringify(const RHI::EShaderType type) noexcept
     {
-        switch(type)
+        switch (type)
         {
-        case EShaderType::Vertex:
-            return TEXT("VS");
-        case EShaderType::Hull:
-            return TEXT("HS");
-        case EShaderType::Domain:
-            return TEXT("DS");
-        case EShaderType::Geometry:
-            return TEXT("GS");
-        case EShaderType::Pixel:
-            return TEXT("PS");
-        case EShaderType::Compute:
-            return TEXT("CS");
-        case EShaderType::Amplification:
-            return TEXT("AS");
-        case EShaderType::Mesh:
-            return TEXT("MS");
+        case RHI::EShaderType::Vertex:
+            return TEXT("vs");
+        case RHI::EShaderType::Hull:
+            return TEXT("hs");
+        case RHI::EShaderType::Domain:
+            return TEXT("ds");
+        case RHI::EShaderType::Geometry:
+            return TEXT("gs");
+        case RHI::EShaderType::Pixel:
+            return TEXT("ps");
+        case RHI::EShaderType::Compute:
+            return TEXT("cs");
+        case RHI::EShaderType::Amplification:
+            return TEXT("as");
+        case RHI::EShaderType::Mesh:
+            return TEXT("ms");
         }
 
         assert(false && "Invalid Shader Type");
         return TEXT("Unknown");
     }
 
-    inline std::wstring to_wstring(const EShaderModel model) noexcept
+    inline std::wstring Stringify(const RHI::EShaderModel model) noexcept
     {
-        switch(model)
+        switch (model)
         {
-        case EShaderModel::SM_6_0:
+        case RHI::EShaderModel::SM_6_0:
             return TEXT("6_0");
-        case EShaderModel::SM_6_1:
+        case RHI::EShaderModel::SM_6_1:
             return TEXT("6_1");
-        case EShaderModel::SM_6_2:
+        case RHI::EShaderModel::SM_6_2:
             return TEXT("6_2");
-        case EShaderModel::SM_6_3:
+        case RHI::EShaderModel::SM_6_3:
             return TEXT("6_3");
-        case EShaderModel::SM_6_4:
+        case RHI::EShaderModel::SM_6_4:
             return TEXT("6_4");
-        case EShaderModel::SM_6_5:
+        case RHI::EShaderModel::SM_6_5:
             return TEXT("6_5");
-        case EShaderModel::SM_6_6:
+        case RHI::EShaderModel::SM_6_6:
             return TEXT("6_6");
         }
 
@@ -237,8 +240,8 @@ namespace sy::RHI
         return TEXT("Unknown");
     }
 
-    inline std::wstring to_wstring(const EShaderType type, const EShaderModel model)
+    inline std::wstring Stringify(const RHI::EShaderType type, const RHI::EShaderModel model)
     {
-        return std::format(TEXT("{}_{}"), to_wstring(type), to_wstring(model));
+        return std::format(TEXT("{}_{}"), Stringify(type), Stringify(model));
     }
 }

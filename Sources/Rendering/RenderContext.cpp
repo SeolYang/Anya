@@ -3,8 +3,11 @@
 #include <Rendering/DescriptorPool.h>
 #include <Rendering/DynamicUploadHeap.h>
 #include <Rendering/CommandListPool.h>
+#include <Rendering/ShaderFactory.h>
+#include <Rendering/UIRenderContext.h>
 #include <Core/CommandLineParser.h>
 #include <Core/EngineCoreMediator.h>
+#include <Core/TaskManager.h>
 #include <RHI/DebugLayer.h>
 #include <RHI/Device.h>
 #include <RHI/Fence.h>
@@ -12,19 +15,19 @@
 #include <RHI/CommandQueue.h>
 #include <RHI/CommandList.h>
 #include <RHI/PIXMarker.h>
+#include <RHI/Shader.h>
 #include <RHI/Texture.h>
-
-#include "UIRenderContext.h"
 
 namespace sy
 {
-	RenderContext::RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser) :
+	RenderContext::RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser, const ShaderFactory& shaderFactory) :
 		adapterPatcher(commandLineParser),
 		renderResolution({ 1280, 720 }),
-	    currentFrame(0)
+	    currentFrame(0),
+	    shaderFactory(shaderFactory)
 	{
 		Logger& logger = EngineCore::GetLogger();
-		const TaskManager& taskManager = EngineCore::GetTaskManager();
+	    TaskManager& taskManager = EngineCore::GetTaskManager();
 
 		if (commandLineParser.ShouldEnableDebugLayer())
 		{
@@ -85,6 +88,14 @@ namespace sy
 
 		frameFence->IncrementValue();
 		NotifyFrameBegin(frameFence->GetValue());
+
+	    auto future = taskManager.ExecuteTask(
+			[&shaderFactory](const std::wstring_view path, const RHI::EShaderType type, const std::wstring_view entryPoint)
+			{
+				return shaderFactory.LoadShaderFromFile(path, type, entryPoint);
+			}, TEXT("Resources/Shaders/CompileTest.hlsl"), RHI::EShaderType::Vertex, TEXT("main"));
+
+		auto res = std::move(future.get());
 
 		logger.info("RenderContext Initialized.");
 		timer.Begin();

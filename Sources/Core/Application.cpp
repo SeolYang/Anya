@@ -1,3 +1,5 @@
+#include "Application.h"
+
 #include <PCH.h>
 #include <Core/Application.h>
 #include <Core/Exceptions.h>
@@ -8,6 +10,7 @@
 #include <Core/EngineCoreMediator.h>
 #include <UI/UIContext.h>
 #include <UI/ApplicationMenuBar.h>
+#include <Rendering/ShaderFactory.h>
 #include <Rendering/RenderContext.h>
 #include <Framework/Scene.h>
 
@@ -17,7 +20,7 @@ namespace sy
 {
     LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
-        if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+        if (Application::Initialized() && ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         {
             return true;
         }
@@ -47,6 +50,7 @@ namespace sy
     {
         scene.reset();
         renderContext.reset();
+        shaderFactory.reset();
         uiContext.reset();
         engineModuleMediator.reset();
         componentArchive.DestroyInstance();
@@ -112,6 +116,7 @@ namespace sy
         }
         catch (Exception& exception)
         {
+            bShouldClose = true;
             logger->error(utils::WStringToAnsi(exception.GetMessageW()));
             exception.ShowErrorMessageBox();
             return -1;
@@ -148,9 +153,10 @@ namespace sy
         engineModuleMediator = std::make_unique<EngineCore>(*taskManager, *mainTimer, *perfMonitor, *logger, componentArchive);
         CreateAppWindow();
         CreateUI();
-        renderContext = std::make_unique<RenderContext>(windowHandle, cmdLineParser);
+        shaderFactory = std::make_unique<ShaderFactory>(*taskManager);
+        renderContext = std::make_unique<RenderContext>(windowHandle, cmdLineParser, *shaderFactory);
         LoadScene(EDefaultScenes::Basic);
-
+        bInitialized = true;
     }
 
     void Application::CreateUI()

@@ -13,6 +13,7 @@ namespace sy
     class Scene;
     class UIContext;
     class ApplicationMenuBar;
+    class ShaderFactory;
     class RenderContext;
     class ComponentArchive;
     class EngineCore;
@@ -35,6 +36,8 @@ namespace sy
 
         void LoadScene(const EDefaultScenes defaultScene);
 
+        static bool Initialized() noexcept { return bInitialized; }
+
     private:
         void Initialize();
         void CreateUI();
@@ -55,12 +58,15 @@ namespace sy
         std::unique_ptr<PerformanceMonitor> perfMonitor;
         ComponentArchive& componentArchive;
         std::unique_ptr<EngineCore> engineModuleMediator;
+        std::unique_ptr<ShaderFactory> shaderFactory;
         std::unique_ptr<UIContext> uiContext;
         std::unique_ptr<ApplicationMenuBar> menuBarUI;
         std::unique_ptr<RenderContext> renderContext;
         std::unique_ptr<Scene> scene;
 
         bool bShowDemoWindow = true;
+
+        inline static bool bInitialized = false;
 
     };
 }

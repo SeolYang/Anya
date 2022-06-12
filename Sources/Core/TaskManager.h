@@ -111,7 +111,7 @@ namespace sy
             }
         }
 
-        [[nodiscard]] size_t GetNumWorkerThreads() const { return threads.size(); }
+        [[nodiscard]] size_t GetNumWorkerThreads() const { return threads.size() + 1; } // one for main thread
 
         [[nodiscard]] static size_t GetCurrentWorkerThreadIndex()
         {
@@ -120,8 +120,11 @@ namespace sy
 
         [[nodiscard]] static bool IsWorkerThread()
         {
-            return tidx != std::numeric_limits<size_t>::max();
+            return tidx != InvalidThreadIndex;
         }
+
+    public:
+        static constexpr size_t InvalidThreadIndex = 0xffffffffffffffff;
 
     private:
         bool bForceExist;

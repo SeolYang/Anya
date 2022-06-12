@@ -73,6 +73,12 @@
     <Filter Include="Sources\UI">
       <UniqueIdentifier>{3fb5f991-06a3-4022-8cb2-155781813ccd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{bfb05a98-384d-40c4-931c-75af80e86fec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{871777b2-9725-4f9d-8ec9-e52dea32bf62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\main.cpp">
@@ -227,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="..\Sources\UI\ApplicationMenuBar.cpp">
       <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Rendering\ShaderFactory.cpp">
+      <Filter>Sources\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1283,6 +1292,9 @@
     <ClInclude Include="..\Sources\UI\ApplicationMenuBar.h">
       <Filter>Sources\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\Rendering\ShaderFactory.h">
+      <Filter>Sources\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Thirdparty\assimp\includes\assimp\color4.inl">
@@ -1334,5 +1346,10 @@
     <Text Include="..\Thirdparty\AgilitySDK\include\LICENSE-CODE.txt">
       <Filter>Sources\Thirdparty\AgilitySDK</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\Shaders\CompileTest.hlsl">
+      <Filter>Resources\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

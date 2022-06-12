@@ -29,7 +29,7 @@ namespace sy
 	class DynamicUploadHeap;
 	class CommandListPool;
 	class UIRenderContext;
-
+	class ShaderFactory;
 	enum class EGPUEngineType : uint8
 	{
 	    Graphics = 0,
@@ -41,7 +41,7 @@ namespace sy
 	class RenderContext
 	{
 	public:
-		RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser);
+		RenderContext(HWND windowHandle, const CommandLineParser& commandLineParser, const ShaderFactory& shaderFactory);
 		~RenderContext();
 
 		RenderContext(const RenderContext&) = delete;
@@ -77,6 +77,8 @@ namespace sy
 		RHI::AdapterPatcher adapterPatcher;
 		Dimensions renderResolution;
 		size_t currentFrame;
+
+		const ShaderFactory& shaderFactory;
 
 		std::unique_ptr<RHI::Device> device;
 		std::array<std::unique_ptr<RHI::CommandQueue>, utils::ToUnderlyingType(EGPUEngineType::NumOfTypes)> cmdQueues;

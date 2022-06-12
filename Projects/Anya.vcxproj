@@ -29,6 +29,7 @@
     <ClCompile Include="..\Sources\Rendering\DescriptorPool.cpp" />
     <ClCompile Include="..\Sources\Rendering\DynamicUploadHeap.cpp" />
     <ClCompile Include="..\Sources\Rendering\RenderContext.cpp" />
+    <ClCompile Include="..\Sources\Rendering\ShaderFactory.cpp" />
     <ClCompile Include="..\Sources\Rendering\SwapChain.cpp" />
     <ClCompile Include="..\Sources\Rendering\UIRenderContext.cpp" />
     <ClCompile Include="..\Sources\RHI\Adapter.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="..\Sources\Rendering\DescriptorPool.h" />
     <ClInclude Include="..\Sources\Rendering\DynamicUploadHeap.h" />
     <ClInclude Include="..\Sources\Rendering\RenderContext.h" />
+    <ClInclude Include="..\Sources\Rendering\ShaderFactory.h" />
     <ClInclude Include="..\Sources\Rendering\SwapChain.h" />
     <ClInclude Include="..\Sources\Rendering\UIRenderContext.h" />
     <ClInclude Include="..\Sources\Resources\Resource.h" />
@@ -482,6 +484,12 @@
   <ItemGroup>
     <Text Include="..\Thirdparty\AgilitySDK\include\LICENSE-CODE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\Shaders\CompileTest.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -532,7 +540,7 @@
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include;$(SolutionDir)..\Thirdparty\SimpleMath\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include;$(SolutionDir)..\Thirdparty\SimpleMath\includes;$(SolutionDir)..\Thirdparty\dxc\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -560,7 +568,7 @@ xcopy "$(ProjectDir)..\Thirdparty\bin\$(Configuration)" "$(TargetDir)" /e /d /r 
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include;$(SolutionDir)..\Thirdparty\SimpleMath\includes</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Sources;$(SolutionDir)..\Thirdparty\assimp\includes\;$(SolutionDir)..\Thirdparty\glm\includes;$(SolutionDir)..\Thirdparty\imgui\includes;$(SolutionDir)..\Thirdparty\taskflow\includes;$(SolutionDir)..\Thirdparty\stb\includes;$(SolutionDir)..\Thirdparty\optick\includes;$(SolutionDir)..\Thirdparty\d3dx12\includes;$(SolutionDir)..\Thirdparty\D3D12MemoryAllocator\includes;$(SolutionDir)..\Thirdparty\DirectXTex\includes;$(SolutionDir)..\Thirdparty\robin_hood\includes;$(SolutionDir)..\Thirdparty\spdlog\includes;$(SolutionDir)..\Thirdparty\WinPixEventRuntime\includes;$(SolutionDir)..\Thirdparty\json\includes;$(SolutionDir)..\Thirdparty\AgilitySDK\include;$(SolutionDir)..\Thirdparty\SimpleMath\includes;$(SolutionDir)..\Thirdparty\dxc\includes</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
