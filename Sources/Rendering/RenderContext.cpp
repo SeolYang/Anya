@@ -142,6 +142,7 @@ namespace sy
 
 		RefVector<RHI::CopyCommandList> pendingCmdLists;
 		pendingCmdLists.emplace_back(std::ref(*graphicsCmdList));
+		// @todo Consider more better Command List Execution (Open, Close, Execute on worker thread, take care about race condition)
 		graphicsCmdQueue.ExecuteCommandLists(*immediateCmdList, pendingCmdLists);
 		graphicsCmdList.reset();
 
