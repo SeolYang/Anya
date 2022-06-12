@@ -164,4 +164,81 @@ namespace sy::RHI
         }
     }
 
+    enum class EShaderType
+    {
+        Vertex,
+        Hull,
+        Domain,
+        Geometry,
+        Pixel,
+        Compute,
+        Amplification,
+        Mesh
+    };
+
+    enum class EShaderModel
+    {
+        SM_6_0,
+        SM_6_1,
+        SM_6_2,
+        SM_6_3,
+        SM_6_4,
+        SM_6_5,
+        SM_6_6
+    };
+
+    inline std::wstring to_wstring(const EShaderType type) noexcept
+    {
+        switch(type)
+        {
+        case EShaderType::Vertex:
+            return TEXT("VS");
+        case EShaderType::Hull:
+            return TEXT("HS");
+        case EShaderType::Domain:
+            return TEXT("DS");
+        case EShaderType::Geometry:
+            return TEXT("GS");
+        case EShaderType::Pixel:
+            return TEXT("PS");
+        case EShaderType::Compute:
+            return TEXT("CS");
+        case EShaderType::Amplification:
+            return TEXT("AS");
+        case EShaderType::Mesh:
+            return TEXT("MS");
+        }
+
+        assert(false && "Invalid Shader Type");
+        return TEXT("Unknown");
+    }
+
+    inline std::wstring to_wstring(const EShaderModel model) noexcept
+    {
+        switch(model)
+        {
+        case EShaderModel::SM_6_0:
+            return TEXT("6_0");
+        case EShaderModel::SM_6_1:
+            return TEXT("6_1");
+        case EShaderModel::SM_6_2:
+            return TEXT("6_2");
+        case EShaderModel::SM_6_3:
+            return TEXT("6_3");
+        case EShaderModel::SM_6_4:
+            return TEXT("6_4");
+        case EShaderModel::SM_6_5:
+            return TEXT("6_5");
+        case EShaderModel::SM_6_6:
+            return TEXT("6_6");
+        }
+
+        assert(false && "Invalid Shader Model");
+        return TEXT("Unknown");
+    }
+
+    inline std::wstring to_wstring(const EShaderType type, const EShaderModel model)
+    {
+        return std::format(TEXT("{}_{}"), to_wstring(type), to_wstring(model));
+    }
 }
